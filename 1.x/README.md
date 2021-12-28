@@ -381,7 +381,7 @@ xmlファイルも作ろう
       ```
 - `$ mkdir public_html/images`でsvgファイルを入れるためのディレクトリを作成する
 - 作成したsvgファイルをpublic_html/imagesに入れる
-- `$ mkdir public_html/download`でsvgファイルを入れるためのディレクトリを作成する
+- `$ mkdir public_html/download`でxmlファイルを入れるためのディレクトリを作成する
 - 作成したxmlファイルをpublic_html/downloadに入れる
 - `$ mkdir public_html/1-3`で別のhtmlファイルを入れるためのディレクトリを作成する
 - public_html/1-3の中にindex.htmlを作成して編集する
