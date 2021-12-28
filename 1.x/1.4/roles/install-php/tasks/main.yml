@@ -1,0 +1,43 @@
+---
+
+- name: install php packages
+  become: yes
+  dnf:
+    name:
+      - php
+      - php-mysqlnd
+      - php-mbstring
+      - php-fpm
+      - php-cli
+      - php-json
+      - php-opcache
+      - php-xml
+      - php-gd
+      - php-curl
+    state: latest
+
+- name: replace /etc/php-fpm.d/www.conf
+  become: yes
+  replace:
+    path: /etc/php-fpm.d/www.conf
+    regexp: 'apache'
+    replace: 'nginx'
+  notify: restart_php_fpm
+
+- name: replace /etc/php-fpm.d/www.conf
+  become: yes
+  replace:
+    path: /etc/php-fpm.d/www.conf
+    regexp: '(listen.acl_users)'
+    replace: ';\1'
+  notify: restart_php_fpm
+
+
+- name: replace /etc/php-fpm.d/www.conf
+  become: yes
+  replace:
+    path: /etc/php-fpm.d/www.conf
+    regexp: ';(listen\.)(owner|group) = nobody'
+    replace: '\1\2 = nginx'
+  notify: restart_php_fpm
+

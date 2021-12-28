@@ -1,0 +1,28 @@
+---
+- name: restart_firewalld
+  become: yes
+  systemd:
+    name: firewalld
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+
+
+- name: restart_nginx
+  become: yes
+  systemd:
+    name: nginx
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+
+
+- name: restart_php_fpm
+  become: yes
+  systemd:
+    name: php-fpm
+    state: restarted
+    daemon_reload: yes
+    enabled: yes
+
+

@@ -1,0 +1,33 @@
+---
+- name: install dnf packages
+  become: yes
+  dnf:
+    name:
+      - mariadb
+      - mariadb-server
+      - MySQL-python3
+      - python3-libselinux
+    state: latest
+
+- name: start and enabled mariadb
+  become: yes
+  systemd:
+    name: mariadb
+    state: restarted
+    enabled: yes
+
+- name:  create a database wordpress
+  become: yes
+  mysql_db:
+    name: wordpress
+    state: present
+    encoding: utf8
+
+- name:  create a MySQL user wordpress and give wordpress.* all privileges
+  become: yes
+  mysql_user:
+    name: wordpress
+    password: "{{ wordpress_password }}"
+    priv: "wordpress.*:ALL"
+    host: "{{ wordpress_host }}"
+    state: present

@@ -1,0 +1,19 @@
+---
+
+- name: install dnf python-firewall
+  become: yes
+  dnf:
+    name: python3-firewall
+    state: latest
+
+- name: Setting Firewalld
+  become: yes
+  firewalld:
+    service: "{{ item }}"
+    zone: FedoraServer
+    permanent: yes
+    state: enabled
+  loop:
+    - http
+    - https
+  notify: restart_firewalld

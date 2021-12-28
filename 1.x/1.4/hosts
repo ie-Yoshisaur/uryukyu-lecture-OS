@@ -1,0 +1,8 @@
+[all]
+test-fedora
+
+[all:vars]
+user_name="root"
+ansible_python_interpreter=/usr/bin/python3
+wordpress_host="localhost"
+wordpress_password="hZzTwWuTeN"

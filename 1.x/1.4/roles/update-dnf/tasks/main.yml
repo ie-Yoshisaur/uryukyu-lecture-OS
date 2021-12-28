@@ -1,0 +1,16 @@
+---
+- name: dnf update
+  become: yes
+  dnf:
+    update_cache: yes
+
+- name: dnf upgrade
+  become: yes
+  dnf:
+    name: "*"
+    state: latest
+
+- name: dnf autoremove
+  become: yes
+  dnf:
+    autoremove: yes

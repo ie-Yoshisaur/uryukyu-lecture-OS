@@ -1,0 +1,10 @@
+- hosts: all
+  user: "{{ user_name }}"
+  roles:
+    - restart-handlers
+    - update-dnf
+    - install-firewalld
+    - install-nginx
+    - install-php
+    - install-mariadb
+    - install-wordpress

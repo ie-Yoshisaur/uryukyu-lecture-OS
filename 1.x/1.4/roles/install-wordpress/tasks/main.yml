@@ -1,0 +1,39 @@
+---
+- name: get and unarchive source
+  become: yes
+  unarchive:
+    src: https://ja.wordpress.org/latest-ja.tar.gz
+    dest: /var/www/html
+    remote_src: yes
+    owner: nginx
+    group: nginx
+    mode: 0755
+
+- name: cp wp-config.php
+  become: yes
+  command: cp '/var/www/html/wordpress/wp-config-sample.php' '/var/www/html/wordpress/wp-config.php'
+  args:
+    creates: /var/www/html/wordpress/wp-config.php
+
+- name: replace /var/www/html/wordpress/wp-config.php
+  become: yes
+  replace:
+    path: /var/www/html/wordpress/wp-config.php
+    regexp: 'database_name_here'
+    replace: 'wordpress'
+
+- name: replace /var/www/html/wordpress/wp-config.php
+  become: yes
+  replace:
+    path: /var/www/html/wordpress/wp-config.php
+    regexp: 'username_here'
+    replace: 'wordpress'
+
+- name: replace /var/www/html/wordpress/wp-config.php
+  become: yes
+  replace:
+    path: /var/www/html/wordpress/wp-config.php
+    regexp: 'password_here'
+    replace: "{{ wordpress_password }}"
+  notify: restart_nginx
+
