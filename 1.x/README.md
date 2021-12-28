@@ -297,14 +297,15 @@ drwxr-xr-x 8 e2057xx student 75 Nov  4 00:35 /home/student/e20/e2057xx
 
 ---
 
-- APIの定義を理解する
-  - 一連のクラスや関数のインターフェース
-  - httpでjson投げたりするみたいなやつではない
-    - それはWeb APIとか言われている
+### APIの定義を理解する
+
+- 一連のクラスや関数のインターフェース
+- httpでjson投げたりするみたいなやつではない
+  - それはWeb APIとか言われている
 
 ---
 
-- Web会議アプリケーションでユーザが行う操作をリスト化する
+### Web会議アプリケーションでユーザが行う操作をリスト化する
 
 - リスト1
   - テキスト入力
@@ -313,7 +314,7 @@ drwxr-xr-x 8 e2057xx student 75 Nov  4 00:35 /home/student/e20/e2057xx
 
 ---
 
-- リスト1の操作を実現するハードウェアをリスト化する
+### リスト1の操作を実現するハードウェアをリスト化する
 
 - リスト2
   - キーボード
@@ -325,7 +326,7 @@ drwxr-xr-x 8 e2057xx student 75 Nov  4 00:35 /home/student/e20/e2057xx
 
 ---
 
-- リスト1とリスト2の要素間で行われる標準化を担うAPIをリスト化する
+### リスト1とリスト2の要素間で行われる標準化を担うAPIをリスト化する
 
 - リスト3
   - キーボード
@@ -351,9 +352,103 @@ drwxr-xr-x 8 e2057xx student 75 Nov  4 00:35 /home/student/e20/e2057xx
 
 ---
 
-- リスト3を図にする
+### リスト3を図にする
 
 ![apiの図](https://github.com/e205723/uryukyu-lecture-OS/raw/main/1.x/1.3/api.svg)
+
+再利用したい場合は`$ curl https://raw.githubusercontent.com/e205723/uryukyu-lecture-OS/main/1.x/1.3/api.drawio.xml > api.drawio.xml
+`を実行してダウンロードしてください
+
+xmlファイルも作ろう
+
+---
+
+### 図を自分の学科上のWeb page上に置く
+
+- `$ mkdir public_html`でディレクトリを作成する
+- public_htmlの中にindex.htmlを作成して編集する
+  - 自分の場合
+    - ```
+      <!doctype html>
+      <html lang="ja">
+        <head>
+          <title>e205723</title>
+        </head>
+        <body>
+          <a href="https://ie.u-ryukyu.ac.jp/~e205723/1-3">1.3</a>
+        </body>
+      </html>
+      ```
+- `$ mkdir public_html/images`でsvgファイルを入れるためのディレクトリを作成する
+- 作成したsvgファイルをpublic_html/imagesに入れる
+- `$ mkdir public_html/download`でsvgファイルを入れるためのディレクトリを作成する
+- 作成したxmlファイルをpublic_html/downloadに入れる
+- `$ mkdir public_html/1-3`で別のhtmlファイルを入れるためのディレクトリを作成する
+- public_html/1-3の中にindex.htmlを作成して編集する
+  - 自分の場合
+    - ```
+      <!doctype html>
+      <html lang="ja">
+        <head>
+          <title>1.3</title>
+        </head>
+        <body>
+          <p>Zoomを使うときのAPIの図</p>
+          <img src="api.svg">
+          <p>ソース</p>
+          <a href="/download/api.drawio.xml" download>ダウンロード</a>
+          <ul>
+            <li>usb_kbd</li>
+            <ol>
+            <li><a href="https://www.kernel.org/doc/html/v4.12/input/input.html#usbkbd">ドキュメント</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/drivers/hid/usbhid/usbkbd.c">ソースコード</a></li>
+            <li><a href="https://stackoverflow.com/questions/39911846/source-code-of-keyboard-driver-of-linux">参考にしたサイト</a></li>
+            </ol>
+            <li>ALSA</li>
+            <ol>
+            <li><a href="https://www.alsa-project.org/alsa-doc/alsa-lib">ドキュメント</a></li>
+            <li><a href="https://github.com/alsa-project/alsa-lib">ソースコード</a></li>
+            <li><a href="https://unix.stackexchange.com/questions/529646/how-to-find-out-the-internal-microphones-driver-on-a-linux-pc">参考にしたサイト</a></li>
+            </ol>
+            <li>V4L2</li>
+            <ol>
+            <li><a href="https://www.kernel.org/doc/html/v4.9/media/uapi/v4l/v4l2.html">ドキュメント</a></li>
+            <li><a href="https://github.com/torvalds/linux/tree/master/drivers/media/v4l2-core">ソースコード</a></li>
+            <li><a href="https://www.kernel.org/doc/html/v4.9/media/uapi/v4l/hist-v4l2.html#:~:text=In%20August%201998%20Bill%20Dirks,replacement%20for%20the%20V4L%20API">V4L2について調べてたときに見たサイト</a></li>
+            </ol>
+            <li>open()</li>
+            <ol>
+            <li><a href="https://man7.org/linux/man-pages/man2/open.2.html">ドキュメント</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/16f73eb02d7e1765ccab3d2018e0bd98eb93d973/fs/open.c">ソースコード</a></li>
+            <li><a href="https://0xax.gitbooks.io/linux-insides/content/SysCall/linux-syscall-5.html">参考にしたサイト</a></li>
+            </ol>
+          </ul>
+        </body>
+      </html>
+      ```
+- Christina(webを公開するサーバ)の自分のディレクトリにpublic_htmlを置く
+  - `$ rsync -avz ./public christina:~/`
+- 注意
+  - Christinaにpublic_htmlを置いてもwebサイトが配信されないこともあるが、それはpublic_htmlのパーミッションの設定が自分以外、読み取りまたは書き込みができない状態である可能性が高い
+    - `$ chmod 755 public_html`を実行するといいんじゃないかな
+
+---
+
+### 具体的
+
+具体的に対応する英語はconcrete
+
+Concrete means clearly defined or identified.
+
+---
+
+###
+
+Web API
+
+APIの例にWeb APIを挙げてはいけない理由は、APIはクラスや関数のインターフェースを指すのに対して、Web APIはhttpリクエストを送信したらjsonが返ってくるものを指すから。
+
+Java/Rust APIはあげてもいい。なぜならWeb APIではなく、ライブラリの様々な機能を実現するAPIとして機能するからである。
 
 ---
 
