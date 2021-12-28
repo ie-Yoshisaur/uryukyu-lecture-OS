@@ -184,13 +184,19 @@ sshのhostnameがtabで補完される様子を示せ。
 
 ### ~/.ssh/configを編集する
 
-`$ vim ~/.ssh/config`でsshの設定を書く
+`$ vim ~/.ssh/config`でsshの設定を追加する
 
 ```
+Host chatan
+  HostName chatan.ie.u-ryukyu.ac.jp
+  User e2057xx
+  Port xxxx
+
 Host amane
   HostName amane.ie.u-ryukyu.ac.jp
   User e2057xx
   Port xxxx
+  ProxyJump chatan
 ```
 
 こんな感じ
@@ -372,6 +378,7 @@ xmlファイルも作ろう
       <!doctype html>
       <html lang="ja">
         <head>
+          <meta charset="UTF-8">
           <title>e205723</title>
         </head>
         <body>
@@ -379,24 +386,23 @@ xmlファイルも作ろう
         </body>
       </html>
       ```
-- `$ mkdir public_html/images`でsvgファイルを入れるためのディレクトリを作成する
-- 作成したsvgファイルをpublic_html/imagesに入れる
-- `$ mkdir public_html/download`でxmlファイルを入れるためのディレクトリを作成する
-- 作成したxmlファイルをpublic_html/downloadに入れる
-- `$ mkdir public_html/1-3`で別のhtmlファイルを入れるためのディレクトリを作成する
+- `$ mkdir public_html/1-3`でhtmlファイルやディレクトリを入れるためのディレクトリを作成する
+- `$ mkdir public_html/1-3/images`でsvgファイルを入れるためのディレクトリを作成する
+  - 作成したsvgファイルをpublic_html/1-3/imagesに入れる
+- `$ mkdir public_html/1-3/download`でxmlファイルを入れるためのディレクトリを作成する
+  - 作成したxmlファイルをpublic_html/1-3/downloadに入れる
 - public_html/1-3の中にindex.htmlを作成して編集する
   - 自分の場合
     - ```
       <!doctype html>
       <html lang="ja">
         <head>
+          <meta charset="UTF-8">
           <title>1.3</title>
         </head>
         <body>
           <p>Zoomを使うときのAPIの図</p>
-          <img src="api.svg">
-          <p>ソース</p>
-          <a href="/download/api.drawio.xml" download>ダウンロード</a>
+          <img src="images/api.svg">
           <ul>
             <li>usb_kbd</li>
             <ol>
@@ -423,14 +429,23 @@ xmlファイルも作ろう
             <li><a href="https://0xax.gitbooks.io/linux-insides/content/SysCall/linux-syscall-5.html">参考にしたサイト</a></li>
             </ol>
           </ul>
+          <p>ソース</p>
+          <a href="download/api.drawio.xml" download>ダウンロード</a>
         </body>
       </html>
       ```
+- ~/.ssh/configに以下の記述を追加する
+  - ```
+    Host christina
+      HostName christina.ie.u-ryukyu.ac.jp
+      User e205723
+      ProxyJump chatan
+    ```
 - Christina(webを公開するサーバ)の自分のディレクトリにpublic_htmlを置く
   - `$ rsync -avz ./public christina:~/`
 - 注意
-  - Christinaにpublic_htmlを置いてもwebサイトが配信されないこともあるが、それはpublic_htmlのパーミッションの設定が自分以外、読み取りまたは書き込みができない状態である可能性が高い
-    - `$ chmod 755 public_html`を実行するといいんじゃないかな
+  - Christinaにpublic_htmlを置いてもwebサイトが配信されないこともあるが、それはpublic_htmlやimagesやdownloadのパーミッションの設定が自分以外、読み取りまたは実行ができない状態である可能性が高い
+    - `$ chmod 755 public_html`みたいなコマンドを実行するといいと思う
 
 ---
 
@@ -442,13 +457,29 @@ Concrete means clearly defined or identified.
 
 ---
 
-###
-
-Web API
+### Web API
 
 APIの例にWeb APIを挙げてはいけない理由は、APIはクラスや関数のインターフェースを指すのに対して、Web APIはhttpリクエストを送信したらjsonが返ってくるものを指すから。
 
 Java/Rust APIはあげてもいい。なぜならWeb APIではなく、ライブラリの様々な機能を実現するAPIとして機能するからである。
+
+---
+
+### 1.3の感想
+
+個人的にはこれが1.x系では一番難問だと思っている
+先輩や技術系バイトの会社員さんたちにLinuxのどこのコードを見ればいいのかたくさん訊きまくっていた
+htmlを素で書くの結構新鮮な体験だった
+この課題をやる前はWeb APIを「API」と呼ぶのだと思ってたからためになった
+
+あとkono先生が仰っていたことなので共有しますが、この問題の採点の基準は2つの地雷を踏まないことらしいです
+
+- APIを示す矢印に「http...」みたいにWeb APIをつけちゃう地雷
+- 要素と要素を結びつける矢印に何も名前をつけない地雷
+
+それさえ守っていれば先生は採点してくれる可能性があるということです
+
+参考までに...
 
 ---
 
