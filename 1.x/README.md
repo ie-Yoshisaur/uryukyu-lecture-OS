@@ -1,4 +1,6 @@
-OSの講義の1.xの課題を解く
+# OSの講義の1.xの課題を解く
+
+これが正解だぜ(どや)みたいなノリでは書いてないです、ただの平均的な技術力を持っているB2が解いているだけ
 
 ---
 
@@ -362,10 +364,10 @@ drwxr-xr-x 8 e2057xx student 75 Nov  4 00:35 /home/student/e20/e2057xx
 
 ![apiの図](https://github.com/e205723/uryukyu-lecture-OS/raw/main/1.x/1.3/api.svg)
 
-再利用したい場合は`$ curl https://raw.githubusercontent.com/e205723/uryukyu-lecture-OS/main/1.x/1.3/api.drawio.xml > api.drawio.xml
-`を実行してダウンロードしてください
-
 xmlファイルも作ろう
+
+再利用したい場合は`$ curl https://raw.githubusercontent.com/e205723/uryukyu-lecture-OS/main/1.x/1.3/api.drawio.xml > api.drawio.xml
+`を実行してダウンロードして、drawioで開いてみてください
 
 ---
 
@@ -434,17 +436,11 @@ xmlファイルも作ろう
         </body>
       </html>
       ```
-- ~/.ssh/configに以下の記述を追加する
-  - ```
-    Host christina
-      HostName christina.ie.u-ryukyu.ac.jp
-      User e205723
-      ProxyJump chatan
-    ```
-- Christina(webを公開するサーバ)の自分のディレクトリにpublic_htmlを置く
-  - `$ rsync -avz ./public christina:~/`
+- chatanの自分のディレクトリにpublic_htmlを置く
+  - chatanの各ユーザのホームディレクトリはWebサーバ用のchristinaのそれと同期されているはず
+  - `$ rsync -avz ./public chatan:~/`
 - 注意
-  - Christinaにpublic_htmlを置いてもwebサイトが配信されないこともあるが、それはpublic_htmlやimagesやdownloadのパーミッションの設定が自分以外、読み取りまたは実行ができない状態である可能性が高い
+  - chatanにpublic_htmlを置いてもwebサイトが配信されないこともあるが、それはpublic_htmlやimagesやdownloadのパーミッションの設定が自分以外、読み取りまたは実行ができない状態である可能性が高い
     - `$ chmod 755 public_html`みたいなコマンドを実行するといいと思う
 
 ---
@@ -647,5 +643,3 @@ Ansible で、Wordpressの設定を行い、動作を確認する
 ### 1.4の感想
 
 VM面白い。アナグラさんのmercurialレポジトリに感謝。NATモードで作成されるVMはhostマシンとは独立したプライベートネットワークを持つのも、この課題のはまりどころであり面白味でもあるような感じ。
-
-
