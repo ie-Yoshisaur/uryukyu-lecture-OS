@@ -421,5 +421,224 @@ ssh で remote login した directory あるいは、terminal の複数の画面
 
 ### .zshrcに設定を付け加える
 
-- まず、このページのyomitanはグローバルなsshサーバという感じ、今はchatan、脳内変換して問題を解く
-- `$ ssh chatan`
+- まず、このページのyomitanはグローバルなsshサーバという感じ、今はchatan、脳内変換して問題を解こうと思う
+- あ、なんか.zshrc書かれているー
+- amaneでvm作るか
+- amaneにssh
+  - ホスト名はamane.ie.u-ryukyu.ac.jp
+  - chatanを踏み台にする
+- `$ ie-virsh define hoge -t Ubuntu-20`
+- `$ ie-virsh domiflist hoge`
+  - Macアドレスを確認する
+- [Akatsuki](http://akatsuki.ie.u-ryukyu.ac.jp/sign_in)へgo、ipを申請する
+  - [参考](https://ie.u-ryukyu.ac.jp/syskan/service/ip-address/)
+- `$ ie-virsh start hoge`
+- amaneからログアウト
+- `$ ssh ie-user@<VMのIPアドレス>`
+  - パスワードはシス管に聞く
+- ユーザを作って、sudoersに入れて、ie-userは消す(粒度粗くてす見ません)
+- ~/.ssh/config書く、鍵通す(ssh-copy-id、もうやったので粒度粗めに)、作ったvmにssh
+- `$ sudo apt install zsh`
+- `$ sudo chsh -s zsh`
+- 一回ログアウト、再度ssh
+- .zshrcないぞって言われて色々な選択肢を提示されので作る選択肢を選ぶ
+- `$ mkdir hoge`から`$ cd !$`、そのままログアウト、再度ssh
+- `$ pwd`
+  - `/home/<user>`
+  - つまりログインする時にいるディレクトリがホームディレクトリで固定されているということ
+- この[講義ページ]を頼りに.zshrcに書き込む内容を考える
+- 以下の記述を.zshrcに追加する
+  - ```
+    export dirfile="$HOME/.who.$host.$tty"
+    export dirhfile="$HOME/.who.$host"
+    
+    if [[ ! -f $dirfile ]]; then
+        if [[ ! -f $dirhfile ]]; then
+            dir=$HOME
+        else
+            dir=`cat $dirhfile`
+        fi
+    else
+        dir=`cat $dirfile`
+        if [[ -d $dir ]]; then
+            cd $dir
+        else
+            dir=$HOME
+        fi
+    fi
+    
+    function pushd {
+        builtin pushd "$@"
+        echo $PWD > $dirfile
+        echo $PWD > $dirhfile
+    }
+    
+    function popd {
+        builtin popd "$@"
+        echo $PWD > $dirfile
+        echo $PWD > $dirhfile
+    }
+    
+    function cd {
+        builtin cd "$@"
+        echo $PWD > $dirfile
+        echo $PWD > $dirhfile
+    }
+    ```
+- `$ source .zshrc`
+- `$ cd hoge`からログアウト、再度ログインからの`$ pwd`
+- `/home/<user>/hoge`になっている
+  - 成功
+
+---
+
+### for文と**を組み合わせた例題を作成して、実行せよ、file commandを使用する
+
+- **ってなんだろう、file commandを指しているのかな
+  - vm内に以下のような構成のディレクトリとファイルを生成した
+    - ```
+      .
+      ├── hoge0
+      │   ├── foo0
+      │   └── foo1
+      ├── hoge1
+      │   ├── foo2
+      │   ├── foo3
+      │   └── foo4
+      ├── hoge2
+      │   └── foo5
+      ├── hoge3
+      │   ├── foo6
+      │   ├── foo7
+      │   ├── foo8
+      │   └── foo9
+      └── hoge4
+          ├── foo10
+          ├── foo11
+          └── foo12
+      ```
+  - ディレクトリ内のファイルをfor文とfile commandを使用して調べる
+  - 以下のようなスクリプトを用意した
+    - example.sh
+      - ```
+        echo 'ssh to:'
+        read server
+        
+        directories=($(ssh ${server} "ls ~"))
+        
+        for ((i=0;i<${#directories[@]};i++))
+        do
+        ssh ${server} "find ~/${directories[i]} -type f -exec file {} \;"
+        done
+        ```
+  - 実行するとユーザ入力を促すので、sshしたいサーバのホスト名とかを打つといいと思う
+  - `$ echo vm | zsh example.sh`
+    - ```
+      sh to:
+      /home/yoshisaur/.who..: ASCII text
+      /home/yoshisaur/.who.: ASCII text
+      /home/yoshisaur/.ssh/authorized_keys: OpenSSH RSA public key
+      /home/yoshisaur/hoge3/foo6: empty
+      /home/yoshisaur/hoge3/foo7: empty
+      /home/yoshisaur/hoge3/foo8: empty
+      /home/yoshisaur/hoge3/foo9: empty
+      /home/yoshisaur/.zcompdump: ASCII text
+      /home/yoshisaur/hoge2/foo5: empty
+      /home/yoshisaur/.sudo_as_admin_successful: empty
+      /home/yoshisaur/hoge4/foo10: empty
+      /home/yoshisaur/hoge4/foo12: empty
+      /home/yoshisaur/hoge4/foo11: empty
+      /home/yoshisaur/hoge1/foo4: empty
+      /home/yoshisaur/hoge1/foo3: empty
+      /home/yoshisaur/hoge1/foo2: empty
+      /home/yoshisaur/hoge0/foo0: empty
+      /home/yoshisaur/hoge0/foo1: empty
+      /home/yoshisaur/.bashrc: ASCII text
+      /home/yoshisaur/.zshrc: ASCII text
+      /home/yoshisaur/.cache/motd.legal-displayed: empty
+      /home/yoshisaur/.bash_history: data
+      /home/yoshisaur/.bash_logout: ASCII text
+      /home/yoshisaur/.zsh_history: ASCII text
+      /home/yoshisaur/.profile: ASCII text
+      /home/yoshisaur/hoge0/foo0: empty
+      /home/yoshisaur/hoge0/foo1: empty
+      /home/yoshisaur/hoge1/foo4: empty
+      /home/yoshisaur/hoge1/foo3: empty
+      /home/yoshisaur/hoge1/foo2: empty
+      /home/yoshisaur/hoge2/foo5: empty
+      /home/yoshisaur/hoge3/foo6: empty
+      /home/yoshisaur/hoge3/foo7: empty
+      /home/yoshisaur/hoge3/foo8: empty
+      /home/yoshisaur/hoge3/foo9: empty
+      ```
+---
+
+### 2.5の感想
+
+- シェルスクリプトを書きまくった...
+  - 意外とこんなことできるんだっていう発見が多い
+- lsの結果から動的に配列を生成できるのは意外と便利だなって感じがある
+
+---
+
+## 2.6 Cのファイルシステムに関して調べる 
+
+---
+
+結構重め、正月らへんはこなした課題の数を優先したいのでまた今度!
+
+---
+
+## 2.7 MTBF
+
+問題は[このページ](https://ie.u-ryukyu.ac.jp/~kono/lecture/os/ex/problem/236.html)にある
+
+```
+(1) 学科のSakuraのサーバは RAID1 構成になっている。容量は 40TB。使える容量は20TB。
+
+40TBが 1TB の HDD x 40、 MTBF 100万時間を仮定して、1年間の故障台数を予測せよ。
+
+Sakuaa は故障予測及び即日入れ換えのサービスが付いてる。(Downtime 1日) 2台目のHDDが壊れてデータが失われる確率はどれくらいか。
+
+(2) 学科のSサーバは Ceph で構成されていて、多重度3になっている。容量は 80TB。半分の40TBをCephに使っている。
+
+Ceph に付いて調べて簡単に説明し、RAID1 と比較せよ。
+
+実際に使える容量は圧縮があるので自明にはわからない。しかし、使える容量を推定してみよ。(option)
+
+Ceaph は多重度3なので二台目が壊れても大丈夫だが...
+
+(3) 三重のバックアップが必要かどうかを議論せよ
+
+(4) 学科のストレージ、学科のさくらクラウド、自分のノートPCを使うとして、現実的なバックアップ戦略を自分の視点から考察せよ。
+```
+
+---
+
+### (1) RAIDとMTBFとsakura
+
+- [この資料](http://www.ecei.tohoku.ac.jp/hariyama/lecture/dependable/dependable01-2019.pdf)を根拠に問題を解く
+- RAID1っていうのは保持するべきデータXを(x1, x1), (x2, x2), ..., (xn, xn)みたいに2つ1組のHDDに同じデータを持たせてるやつ
+  - 組の両方のHDDが壊れない限りデータは失われない
+- RAID1ってことは、1TBのデータを保存するために2TBの容量を使うことになる
+  - 実質使える容量は20TBって事になる
+- MTBFや故障率を計算するために式の構成要素を定義する
+  - Nはサンプルの総数
+  - tは時間(h)
+  - S(t)をNのサンプルを動作させている時に、時刻tまでに正常に動作しているサンプル数
+  - F(t)を時刻tまでに故障してしまったサンプル数
+- 故障率はλとして定義する
+  - λ(t) = F(t)/(S(t)*t)
+- MTBFは1/λとして定義する
+- (1)の最初に求めたい値は予測される1年間の故障台数
+- 式の定義と問題文からMTBF = 10^6 = (8760*(80-F(t)))/F(t)
+  - x = 17520/25219 = 0.6947143027... = 0.69
+  - 予測される1年間の故障台数は0.69台
+- (1)のもう1つ求めたい値は1日のうちにRIAD1の2台目のHDDが壊れてデータが失われる確率
+  - Downtimeは1日だから1日以内に1個壊れる確率に40(39)をかければいい
+  - λは1時間以内に1個が故障する確率
+  - λ = 10^-6
+  - λは偶発故障期には一定らしいので、24時間以内に1個が壊れる確率をお求めたければλに24をかければいい
+  - しかもRAID1の構成だからHDDが2つ壊れた時、壊れたHDDが保持していたデータが同一である確率を求める必要がある
+    - 20/20^2
+  - 1日のうちにRIAD1の2台目のHDDが壊れてデータが失われる確率は40*λ*39*λ*20/20^2 = 0.000000000078 = 0.0000000078%
