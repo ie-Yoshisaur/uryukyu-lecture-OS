@@ -119,7 +119,7 @@ Gitlab(今回はGithubを使う)のCI/CDを使う
       
       import "testing"
       
-      func TestFileWrite(t *testing.T) {
+      func TestFileWrite(t \*testing.T) {
           result := Hello("Yoshisaur")
           want := "Hi, Yoshisaur. Welcome!"
           if result != want {
@@ -226,8 +226,8 @@ mdfind を使って、同じことをやってみよ。
 ### find
 
 - スクリプトは必ず~/workplaceというディレクトリに書いているのでworkplaceの中のファイルを調べるという方針でいい
-- `$ find ~/workspace -name "*.c" -or -name "*.java" -or -name "*.py" -or -name "*.go" -exec wc -w {} \+`を実行してみたがgoファイルのワードカウントしか行わなかった
-- `$ wc -w $(find ~/workspace -name "*.c" -or -name "*.java" -or -name "*.py" -or -name "*.go") | sort`を実行した
+- `$ find ~/workspace -name "\*.c" -or -name "\*.java" -or -name "\*.py" -or -name "\*.go" -exec wc -w {} \+`を実行してみたがgoファイルのワードカウントしか行わなかった
+- `$ wc -w $(find ~/workspace -name "\*.c" -or -name "\*.java" -or -name "\*.py" -or -name "\*.go") | sort`を実行した
   - 第三者に見せられる範囲で得られた結果をまとめてみた
   - ```
       12 /Users/yoshisaur/workspace/lectures/operating-system/uryukyu-lecture-OS/2.x/2.1/main.go
@@ -266,7 +266,7 @@ mdfind を使って、同じことをやってみよ。
 - `$ man mdfind`でコマンドの使い方を見た
 - ついでにネット上でmdfindの使い方について調べた
   - [mdfindの使い方](https://ss64.com/osx/mdfind.html)
-- `$ mdfind -onlyin ~/workspace "kMDItemDisplayName == *.c || kMDItemDisplayName == *.java || kMDItemDisplayName == *.py || kMDItemDisplayName == *.go" | xargs wc -w | sort`
+- `$ mdfind -onlyin ~/workspace "kMDItemDisplayName == \*.c || kMDItemDisplayName == \*.java || kMDItemDisplayName == \*.py || kMDItemDisplayName == \*.go" | xargs wc -w | sort`
   - ```
       12 /Users/yoshisaur/workspace/lectures/operating-system/uryukyu-lecture-OS/2.x/2.1/main.go
       12 /Users/yoshisaur/workspace/lectures/operating-system/worklog/cp/golang/main.go
@@ -312,8 +312,8 @@ mdfind を使って、同じことをやってみよ。
     from pathlib import Path
     
     def find(path_to_execute_find):
-        all_files = list(map(str, Path(path_to_execute_find).rglob('*.*')))
-        regex_pattern = re.compile(r'.*\.(c|java|py|go)$')
+        all_files = list(map(str, Path(path_to_execute_find).rglob('\*.\*')))
+        regex_pattern = re.compile(r'.\*\.(c|java|py|go)$')
         filtered_files = list(filter(regex_pattern.match, all_files))
     
         for file in filtered_files:
@@ -446,7 +446,7 @@ ssh で remote login した directory あるいは、terminal の複数の画面
 - `$ pwd`
   - `/home/<user>`
   - つまりログインする時にいるディレクトリがホームディレクトリで固定されているということ
-- この[講義ページ]を頼りに.zshrcに書き込む内容を考える
+- この[講義ページ](https://ie.u-ryukyu.ac.jp/~kono/howto/xterm.html)を頼りに.zshrcに書き込む内容を考える
 - 以下の記述を.zshrcに追加する
   - ```
     export dirfile="$HOME/.who.$host.$tty"
@@ -492,9 +492,9 @@ ssh で remote login した directory あるいは、terminal の複数の画面
 
 ---
 
-### for文と**を組み合わせた例題を作成して、実行せよ、file commandを使用する
+### for文と\*\*を組み合わせた例題を作成して、実行せよ、file commandを使用する
 
-- **ってなんだろう、file commandを指しているのかな
+- \*\*ってなんだろう、file commandを指しているのかな
   - vm内に以下のような構成のディレクトリとファイルを生成した
     - ```
       .
@@ -628,11 +628,11 @@ Ceaph は多重度3なので二台目が壊れても大丈夫だが...
   - S(t)をNのサンプルを動作させている時に、時刻tまでに正常に動作しているサンプル数
   - F(t)を時刻tまでに故障してしまったサンプル数
 - 故障率はλとして定義する
-  - λ(t) = F(t)/(S(t)*t)
-- MTBFは1/λとして定義する
+  - λ\(t\) = F\(t\)/\(S\(t\)\*t\)
+- MTBF=1/λとして定義する
 - (1)の最初に求めたい値は予測される1年間の故障台数
-- 式の定義と問題文からMTBF = 10^6 = (8760*(80-F(t)))/F(t)
-  - x = 17520/25219 = 0.6947143027... = 0.69
+- 式の定義と問題文からMTBF = 10^6 = (8760\*(80-F(t)))/F(t)
+  - F(t) = 17520/25219 = 0.6947143027... = 0.69
   - 予測される1年間の故障台数は0.69台
 - (1)のもう1つ求めたい値は1日のうちにRIAD1の2台目のHDDが壊れてデータが失われる確率
   - Downtimeは1日だから1日以内に1個壊れる確率に40(39)をかければいい
@@ -642,3 +642,311 @@ Ceaph は多重度3なので二台目が壊れても大丈夫だが...
   - しかもRAID1の構成だからHDDが2つ壊れた時、壊れたHDDが保持していたデータが同一である確率を求める必要がある
     - 20/20^2
   - 1日のうちにRIAD1の2台目のHDDが壊れてデータが失われる確率は40\*24\*λ\*39\*24\*λ\*20/20^2 = 0.000000044928 = 0.0000044928% 
+
+---
+
+### (2) Ceph
+
+- Cephを調べる
+  - [LouwrentiusというブログのCephに関する記事](https://louwrentius.com/understanding-ceph-open-source-scalable-storage.html)を参考にする
+    - 初めて知った英語や用語
+      - software\-defined
+        - \(サーバやストレージ、ネットワークなどの物理的なITインフラが\)ソフトウェアによって制御された
+      - Commercial off\-the\-shelf\(COTS\)
+        - 、既製品で販売やリースが可能となっているソフトウェア製品やハードウェア製品、または一般向けにライセンス提供されるものを採用すること
+      - Host Bus Adapter \(HBA\)
+        - コンピュータと他のネットワーク機器やストレージ機器を接続するハードウェア
+      - JBOD\(Just a Bunch of Disks\)
+        - RAIDを構成していないハードディスクの集まり
+      - CRUSH
+        - Cephが採用しているオブジェクトの識別子をそれが保存されているデバイスにマッピングするアルゴリズム
+      - Erasure Coding
+        - クラスタ上の有効容量を増加させる手法
+        - データを複製する代わりに、パリティ情報を使用して、 ディスク障害が発生した場合にデータを再構築
+      - The Object Storage Daemon \(OSD\)
+        - ファイルを保存するディスクごとに起動されているデーモンプロセス
+        - 対象となるディスクのOSDにファイルの読み書きを依頼する
+
+---
+
+- Cephとは
+  - 分散ストレージ機能を提供するソフトウェアのこと
+  - 優れた拡張性と高い信頼性が特徴
+- Cephの構成要素
+  -  Ceph Monitor (ceph-mon)
+     - モニターマップ、マネージャーマップ、OSDマップ、MDSマップ、CRUSHマップを含むクラスターの状態マップを保持する
+     - Paxosというアルゴリズムで奇数個のモニタが用意される
+  -  Ceph Metadata Server (ceph-mds)
+     - Ceph File Systemの代わりにメタデータを保存する
+  -  Ceph OSD (object storage daemon (ceph-osd))
+     - データのレプリケーション、リカバリーなどの処理をするためのデータを保持する
+     - 1つのHDDにつき1つのOSDを構成する
+     - 他のOSDの状態を確認してモニターやマネージャーに監視状況を提供する
+     - OSDの所在はCRUSHアルゴリズムで管理される
+- 仕組み
+  - Cephではマシンを「ノード」として扱う
+  - ノードには複数のOSDがマシンの中のHDDの数分存在している
+    - PaxosによってクラスタのOSDの中から1つだけceph-monに置き換わることもある
+  - Cephでは複数のノード(=マシン)を使ってデータを分散して保持している
+
+---
+
+CephとRAID1との比較
+
+[この記事](https://www.itprotoday.com/storage/erasure-coding-vs-raid-which-right-and-when)を参考にした
+
+CephのErasure Codingに着目して、CephとRAID1を比較していく。
+
+CephとRAID1はどちらもHDDの故障によるデータの損失を防ぐ点では同じである。
+CephのErasure Codingはデータを断片に分割したあとに、エンコードして、分散して冗長化することでデータの損失を防いでいる。RAID1はペアの2個目のHDDに1個目のHDDのデータをコピーしている。
+
+故障したHDDのディスクを再度ビルドするときにかかる時間は、Erasure Codingを使うCephのほうが速い。
+
+パフォーマンス面でCephのほうがRAID1より優れているといえる。
+
+---
+
+オプション: 使える容量を推定する
+
+[cephのドキュメント](https://docs.ceph.com/en/latest/rados/troubleshooting/troubleshooting-osd/)の「NO FREE DRIVE SPACE」を参照した
+
+Cephにはfull ratio\(デフォルト95%\)とnear-full ratio\(デフォルト 85%\)という値が存在し、いずれかのOSDの使用率がfull ratioに達すると、受け付けを停止する。full-ratioの値を上げることができるが、容量が足りなくなってOSDが停止した場合、データを損失する可能性がある。OSDのfull ratioに達さないnear-full ratio以下の使用率に留めるのが懸命である。
+
+80TBのうち40TBをCephに使っている。多重度3かつCephに使われている1つのHDDが1TBであると考えると、(40/3)\*\(near-full ratio\) = \(40/3\)\*0.85 = 11.333...
+
+よって、使える容量は11.333...TBである
+
+---
+
+### (3) 三重のバックアップの必要性
+
+三重のバックアップのバックアップは必要である。
+
+CephやRAID1の件で、適当な手段でバックアップを取ればデータの損失する確率は低い。しかし、それらの手段はバックアップの作成、リカバリ、取得、保持などの段階、またはその手段においてのリスクを低くするわけではない。データのバックアップを取る上でHDDの故障以外のデータ損失のリスクを少なくするために、三重のバックアップを取る必要がある。
+
+例を使用して説明をする。
+
+---
+
+京都大学のスーパーコンピュータシステムのLustreファイルシステムのファイル消失の重大障害
+
+[参考](https://www.iimc.kyoto-u.ac.jp/services/comp/pdf/file_loss_insident_20211228.pdf)
+
+日本ヒューレット・パッカード合同会社が開発したスパコン用ストレージをバックアップするプログラムの不具合により、京都大学のスーパーコンピュータシステムの大容量ストレージ(/LARGE0)の一部(約77TB)が意図せず削除された。
+
+バックアップのスクリプトにはfindコマンドが使われていて、findコマンドの消去処理に渡す変数名を可読性を高めるために変更を加えたところ、bashの「シェルスクリプトの実行中に適時シェルスクリプトが読み込まれる挙動」によって副作用を起こして、未定義の変数を含むfindコマンドが実行してしまった。
+
+これは推測の範囲ではあるがシェルスクリプトに`set -u`\(errors if an variable is referenced before being se\)を追加していなかったのが原因であると思われる。なにより、この障害は、HDDの故障によって発生したものではない。ソフトウェアによる不備が原因となっている。
+
+---
+
+シス管: サーバ切り替え時のIPアドレスの変更によるCeph MonitorとOSDの接続の切断
+
+[参考: Seeker's eye Ceph 22 Sep 2020](https://seeker-s-eye.blogspot.com/2020/09/ceph.html)
+
+サーバ切り替え時にIPアドレスが変わったが、Ceph Monitorの移行がされなくて、Ceph MonitorとOSDの接続が切れてOSDの中身が見れなくなった。この出来事もHDDの故障によって発生したわけではない。
+
+---
+
+### (4)  学科のストレージ、学科のさくらクラウド、自分のノートPCを使った現実的なバックアップ戦略
+
+自分の場合は、ラップトップPCのデータにのみしか大切なデータが存在しないので自分のラップトップPCのデータの損失を防ぐためのバックアッププランを考える
+
+- amaneでVMを2つ(AとB)用意する
+  - A
+    - 公開鍵認証方式によるログインのみを受け付ける
+    - 秘密鍵以外のバックアップする必要があるファイルを保持させる
+  - B
+    - 公開鍵を登録せずにパスワード認証方式によるログインのみを受け付ける
+    - パスフレーズを設定した秘密鍵\(Permission: 400\)のみを保持させる
+      - des3で秘密鍵を暗号化する
+      - `$ openssl genrsa -out private.key -des3 2048`で秘密鍵を暗号化することができる
+  - AとBに割り当てられるIPアドレスはAkatsukiにログインすればわかる
+    - IPアドレスのデータを紛失することは学科のパスワードを忘れない限りない
+  - amaneまたはAkatsukiが何らかの理由で運用ができなくなったときに備えて別のバックアップを用意する必要がある
+- 学科のさくらクラウド
+  - umeのことだと思われるがアクセス権限がシステム管理チームにしかないはず
+  - umeが運用しているmattermostにファイルをアップロードするなどがある
+    - ただ、秘密鍵などの機密性が高い情報を含むファイルはアップロードできない
+  - 学科のさくらクラウド使ったいいバックアップ戦略が思い浮かばないので、自分はSSDでファイル、暗号化した秘密鍵を保存するという戦略を取りたい
+- 自分のノートPC
+  - Time Machineに対応したNASデバイスにバックアップを作成する
+
+---
+
+### 2.7の感想
+
+MTBFの計算やそれを使った確率の計算をするのは結構楽しかった。
+Cephの概要を勉強するとき結構苦戦した。CephめんどくさそうだけどCRUSHやらPaxosやらオリジナリティがあって面白いアルゴリズムと出会えたのでよきかな。
+
+学科のさくらクラウドを使ったいいバックアップ戦略が思いつかない。難しい。
+
+---
+
+## 2.8 df command
+
+問題は[このページ](https://ie.u-ryukyu.ac.jp/~kono/lecture/os/ex/problem/134.html)にある
+
+```
+df . を使うと、自分がどのファイルシステム上にいるかを調べることができる。
+
+以下の場所がどこにあるかを df command を使って調べよ。
+
+    Note PC 上の home direcotry
+    urasoe 上の home direcotry
+    kvm 上の disk image の置き場所
+```
+---
+
+### Note PC 上の home direcotry
+
+- `$ cd ~`
+- `$ df .`
+
+```
+Filesystem   512-blocks      Used  Available Capacity iused      ifree %iused  Mounted on
+/dev/disk1s5 1953595632 220164864 1672872912    12% 1014435 8364364560    0%   /System/Volumes/Data
+```
+
+- `/dev/disk1s5`というファイルシステムにNote PCのhome directoryが存在する
+
+---
+
+### urasoe上のhome directory
+
+urasoeにはsshできないのでchatanのhome directoryの場所を調べる
+
+- `$ ssh chatan`
+- `$ cd ~`
+- `$ df .`
+
+セキュリティに悪そう?よくわからないが、詳しく書きすぎてもって感じなのでちょっと結果を加工させている
+
+```
+Filesystem                                                     1K-blocks       Used  Available Use% Mounted on
+<サーバbのIPアドレス>:<ポート番号xxxx>,<サーバcのIPアドレス>:<ポート番号xxxx>,<サーバdのIPアドレス>:<ポート番号xxxx>:/ie-home/ 18432344064 9649704960 8782639104  53% /home
++chatan+e205723
+```
+
+\<ポート番号xxxx\>はcephのポート番号かな、予想
+
+---
+
+### kvm 上の disk image の置き場所
+
+vmにsshしてdfコマンドを実行してみる
+
+- `$ ssh vm`
+- `$ cd ~`
+- `$ df .`
+
+```
+Filesystem                  1K-blocks    Used Available Use% Mounted on
+/dev/mapper/ubuntu--vg-root   8641944 2554012   5625904  32% /
+```
+
+kvm上のdisk imageは`/dev/mapper/ubuntu--vg-root`に置かれている
+
+---
+
+### 2.8の感想
+
+作業自体は簡単?少し自信ない
+
+---
+
+## 2.9 two factor authentication と password
+
+問題は[このページ](https://ie.u-ryukyu.ac.jp/~kono/lecture/os/ex/problem/217.html)にある
+
+```
+gitlab での two factor authentication
+スマホに authenticator などの two factor authentication tool を入れて、学科のgitlabで two factor 認証を設定する
+(IIJ Slim がおすすめか?)
+
+gitlab の2020 の group に登録する
+
+password 生成スクリプト
+自分用の password 生成スクリプトを作り、出力を10個示せ。パスワードには十分な強度をもたせよ。
+```
+
+---
+
+### gitlab での two factor authentication
+
+gitlab使えないのでgithubでtwo factor 認証を設定する、というか認証済みである
+
+---
+
+### password 生成スクリプト
+
+以下のようなPythonスクリプトを書いた
+
+```
+import argparse
+import secrets
+import string
+
+def generate_password(password_length):
+    valid_chars_for_password = string.ascii_letters + string.digits + string.punctuation
+    password = ''.join(secrets.choice(valid_chars_for_password) for _ in range(password_length))
+    print(password)
+
+if __name__=='__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument("password_length")
+    args = parser.parse_args()
+    password_length = int(args.password_length)
+    generate_password(password_length)
+```
+
+10回パスワードを生成するために書いたシェルスクリプト
+
+```
+#!/bin/bash
+for i in {1..10}
+do
+   python3 generate_password.py 12
+done
+```
+
+↓がシェルスクリプトを実行した結果
+
+```
+:XH?xD`$(Ijg
+EhjcF|T!xO>i
+Ya;Y~Z[FN,#0
+j&C/r2~Zwv0'
+6*{HJH~~:f~y
+3X\cqR<irG{U
+aW4P;6l9J\kO
+K[=ts"F-|RBx
+gC&3G60&Z7[r
+bY[gatk`AMUW
+```
+
+↓が[PasswordMonster](https://www.passwordmonster.com/)で出力したパスワードが強力であるかどうか調べた結果
+
+| 回目 | 解析にかかる時間 |
+| --- | --- |
+| 1 | 10億年 |
+| 2 | 100万年 |
+| 3 | 450億年 |
+| 4 | 8570億年 |
+| 5 | 190億年 |
+| 6 | 180億年 |
+| 7 | 50億年 |
+| 8 | 110億年 |
+| 9 | 20億年 |
+| 10 | 200万年 |
+
+十分な強度のパスワードが生成できていることがわかる
+
+---
+
+### 2.9の感想
+
+2段階認証大事だよね、救済コードとかも大事に保管しておこう
+パスワードは普段はLinux/UNIXのコマンドを使って生成している、名前とか誕生日は論外だね
+
+---
