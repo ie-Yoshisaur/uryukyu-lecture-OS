@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  c_env:
+    build: ./container/
+    container_name: c_env
+    volumes:
+      - "./container:/workplace"
+    tty: true
