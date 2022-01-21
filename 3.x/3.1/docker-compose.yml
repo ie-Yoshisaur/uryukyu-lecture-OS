@@ -7,5 +7,5 @@ services:
     security_opt:
       - seccomp:unconfined
     volumes:
-      - "./container:/workplace"
+      - "./c_env:/workplace"
     tty: true
