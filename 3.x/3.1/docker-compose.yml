@@ -4,6 +4,8 @@ services:
   c_env:
     build: ./container/
     container_name: c_env
+    security_opt:
+      - seccomp:unconfined
     volumes:
       - "./container:/workplace"
     tty: true
