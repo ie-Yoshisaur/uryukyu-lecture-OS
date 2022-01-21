@@ -412,13 +412,6 @@ ssh で remote login した directory あるいは、terminal の複数の画面
 
 ---
 
-### 解く方針
-
-- 確か前にいたディレクトリを指す環境変数は$OLDPWDなはず
-- ログイン時に最初に実行するファイルがzshの場合、.zshrcなはず
-
----
-
 ### .zshrcに設定を付け加える
 
 - まず、このページのyomitanはグローバルなsshサーバという感じ、今はchatan、脳内変換して問題を解こうと思う
@@ -436,6 +429,14 @@ ssh で remote login した directory あるいは、terminal の複数の画面
 - amaneからログアウト
 - `$ ssh ie-user@<VMのIPアドレス>`
   - パスワードはシス管に聞く
+  - chatanを踏み台にしないとsshできないようになった
+    - \~/.ssh/configに↓のような設定を書くといいかも
+```
+Host vm
+  HostName <ipアドレス>
+  User e2057xx
+  ProxyJump chatan
+```
 - ユーザを作って、sudoersに入れて、ie-userは消す(粒度粗くてす見ません)
 - ~/.ssh/config書く、鍵通す(ssh-copy-id、もうやったので粒度粗めに)、作ったvmにssh
 - `$ sudo apt install zsh`

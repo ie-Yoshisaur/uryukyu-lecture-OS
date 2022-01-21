@@ -343,12 +343,12 @@ drwxr-xr-x 8 e2057xx student 75 Nov  4 00:35 /home/student/e20/e2057xx
     - [ソースコード](https://github.com/torvalds/linux/blob/master/drivers/hid/usbhid/usbkbd.c)
     - [参考にしたサイト](https://stackoverflow.com/questions/39911846/source-code-of-keyboard-driver-of-linux)
   - マイク
-    - ALSA
+    - ALSA\(抽象的すぎてbad付けられました...\)
     - [ドキュメント](https://www.alsa-project.org/alsa-doc/alsa-lib/)
     - [ソースコード](https://github.com/alsa-project/alsa-lib)
     - [参考にしたサイト](https://unix.stackexchange.com/questions/529646/how-to-find-out-the-internal-microphones-driver-on-a-linux-pc)
   - カメラ
-    - V4L2
+    - V4L2\(抽象的すぎてbad付けられました...\)
     - [ドキュメント](https://www.kernel.org/doc/html/v4.9/media/uapi/v4l/v4l2.html)
     - [ソースコード](https://github.com/torvalds/linux/tree/master/drivers/media/v4l2-core)
     - [V4L2について調べてたときに見たサイト](https://www.kernel.org/doc/html/v4.9/media/uapi/v4l/hist-v4l2.html#:~:text=In%20August%201998%20Bill%20Dirks,replacement%20for%20the%20V4L%20API.)
@@ -442,6 +442,8 @@ xmlファイルも作ろう
 - 注意
   - chatanにpublic_htmlを置いてもwebサイトが配信されないこともあるが、それはpublic_htmlやimagesやdownloadのパーミッションの設定が自分以外、読み取りまたは実行ができない状態である可能性が高い
     - `$ chmod 755 public_html`みたいなコマンドを実行するといいと思う
+
+- [これが公開したページ](https://ie.u-ryukyu.ac.jp/~e205723/1-3/)
 
 ---
 
