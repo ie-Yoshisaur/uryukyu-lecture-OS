@@ -586,6 +586,30 @@ Host vm
 
 ---
 
+問題は[このページ](https://ie.u-ryukyu.ac.jp/~kono/lecture/os/os02/lecture.html)にある
+
+```
+Cで
+
+ls -la に相当するプログラムを書く
+
+ls -laR に相当するプログラムを書く
+
+DIR と struct stat はどこで定義されている?
+
+FILE 構造体
+
+debugger の操作
+
+基本的な動作
+
+ポインタの復習
+
+ポインタの演算
+
+dirp
+```
+
 結構重め、正月らへんはこなした課題の数を優先したいのでまた今度!
 
 ---

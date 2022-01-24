@@ -671,3 +671,423 @@ fとgの最適化なし/ありのAssemblerを見比べたら
 - 3.1終わらせたら2.6が比較的簡単にできそう
 
 ---
+
+## 3.2 システムコール
+
+[このページ](https://ie.u-ryukyu.ac.jp/~kono/lecture/os/ex/problem/238.html)の問題を解く
+
+結構むずい、2021の後期が終わった後に解こうかな
+
+---
+
+## 3.3 system call trace
+
+[このページ](https://ie.u-ryukyu.ac.jp/~kono/lecture/os/ex/problem/223.html)の問題を解く
+
+```
+Mac OS X または Linux で、いつかのtraceを実行し\(アプリケーションが呼び出すシステムコールの履歴を調べる\)、出力を示せ。
+```
+
+---
+
+### Mac OSでシステムコールの履歴を調べる
+
+`$ sudo dtruss ls`
+
+```
+SYSCALL(args)            = return
+c_env                   docker-compose.yml
+access("/AppleInternal/XBS/.isChrooted\0", 0x0, 0x0)             = -1 Err#2
+bsdthread_register(0x7FF817BDE020, 0x7FF817BDE00C, 0x2000)           = 1073742303 0
+shm_open(0x7FF817AACF5D, 0x0, 0x17AAB7BA)                = 3 0
+fstat64(0x3, 0x7FF7B79C31A0, 0x0)                = 0 0
+mmap(0x0, 0x2000, 0x1, 0x40001, 0x3, 0x0)                = 0x10864D000 0
+close(0x3)               = 0 0
+ioctl(0x2, 0x4004667A, 0x7FF7B79C3254)           = 0 0
+mprotect(0x108654000, 0x1000, 0x0)               = 0 0
+mprotect(0x10865B000, 0x1000, 0x0)               = 0 0
+mprotect(0x10865C000, 0x1000, 0x0)               = 0 0
+mprotect(0x108663000, 0x1000, 0x0)               = 0 0
+mprotect(0x10864F000, 0x90, 0x1)                 = 0 0
+mprotect(0x10864F000, 0x90, 0x3)                 = 0 0
+mprotect(0x10864F000, 0x90, 0x1)                 = 0 0
+mprotect(0x108664000, 0x1000, 0x1)               = 0 0
+mprotect(0x108665000, 0x90, 0x1)                 = 0 0
+mprotect(0x108665000, 0x90, 0x3)                 = 0 0
+mprotect(0x108665000, 0x90, 0x1)                 = 0 0
+mprotect(0x10864F000, 0x90, 0x3)                 = 0 0
+mprotect(0x10864F000, 0x90, 0x1)                 = 0 0
+mprotect(0x108664000, 0x1000, 0x3)               = 0 0
+mprotect(0x108664000, 0x1000, 0x1)               = 0 0
+issetugid(0x0, 0x0, 0x0)                 = 0 0
+getentropy(0x7FF7B79C3050, 0x20, 0x0)            = 0 0
+getentropy(0x7FF7B79C30B0, 0x40, 0x0)            = 0 0
+getpid(0x0, 0x0, 0x0)            = 86693 0
+stat64("/AppleInternal\0", 0x7FF7B79C3770, 0x0)          = -1 Err#2
+csops_audittoken(0x152A5, 0x7, 0x7FF7B79C32A0)           = 0 0
+proc_info(0x2, 0x152A5, 0xD)             = 64 0
+csops_audittoken(0x152A5, 0x7, 0x7FF7B79C3390)           = 0 0
+sysctlbyname(kern.osvariant_status, 0x15, 0x7FF7B79C37C0, 0x7FF7B79C37B8, 0x0)                = 0 0
+csops(0x152A5, 0x0, 0x7FF7B79C37F4)              = 0 0
+mprotect(0x10854B000, 0x100000, 0x1)             = 0 0
+open_nocancel("/usr/share/locale/ja_JP.UTF-8/LC_COLLATE\0", 0x0, 0x0) = 3 0
+fcntl_nocancel(0x3, 0x3, 0x0)            = 0 0
+getrlimit(0x1008, 0x7FF7B79C3CC0, 0x0)           = 0 0
+fstat64(0x3, 0x7FF7B79C3C38, 0x0)                = 0 0
+read_nocancel(0x3, "1.1A\n\0", 0x1000)           = 2086 0
+close_nocancel(0x3)              = 0 0
+open_nocancel("/usr/share/locale/ja_JP.UTF-8/LC_CTYPE\0", 0x0, 0x0)  = 3 0
+fcntl_nocancel(0x3, 0x3, 0x0)            = 0 0
+fstat64(0x3, 0x7FF7B79C3D78, 0x0)                = 0 0
+fstat64(0x3, 0x7FF7B79C3B78, 0x0)                = 0 0
+lseek(0x3, 0x0, 0x1)             = 0 0
+lseek(0x3, 0x0, 0x0)             = 0 0
+read_nocancel(0x3, "RuneMagAUTF-8\0", 0x1000)            = 4096 0
+read_nocancel(0x3, "\0", 0x1000)                 = 4096 0
+read_nocancel(0x3, "\0", 0x1000)                 = 4096 0
+read_nocancel(0x3, "\0", 0x1000)                 = 4096 0
+read_nocancel(0x3, "\0", 0x1000)                 = 4096 0
+read_nocancel(0x3, "\0", 0x1000)                 = 4096 0
+read_nocancel(0x3, "\0", 0x1000)                 = 4096 0
+read_nocancel(0x3, "@\004\211\0", 0xF5D0)                = 62928 0
+close_nocancel(0x3)              = 0 0
+open_nocancel("/usr/share/locale/ja_JP.UTF-8/LC_MONETARY\0", 0x0, 0x0)                = 3 0
+fstat64(0x3, 0x7FF7B79C3D88, 0x0)                = 0 0
+read_nocancel(0x3, "JPY \n\302\245\n.\n,\n3;3\n\n-\n0\n0\n1\n0\n1\n0\n1\n4\n\0", 0x23)                = 35 0
+close_nocancel(0x3)              = 0 0
+open_nocancel("/usr/share/locale/ja_JP.UTF-8/LC_NUMERIC\0", 0x0, 0x0) = 3 0
+fstat64(0x3, 0x7FF7B79C3D88, 0x0)                = 0 0
+read_nocancel(0x3, ".\n,\n3;3\n\0", 0x8)                 = 8 0
+close_nocancel(0x3)              = 0 0
+open_nocancel("/usr/share/locale/ja_JP.UTF-8/LC_TIME\0", 0x0, 0x0)   = 3 0
+fstat64(0x3, 0x7FF7B79C3D88, 0x0)                = 0 0
+read_nocancel(0x3, " 1\n 2\n 3\n 4\n 5\n 6\n 7\n 8\n 9\n10\n11\n12\n1\346\234\210\n2\346\234\210\n3\346\234\210\n4\346\234\210\n5\346\234\210\n6\346\234\210\n7\346\234\210\n8\346\234\210\n9\346\234\210\n10\346\234\210\n11\346\234\210\n12\346\234\210\n\346\227\245\n\346\234\210\n\347\201\253\n\346\260\264\n\346\234\250\n\351\207\221\n\345\234\237\n\346\227\245\346\233\234\346\227\245\n\346\234\210\346\233\234\346\227\245\n\347\201\253\346\233\234\346\227\245\n\346\260\264\346\233\234\346\227\245\n\346\234\250\346\233\234\346\227\245\n\351\207\221\346\233\234\346\227\245\n\345\234\237\346\233\234\346\227\245\n%H\346\231\202%M\345\210\206%S\347\247\222\n%Y/%m/%d\n%a %b/%e %T %Y\nAM\nPM\n%Y\345\271\264 %B%e\346\227\245", 0x158)              = 344 0
+close_nocancel(0x3)              = 0 0
+open_nocancel("/usr/share/locale/ja_JP.UTF-8/LC_MESSAGES/LC_MESSAGES\0", 0x0, 0x0)            = 3 0
+fstat64(0x3, 0x7FF7B79C3D88, 0x0)                = 0 0
+read_nocancel(0x3, "^[yY\357\275\231\357\274\271\343\201\257\343\203\217].*\n^[nN\357\275\216\357\274\256\343\201\204\343\202\244].*\n@$\b\0", 0x28)               = 40 0
+close_nocancel(0x3)              = 0 0
+ioctl(0x1, 0x4004667A, 0x7FF7B79C42D4)           = 0 0
+ioctl(0x1, 0x40087468, 0x7FF7B79C4950)           = 0 0
+getuid(0x0, 0x0, 0x0)            = 0 0
+fstatat64(0xFFFFFFFFFFFFFFFE, 0x600003098068, 0x7FF7B79C41E8)        = 0 0
+open_nocancel(".\0", 0x1000000, 0x0)             = 3 0
+fchdir(0x3, 0x0, 0x0)            = 0 0
+open_nocancel(".\0", 0x1000000, 0x0)             = 4 0
+open_nocancel(".\0", 0x1100004, 0x0)             = 5 0
+getattrlistbulk(0x5, 0x7FF7B79C4238, 0x7F79D3008800)             = 2 0
+getattrlistbulk(0x5, 0x7FF7B79C4238, 0x7F79D3008800)             = 0 0
+close_nocancel(0x5)              = 0 0
+fchdir(0x4, 0x0, 0x0)            = 0 0
+close_nocancel(0x4)              = 0 0
+fstat64(0x1, 0x7FF7B79C3A68, 0x0)                = 0 0
+ioctl(0x1, 0x4004667A, 0x7FF7B79C3AB4)           = 0 0
+write_nocancel(0x1, "c_env\t\t\tdocker-compose.yml\n\0", 0x1B)       = 27 0
+fchdir(0x3, 0x0, 0x0)            = 0 0
+close_nocancel(0x3)              = 0 0
+```
+
+---
+
+### Linuxでシステムコールの履歴を調べる
+
+vmを使う、[2.xのブログ](https://yoshisaur.hatenablog.jp/entry/2021/12/31/030235)の2.5でvmの作り方が書いてある
+
+vmへssh
+
+- `$ sudo apt-get install auditd`
+- `$ sudo autrace /bin/ls`
+  - Trace complete. You can locate the records with 'ausearch -i -p 48711'
+- `$ sudo ausearch -i -p 48711`
+  - 結果は結構長いので一部をカットします
+  - ```
+    ----                                                                                          [731/825]
+    type=PROCTITLE msg=audit(01/23/2022 12:00:51.408:555) : proctitle=autrace /bin/ls
+    type=SYSCALL msg=audit(01/23/2022 12:00:51.408:555) : arch=x86_64 syscall=close success=yes exit=0 a0=0
+    x4 a1=0x0 a2=0x0 a3=0x7f419dc38a10 items=0 ppid=48709 pid=48711 auid=ie-user uid=root gid=root euid=roo
+    t suid=root fsuid=root egid=root sgid=root fsgid=root tty=pts0 ses=1210 comm=autrace exe=/sbin/autrace
+    key=(null)
+    ----
+    type=PROCTITLE msg=audit(01/23/2022 12:00:51.412:556) : proctitle=autrace /bin/ls
+    type=SYSCALL msg=audit(01/23/2022 12:00:51.412:556) : arch=x86_64 syscall=fstat success=yes exit=0 a0=0
+    x1 a1=0x7ffcc0017d70 a2=0x7ffcc0017d70 a3=0x7f419dc38a10 items=0 ppid=48709 pid=48711 auid=ie-user uid=
+    root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=pts0 ses=1210 comm=autr
+    ace exe=/sbin/autrace key=(null)
+    ----
+    type=PROCTITLE msg=audit(01/23/2022 12:00:51.412:557) : proctitle=autrace /bin/ls
+    type=SYSCALL msg=audit(01/23/2022 12:00:51.412:557) : arch=x86_64 syscall=write success=yes exit=28 a0=
+    0x1 a1=0x5596f379d4c0 a2=0x1c a3=0x5596f32a61b2 items=0 ppid=48709 pid=48711 auid=ie-user uid=root gid=
+    root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=pts0 ses=1210 comm=autrace exe=/
+    sbin/autrace key=(null)
+    ----
+    type=PROCTITLE msg=audit(01/23/2022 12:00:51.412:558) : proctitle=autrace /bin/ls
+    type=SYSCALL msg=audit(01/23/2022 12:00:51.412:558) : arch=x86_64 syscall=read success=yes exit=1 a0=0x
+    3 a1=0x7ffcc0018530 a2=0x1 a3=0x5596f32a61b2 items=0 ppid=48709 pid=48711 auid=ie-user uid=root gid=roo
+    t euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=pts0 ses=1210 comm=autrace exe=/sbi
+    n/autrace key=(null)
+    ----
+    type=PROCTITLE msg=audit(01/23/2022 12:00:52.412:559) : proctitle=autrace /bin/ls
+    type=SYSCALL msg=audit(01/23/2022 12:00:52.412:559) : arch=x86_64 syscall=close success=yes exit=0 a0=0
+    x3 a1=0x7ffcc0018530 a2=0x1 a3=0x5596f32a61b2 items=0 ppid=48709 pid=48711 auid=ie-user uid=root gid=ro
+    ot euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=pts0 ses=1210 comm=autrace exe=/sb
+    in/autrace key=(null)
+    ----
+    type=PROCTITLE msg=audit(01/23/2022 12:00:52.412:560) : proctitle=autrace /bin/ls
+    type=PATH msg=audit(01/23/2022 12:00:52.412:560) : item=1 name=/lib64/ld-linux-x86-64.so.2 inode=393254
+     dev=fd:00 mode=file,755 ouid=root ogid=root rdev=00:00 nametype=NORMAL cap_fp=none cap_fi=none cap_fe=
+    0 cap_fver=0 cap_frootid=0
+    type=PATH msg=audit(01/23/2022 12:00:52.412:560) : item=0 name=/bin/ls inode=393433 dev=fd:00 mode=file
+    ,755 ouid=root ogid=root rdev=00:00 nametype=NORMAL cap_fp=none cap_fi=none cap_fe=0 cap_fver=0 cap_fro
+    otid=0
+    type=CWD msg=audit(01/23/2022 12:00:52.412:560) : cwd=/home/ie-user
+    type=EXECVE msg=audit(01/23/2022 12:00:52.412:560) : argc=1 a0=/bin/ls
+    type=SYSCALL msg=audit(01/23/2022 12:00:52.412:560) : arch=x86_64 syscall=execve success=yes exit=0 a0=
+    0x7ffcc00188b7 a1=0x7ffcc0018670 a2=0x7ffcc0018680 a3=0x5596f32a61b2 items=2 ppid=48709 pid=48711 auid=
+    ie-user uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=pts0 ses=12
+    10 comm=ls exe=/bin/ls key=(null)
+    ----
+    type=PROCTITLE msg=audit(01/23/2022 12:00:52.416:561) : proctitle=autrace /bin/ls
+    type=SYSCALL msg=audit(01/23/2022 12:00:52.416:561) : arch=x86_64 syscall=brk success=yes exit=94653812
+    789248 a0=0x0 a1=0x7f02a1bbce13 a2=0x53 a3=0x7f02a1bbce13 items=0 ppid=48709 pid=48711 auid=ie-user uid
+    =root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=pts0 ses=1210 comm=ls
+    exe=/bin/ls key=(null)
+    ----
+    type=PROCTITLE msg=audit(01/23/2022 12:00:52.416:562) : proctitle=autrace /bin/ls
+    type=SYSCALL msg=audit(01/23/2022 12:00:52.416:562) : arch=x86_64 syscall=arch_prctl success=no exit=EI
+    NVAL(Invalid argument) a0=0x3001 a1=0x7ffc4590c2e0 a2=0x7f02a1bb3230 a3=0x7f02a1bbb8b8 items=0 ppid=487
+    09 pid=48711 auid=ie-user uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=ro
+    ot tty=pts0 ses=1210 comm=ls exe=/bin/ls key=(null)
+    ----  
+    ```
+
+---
+
+### 3.3の感想
+
+- アプリケーションが呼ぶシステムコールの履歴を調べるコマンドは3.xの問題では重宝するので積極的に使っていきたい
+- Linuxは場合はコマンドをインストールする必要があるので、難易度は少し上がる
+  - [この記事](https://linuxhint.com/auditd_linux_tutorial/)を参考にしよう
+
+---
+
+## 3.4
+
+リンクを開いても何もない...?
+
+解くための情報量が少ないので、kono先生に聞きながら解いてみようと思う。
+
+また今度!
+
+---
+
+## 3.5 プロセスのファイルディスクリプタ
+
+[このページ](https://ie.u-ryukyu.ac.jp/~kono/lecture/os/ex/problem/073.html)の問題を解く
+
+```
+Linux の /proc (proc file system) を使って、特定のプロセスがどのファイルを開いているかを調べてみよう。root でないと見れないプロセスもある。
+
+この機能を使って、WWW serverと Database Server ( postgress や mysql  ) がどのようなファイルにアクセスしているかを調べよ。
+```
+
+---
+
+### /proc file system is 何
+
+[tldp.org](https://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html)を参照する
+
+/procは、「記憶装置にある本当のファイル」を含まない、システムメモリや、マウントされたデバイス、ハードウェア構成などの「カーネルの状態を示す情報を擬似的にファイル」として含むファイルシステムである
+
+---
+
+### /procを使った特定のプロセスがどのファイルを開いているか調べる方法
+
+特定のプロセスがどのファイルを開いているか調べるために`/proc/<process id>/fd/`を見る必要がある
+
+tldp.orgより、
+```
+/proc/PID/fd
+
+    Directory, which contains all descriptors.
+```
+
+descriptorsとは何か、それは操作対象のファイルを識別するために割り当てられる番号のこと
+
+プログラムがファイルを指定して開く操作をすると、カーネル内のファイルテーブルと呼ばれる項目が作成される。そのテーブルで対象のファイルのストレージ上の位置などの情報が記憶される。
+descriptorsはそのテーブルないのファイルの識別番号として扱われる。
+
+`$ ls -l /proc/<process id>/fd/`と入力すると一番右にdescriptorsが指すファイルのパスが表示される
+
+これを使って特定のプロセスがどのファイルを開いているのか調べる
+
+---
+
+### WWW serverがどのようなファイルにアクセスしているかを調べる
+
+dockerを使ってnginx(www サーバ)のコンテナを立てる
+
+- `$ docker run -it --privileged --rm -d -p 8080:80 --name web nginx`でwebというコンテナを立てる
+  - http://localhost:8080/ をブラウザで開くと文字列が表示される
+  - 以下のような文字列が表示されていたらコンテナがwwwサーバとして機能しているいうことになる
+    - ```
+      Welcome to nginx!
+      If you see this page, the nginx web server is successfully installed and working. Further configuration is required.
+      
+      For online documentation and support please refer to nginx.org.
+      Commercial support is available at nginx.com.
+      
+      Thank you for using nginx.
+      ```
+- `$ docker exec -it web /bin/bash`でコンテナにログインする
+- `$ ls -l /proc | grep nginx`でnginxのプロセスを表示する
+  - ```
+    dr-xr-xr-x  9 nginx nginx               0 Jan 23 13:52 31
+    dr-xr-xr-x  9 nginx nginx               0 Jan 23 13:52 32
+    dr-xr-xr-x  9 nginx nginx               0 Jan 23 13:52 33
+    dr-xr-xr-x  9 nginx nginx               0 Jan 23 13:52 34
+    ```
+  - 31から34がnginxのプロセス
+- `$ ls -l /proc/3[1-4]/fd/`
+  - 結果は長いので一部を抜粋する
+  - ```
+    /proc/31/fd/:
+    total 0
+    lrwx------ 1 nginx nginx 64 Jan 23 13:52 0 -> /dev/pts/0
+    lrwx------ 1 nginx nginx 64 Jan 23 13:52 1 -> /dev/pts/0
+    lrwx------ 1 nginx nginx 64 Jan 23 13:52 10 -> 'anon_inode:[eventpoll]'
+    lrwx------ 1 nginx nginx 64 Jan 23 13:52 11 -> 'anon_inode:[eventfd]'
+    lrwx------ 1 nginx nginx 64 Jan 23 13:52 12 -> 'anon_inode:[eventfd]'
+    lrwx------ 1 nginx nginx 64 Jan 23 13:52 13 -> 'socket:[144708]'
+    lrwx------ 1 nginx nginx 64 Jan 23 13:52 14 -> 'socket:[144710]'
+    l-wx------ 1 nginx nginx 64 Jan 23 13:52 2 -> /dev/pts/0
+    lrwx------ 1 nginx nginx 64 Jan 23 13:52 3 -> /dev/pts/0
+    lrwx------ 1 nginx nginx 64 Jan 23 13:52 4 -> 'socket:[144706]'
+    l-wx------ 1 nginx nginx 64 Jan 23 13:52 5 -> /dev/pts/0
+    l-wx------ 1 nginx nginx 64 Jan 23 13:52 6 -> /dev/pts/0
+    lrwx------ 1 nginx nginx 64 Jan 23 13:52 7 -> 'socket:[144702]'
+    lrwx------ 1 nginx nginx 64 Jan 23 13:52 8 -> 'socket:[144703]'
+    lrwx------ 1 nginx nginx 64 Jan 23 13:52 9 -> 'socket:[144705]'
+    ```
+- プロセスが開いているファイルを調べる
+  - `/dev/pts/0`
+    - デバイスファイルと呼ばれる
+      - xterm, screen, sshなどのプログラムによってエミュレートされたターミナルデバイスを指す
+    - ptsはpseudo terminal slaveの頭文字を取っている
+  - `'anon_inode:[eventpoll]'`
+    - anon_inode
+      - inodeはファイル名とファイルの中身以外のデータを持つデータ構造のことを指す
+      - anon_inodeはディレクトリのエントリがついていないanonymous inodeを指す
+    - eventpoll
+      - [linux/fs/eventpoll.cのコード](https://github.com/torvalds/linux/blob/master/fs/eventpoll.c)の172行から229行を参照
+      - pollとはselectと同様にdescriptorsのいずれか1つがI/Oを実行可能な状態になるのを待つシステムコール
+      - ソースコードの構造体はpoll対象となるdescriptorsを保持するもの
+        - rbとか書かいているので赤黒木でkey集合を保存している??そこはわからない
+          - これ以上はyak shavingしそうなのでストップ
+      - epollとかは、O\(1\)でdescriptorsを監視する
+        - 一方、select\(2\)やpoll\(2\)などのposixと呼ばれる規約に則ったシステムコールはO\(n\)で監視する
+  - `'socket:[<num>]'`
+    - num
+      - linuxのソケット通信はファイル操作を使う
+        - numがそのinodeを表す
+
+- プロセスが開いているファイルを調べてわかったこと
+  - WebサーバはディスクやネットワークなどのI/Oを多重化させることが必要だから、epollといったシステムコールを使っている
+  - \(感想に近いけど...\)webサーバを高速化させるには、I/Oを多重化させるシステムコールの知識が必要不可欠な感じがする
+
+---
+
+### Database Serverがどのようなファイルにアクセスしているか調べる
+
+dockerを使ってmysql(databaseサーバ)のコンテナを立てる
+
+- `$ docker run -it --privileged --rm -d --name=database mysql/mysql-server`でdatabaseというコンテナを立てる
+- `$ docker exec -it database /bin/bash`でコンテナにログインする
+- `$ ls -l /proc | grep mysql`でmysqlのプロセスを表示する
+  - ```
+    dr-xr-xr-x  9 mysql mysql               0 Jan 24 03:02 1
+    ```
+- `$ ls -l /proc/1/fd/`
+  - ```
+    total 0
+    lrwx------ 1 root root 64 Jan 24 03:02 0 -> /dev/pts/0
+    lrwx------ 1 root root 64 Jan 24 03:02 1 -> /dev/pts/0
+    lrwx------ 1 root root 64 Jan 24 03:02 10 -> /var/lib/mysql/#ib_16384_0.dblwr
+    lrwx------ 1 root root 64 Jan 24 03:02 11 -> /var/lib/mysql/#ib_16384_1.dblwr
+    lrwx------ 1 root root 64 Jan 24 03:02 12 -> /var/lib/mysql/undo_001
+    lrwx------ 1 root root 64 Jan 24 03:02 13 -> '/tmp/ibFopFzg (deleted)'
+    lrwx------ 1 root root 64 Jan 24 03:06 14 -> /var/lib/mysql/undo_002
+    lrwx------ 1 root root 64 Jan 24 03:02 15 -> /var/lib/mysql/ibtmp1
+    lrwx------ 1 root root 64 Jan 24 03:02 16 -> /var/lib/mysql/mysql.ibd
+    lrwx------ 1 root root 64 Jan 24 03:02 17 -> 'anon_inode:[eventpoll]'
+    lr-x------ 1 root root 64 Jan 24 03:02 18 -> 'pipe:[147675]'
+    l-wx------ 1 root root 64 Jan 24 03:06 19 -> 'pipe:[147675]'
+    lrwx------ 1 root root 64 Jan 24 03:02 2 -> /dev/pts/0
+    lrwx------ 1 root root 64 Jan 24 03:06 20 -> 'anon_inode:[eventfd]'
+    lrwx------ 1 root root 64 Jan 24 03:06 21 -> 'socket:[147677]'
+    lrwx------ 1 root root 64 Jan 24 03:06 22 -> 'socket:[147678]'
+    lrwx------ 1 root root 64 Jan 24 03:06 23 -> 'socket:[147680]'
+    l-wx------ 1 root root 64 Jan 24 03:06 24 -> /var/lib/mysql/binlog.000002
+    lrwx------ 1 root root 64 Jan 24 03:06 25 -> 'socket:[147681]'
+    lrwx------ 1 root root 64 Jan 24 03:06 26 -> /var/lib/mysql/#innodb_temp/temp_1.ibt
+    lrwx------ 1 root root 64 Jan 24 03:06 27 -> /var/lib/mysql/#innodb_temp/temp_2.ibt
+    lrwx------ 1 root root 64 Jan 24 03:06 28 -> /var/lib/mysql/#innodb_temp/temp_3.ibt
+    lrwx------ 1 root root 64 Jan 24 03:06 29 -> /var/lib/mysql/#innodb_temp/temp_4.ibt
+    lrwx------ 1 root root 64 Jan 24 03:02 3 -> /var/lib/mysql/binlog.index
+    lrwx------ 1 root root 64 Jan 24 03:06 30 -> /var/lib/mysql/#innodb_temp/temp_5.ibt
+    lrwx------ 1 root root 64 Jan 24 03:06 31 -> /var/lib/mysql/#innodb_temp/temp_6.ibt
+    lrwx------ 1 root root 64 Jan 24 03:06 32 -> /var/lib/mysql/#innodb_temp/temp_7.ibt
+    lrwx------ 1 root root 64 Jan 24 03:06 33 -> /var/lib/mysql/#innodb_temp/temp_8.ibt
+    lrwx------ 1 root root 64 Jan 24 03:06 34 -> /var/lib/mysql/#innodb_temp/temp_9.ibt
+    lrwx------ 1 root root 64 Jan 24 03:06 35 -> /var/lib/mysql/#innodb_temp/temp_10.ibt
+    lrwx------ 1 root root 64 Jan 24 03:02 4 -> /var/lib/mysql/ib_logfile0
+    lrwx------ 1 root root 64 Jan 24 03:02 5 -> '/tmp/ibCdxxti (deleted)'
+    lrwx------ 1 root root 64 Jan 24 03:02 6 -> '/tmp/ibZunhQi (deleted)'
+    lrwx------ 1 root root 64 Jan 24 03:02 7 -> '/tmp/ib3iQ3Qi (deleted)'
+    lrwx------ 1 root root 64 Jan 24 03:02 8 -> /var/lib/mysql/ibdata1
+    lrwx------ 1 root root 64 Jan 24 03:02 9 -> /var/lib/mysql/ib_logfile1
+    ```
+- プロセスが開いているファイルを調べる
+  - `/dev/pts/0`
+    - Webサーバのプロセスが開いているファイルを調べるときに調査済み
+  - `'anon_inode:[eventpoll]'`
+    - Webサーバのプロセスが開いているファイルを調べるときに調査済み
+  - `'socket:[<num>]'`
+    - Webサーバのプロセスが開いているファイルを調べるときに調査済み
+  - `'pipe:[<num>]'`
+    - pipeは一方方向のデータを送信する経路のこと
+      - numがそのinodeを表す
+  - `/tmp/ib<random str>(deleted)`
+    - MySQLのデータベースエンジンであるInnoDBの一時ファイル
+  - `/var/lib/mysql/#ib.dblwr`
+    - Double Write Bufferは.dblwrファイルに保存される
+      - InnoDBはテーブルスペースへ更新を行う前に、OSが更新の途中でクラッシュしてもいいように、一旦Double Write Bufferに同じデータを書き込む
+  - `/var/lib/mysql/ib_logfile<num>`
+    - InnoDBのログが保存されているファイル
+  - `/var/lib/mysql/ibtmp1`
+    - InnoDBがパフォーマンス向上のために一時的にデータを格納するファイル
+  - `/var/lib/mysql/#innodb_temp/temp_<num>.ibt`
+    - 一時テーブルスペースを格納するファイル
+  - `/var/lib/mysql/ibdata1`
+    - InnoDBのデータ構造のためのシステムテーブルスペース
+    - 管理する情報
+      - Table Data Pages
+      - Table Index Pages
+      - Data Dictionary
+      - MVCC Control Data
+      - Double Write Buffer
+      - Insert Buffer
+  - `/var/lib/mysql/mysql.ibd`
+    - MySQL\(InnoDB\)で使用されるテーブルとインデックスを格納するファイル
+  - `/var/lib/mysql/undo_<num>`
+    - undoログを含むundoテーブルスペースを格納するファイル
+  - `/var/lib/mysql/binlog.<num>`
+    - バイナリログファイル
+
+---
+
+3.5の感想
+
+- 面白い、特にwwwサーバのプロセスが開いているファイルを調べるとき
+  - Webサーバの高速化の話でepollがC10K問題に絡んでくるとか知れた
+
+---
