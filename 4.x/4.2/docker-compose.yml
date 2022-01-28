@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  c_env:
+    build: ./c_env/
+    container_name: c_env
+    security_opt:
+      - seccomp:unconfined
+    volumes:
+      - "./c_env:/workplace"
+    tty: true
