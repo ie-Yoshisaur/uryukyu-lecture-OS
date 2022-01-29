@@ -490,6 +490,13 @@ dining philosophers問題:
 
 ---
 
+### 4.3の感想
+
+- 発想自体は簡単、実装が辛いのでやめた
+- 意外と思考実験系の問題がOSの教科書に多いなという感じがした
+
+---
+
 ## 4.4 教科書の問題 Chapter 12 ex 12.5
 
 教科書の12.5の問題を解く、問題文は以下の通り
@@ -510,9 +517,32 @@ basic toolとは何か? あなたがよく使うツールの例を3つ挙げよ�
 
 ### 答え\(日本語\)
 
+basic toolとは、特に教科書の12章ではファイル/ディレクトリ操作、編集をするためのシェル、コマンドやエディタのことを指す
+
+僕がよく使うツールは、zsh, Vim, tmuxである
+
+- zshは補完機能や拡張性に優れたコマンドシェルである
+  - [自分の.zshrc](https://github.com/e205723/Secret-Recipe/blob/main/.zshrc)
+    - 作ったコマンド
+      - mkdirとcdを同時にするmdコマンド
+      - catとpbcopyを混ぜたcapyコマンド
+      - dockerのコンテナとイメージをすべて削除するdocker-pruneコマンド
+- Vimは漢のエディタである
+  - [自分の.vimrc](https://github.com/e205723/Secret-Recipe/blob/main/.vimrc)
+  - [Vimプラグイン](https://github.com/e205723/Secret-Recipe/blob/main/.vim/dein.toml)
+  - [Vimに関する自分のブログ](https://yoshisaur.net/memorandum/vim)
+- tmuxは端末を多重化するソフトウェア
+  - [自分の.tmux.conf](https://github.com/e205723/Secret-Recipe/blob/main/.tmux.conf)
+    - ペインの移動をvim-likeにした
+    - コピーモードの操作をvim-likeにした
+  - [tmuxに関する自分のブログ](https://yoshisaur.net/study_linux_unix/tmux)
+
 ---
 
-### 答え\(英語\)
+### 4.4の感想
+
+- zsh, vim, tmuxいいよね
+- もうそれvscodeじゃんって言わないでねw
 
 ---
 
