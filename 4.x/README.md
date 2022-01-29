@@ -76,17 +76,329 @@ Evalutrixを親プロセスと、アドバイサー達を基本価格をイン�
 
 ### 解く
 
-システムコール(fork)を使いプロセスを生成して、パイプ(pipe)によるプロセス間通信をする
+システムコール\(fork\)を使いプロセスを生成して、パイプ\(pipe\)によるプロセス間通信をする
 
-上記の操作をC言語で実装してEvalutrixを親プロセス、アドバイサー達を子プロセスとして扱い、芸術品の価値を決定するスクリプトを作成する。
+上記の操作をC言語で実装してEvalutrixを親プロセス、アドバイサー達を子プロセスとして扱い、芸術品の価値を決定するスクリプトを作成する
+
+この問題では「単一の親プロセス」と「複数の子プロセス」とのプロセス間通信をするC言語スクリプトを書くことが求められている
 
 ---
 
 ### 答え\(日本語\)
 
+Cの[コード](https://github.com/e205723/uryukyu-lecture-OS/blob/main/4.x/4.2/c_env/4_2.c)を書いた
+
 ---
 
-### 答え\(英語\)
+```
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+#define READ  (0)
+#define WRITE (1)
+
+#define CHANCIX (0)
+#define GAMBLIX (1)
+#define MOODIX (2)
+
+#define HEADS (1)
+#define TAILS (0)
+
+#define BLACK_SUIT (1)
+#define RED_SUIT (0)
+
+
+int calculate_chancix_value(int basic_price) {
+
+    srand((unsigned int)time(NULL));
+    int flipped_coin = rand() % 2;
+    int chancix_value = basic_price;
+
+    if (flipped_coin == HEADS) {
+        chancix_value += basic_price * 0.05;
+    
+    } else if (flipped_coin == TAILS) {
+        chancix_value -= basic_price * 0.05;
+    
+    }
+
+    printf("The price Chancix evaluates: %d\n", chancix_value);
+
+    return chancix_value;
+
+
+}
+
+int calculate_gamblix_value(int basic_price) {
+
+    srand((unsigned int)time(NULL));
+    int card_suit = rand() % 2;
+    int card_num = rand() % 13 + 1;
+    int gamblix_value = basic_price;
+
+    if (card_suit == BLACK_SUIT) {
+        gamblix_value += basic_price * card_num / 100.0;
+    
+    } else if (card_suit == RED_SUIT) {
+        gamblix_value -= basic_price * card_num / 100.0;
+    
+    }
+
+    printf("The price Gamblix evaluates: %d\n", gamblix_value);
+
+    return gamblix_value;
+
+
+}
+
+int calculate_moodix_value(int basic_price) {
+
+    time_t seconds;
+    struct tm *timeStruct;
+    seconds = time(NULL);
+    timeStruct = localtime(&seconds);
+
+    int hours = timeStruct->tm_hour;
+    int minutes = timeStruct->tm_min;
+    int moodix_value = basic_price;
+
+    // add the hours and minutes in Japan time, subtract by 15, and devide by 100
+    moodix_value += basic_price * ((hours + 9) % 24 + minutes - 15) / 100.0;
+
+    printf("The price Moodix evaluates: %d\n", moodix_value);
+
+    return moodix_value;
+
+
+}
+
+
+int main(int argc, char *argv[]) {
+
+    const int CHILD_PROCESS_NUM = 3;
+
+    pid_t process_ids[CHILD_PROCESS_NUM];
+
+    char pipe_input[256], pipe_output[256];
+
+    int parent2child_pipes[CHILD_PROCESS_NUM][2];
+    int child2parent_pipes[CHILD_PROCESS_NUM][2];
+
+    int p_i, close_i;
+
+    int parent2child_pipe_status, child2parent_pipe_status;
+
+    int basic_price, evaluated_price, price_sum, price_average;
+
+    // prompt user input to set the base price
+    printf("The basic price is ");
+    fgets(pipe_input, 256, stdin);
+    printf("The price Evalutrix indicates: %s", pipe_input);
+
+    price_sum = atoi(pipe_input);
+
+
+    for (p_i = 0; p_i < CHILD_PROCESS_NUM; ++p_i) {
+
+       parent2child_pipe_status = pipe(parent2child_pipes[p_i]);
+       child2parent_pipe_status = pipe(child2parent_pipes[p_i]);
+
+       // if either a parent2child pipe or a child2parent pipe fails to open
+       if (parent2child_pipe_status < 0 || child2parent_pipe_status < 0) {
+
+           // close all proccesses' exisiting pipes
+	       for (close_i = 0; close_i < p_i; ++close_i) {
+
+               close(parent2child_pipes[close_i][READ]);
+               close(parent2child_pipes[close_i][WRITE]);
+               close(child2parent_pipes[close_i][READ]);
+               close(child2parent_pipes[close_i][WRITE]);
+
+           
+	       }
+
+           // if a child2parent pipe fails to open
+	       if (child2parent_pipe_status < 0) {
+
+               // close the most recently opened parent2child_pipe
+               close(parent2child_pipes[p_i][READ]);
+               close(parent2child_pipes[p_i][WRITE]);
+
+	   
+	       }
+
+           return 1;
+
+       
+       }
+
+    
+    }
+
+
+    for (p_i = 0; p_i < CHILD_PROCESS_NUM; ++p_i) {
+
+        process_ids[p_i] = fork();
+
+        // if a child process fails to be generated
+	if (process_ids[p_i] < 0) {
+
+            // close all processes' pipes
+		for (close_i = 0; close_i < CHILD_PROCESS_NUM; ++close_i) {
+
+                close(parent2child_pipes[close_i][READ]);
+                close(parent2child_pipes[close_i][WRITE]);
+                close(child2parent_pipes[close_i][READ]);
+                close(child2parent_pipes[close_i][WRITE]);
+
+            
+		}
+
+            return 1;
+
+        // if the current process is a child process
+    	
+	} else if (process_ids[p_i] == 0) {
+
+            close(parent2child_pipes[p_i][WRITE]);
+            close(child2parent_pipes[p_i][READ]);
+
+            read(parent2child_pipes[p_i][READ], pipe_input, 256);
+            basic_price = atoi(pipe_input);
+
+            evaluated_price = basic_price;
+
+	    if (p_i == CHANCIX) {
+               // do what Chancix does
+               evaluated_price = calculate_chancix_value(basic_price);
+            
+	    } else if (p_i == GAMBLIX) {
+               // do what Gamlix does
+               evaluated_price = calculate_gamblix_value(basic_price);
+            
+	    } else if (p_i == MOODIX) {
+               // do what Moodix does
+               evaluated_price = calculate_moodix_value(basic_price);
+            
+	    }
+
+            sprintf(pipe_input, "%d", evaluated_price);
+
+            write(child2parent_pipes[p_i][WRITE], pipe_input, strlen(pipe_input) + 1);
+
+            close(parent2child_pipes[p_i][READ]);
+            close(child2parent_pipes[p_i][WRITE]);
+
+            exit(0);
+
+        // if the current process is the parent process
+	
+	} else if (process_ids[p_i] > 0) {
+
+            close(parent2child_pipes[p_i][READ]);
+            close(child2parent_pipes[p_i][WRITE]);
+
+            write(parent2child_pipes[p_i][WRITE], pipe_input, strlen(pipe_input) + 1);
+
+            read(child2parent_pipes[p_i][READ], pipe_output, 256);
+
+            price_sum += atoi(pipe_output);
+
+            close(parent2child_pipes[p_i][WRITE]);
+            close(child2parent_pipes[p_i][READ]);
+
+	
+	}
+
+    
+    }
+
+
+    price_average = price_sum / (CHILD_PROCESS_NUM + 1);
+    printf("The price to declare is %d\n", price_average);
+    
+
+}
+```
+
+---
+
+パイプについて
+
+- プロセス同士でデータをやり取りするためにはパイプを作成する必要がある
+- 1本のパイプで一方向(親->子、子->親のいずれか)のデータの送信が可能になる
+  - つまり、今回の問題のように双方向でデータのやりとりを行うためにはプロセス間で2本のパイプ(親->子、子->親の両方)が必要になる
+- コードの104行目から135行目までがパイプを作成する部分である
+  - 途中でパイプの作成に失敗したら、今まで作成したパイプを閉じる必要がある
+- 親->子のパイプを作成したときに、パイプの読み出し用と書き込み用の2つのディスクリプタが作られる
+  - 親プロセスでは親->子のパイプに対して書き込むだけで読み込みはしないので、[191行目](https://github.com/e205723/uryukyu-lecture-OS/blob/main/4.x/4.2/c_env/4_2.c#L191)のように親プロセスの処理の記述の前に読み込み部分を閉じさせている
+  - 子プロセスでは親->子のパイプに対して読み込むだけで書き込みはしないので、[160行目](https://github.com/e205723/uryukyu-lecture-OS/blob/main/4.x/4.2/c_env/4_2.c#L160)のように子プロセスの処理の記述の前に書き込み部分を閉じさせている
+- 子->親のパイプを作成したときに、パイプの読み出し用と書き込み用の2つのディスクリプタが作られる
+  - 子プロセスでは子->親のパイプに対して書き込むだけで読み込みはしないので、[161行目](https://github.com/e205723/uryukyu-lecture-OS/blob/main/4.x/4.2/c_env/4_2.c#L161)のように子プロセスの処理の記述の前に読み込み部分を閉じさせている
+  - 親プロセスでは子->親のパイプに対して読み込むだけで書き込みはしないので、[192行目](https://github.com/e205723/uryukyu-lecture-OS/blob/main/4.x/4.2/c_env/4_2.c#L192)のように親プロセスの処理の記述の前に書き込み部分を閉じさせている
+- 以下が説明したプロセス間通信の図である
+  - Pは親プロセス、Cは子プロセスを示す
+  - 矢印は一方向のパイプを示す
+  - RはREADのディスクリプタ、WはWRITEのディスクリプタを示す
+    - 赤の斜線が引かれているものは処理の始めに閉じさせる
+    - 青の丸で囲われているものは処理の最後に閉じさせる
+
+![プロセス間通信の図](https://raw.githubusercontent.com/e205723/uryukyu-lecture-OS/main/4.x/4.2/interprocess_communication.png)
+
+---
+
+フォークについて
+
+- パイプを作成したあとはプロセスをフォークして親プロセスと子プロセスに分ける
+- プロセスのidを使ってif文の分岐で親プロセスと子プロセスの処理を記述する
+  - 子プロセスの処理の最後に[186行目](https://github.com/e205723/uryukyu-lecture-OS/blob/main/4.x/4.2/c_env/4_2.c#L186)のように`exit(0)`を加えて子プロセスを正常に終了させる必要がある
+
+---
+
+シュミレートする
+
+実行結果\(4:01a.m.に実行\)
+```
+The basic price is 10000
+The price Evalutrix indicates: 10000
+The price Chancix evaluates: 9500
+The price Gamblix evaluates: 9700
+The price Moodix evaluates: 9000
+The price to declare is 9550
+```
+
+実行結果\(4:02a.m.に実行\)
+```
+The basic price is 10000
+The price Evalutrix indicates: 10000
+The price Chancix evaluates: 10500
+The price Gamblix evaluates: 11000
+The price Moodix evaluates: 9100
+The price to declare is 10150
+```
+
+実行結果\(4:03a.m.に実行\)
+```
+The basic price is 10000
+The price Evalutrix indicates: 10000
+The price Chancix evaluates: 10500
+The price Gamblix evaluates: 10500
+The price Moodix evaluates: 9200
+The price to declare is 10050
+```
+
+すべての値が想定する範囲内で値が変動していることを確認した
+
+---
+
+### 4.2の感想
+
+- めっちゃ面白い
+- C言語楽しい
+- プロセス間通信って面白い!
 
 ---
 
@@ -115,7 +427,7 @@ dining philosophers問題:
 
     OSの研究において非常に有名でよく引用される問題である。哲学者はみんな日本のご飯を食べるのが大好きな日本人で、全員で5人が円卓を囲んでいると想定する。哲学者はそれぞれ全員、考えることと食べることを交互に繰り返して暮らしている。テーブルの中心にはご飯が盛られたボウルがあり、哲学者一人一人の前に皿が置かれている。ご飯を食べるには箸が2本(1膳)必要である。哲学者達は合わせて5本の箸を持ち、それぞれの皿の間に置いている。つまり、皿の右側と左側に1本の箸があるということを意味する。哲学者はすぐ右と左の箸しか使えない。
 
-    哲学者たちは、どのように思考と食事のスケジュールを立てる必要があるか?
+    哲学者たちは、どのように思考と食事のスケジュールを立てるべきか?
 
 (ヒント: それぞれの箸をsemaphoreと考える)
 ```
@@ -124,9 +436,57 @@ dining philosophers問題:
 
 ### 答え\(日本語\)
 
+ヒントのSemaphoreとは
+
+- 1つだけのリソースに対して、複数の処理\(プロセス\)を同時期に実行すると破綻する問題をCritical Section Problemというが、Mutual Exclusionを行って複数の処理が同時に1つのリソースに対してアクセスできなくすることで、その問題を解決している
+- Semaphoreは、Mutual Exclusionに用いられている、「あと残り何個のプロセスがアクセスできるかを表す変数」、または、「他のプロセスがアクセスできるかできないかを表すバイナリ変数」である
+- ちなみに、Mutual Exclusionを行うときはデッドロックに気をつける必要がある
+
 ---
 
-### 答え\(英語\)
+解く
+
+- 問題の状況を改めて考える
+  - ヒントの情報から改めて問題の情報を考えると、登場する物や人がある用語に対応していることがわかる
+    - 箸
+      - バイナリ変数の「Semaphore」、物理的に箸が一本であるため
+    - 哲学者
+      - 共通のリソースに対して処理をする「プロセス」
+- 並列計算である
+  - Semaphore -> Mutual Exclusionという感じに用語が派生したがそれらはすべて並列計算に関する用語である
+  - つまり、問題の解法において「ある瞬間に1人だけが食べる」という状況をなくしたい、いかなる時も「2人\(同時にご飯を食べることができる最大の人数\)がご飯を食べている」という状況でなくてはならない
+
+- 状況を図にする
+  - 以下の通りである
+
+![dining_philosophers](https://github.com/e205723/uryukyu-lecture-OS/blob/main/4.x/4.3/dining_philosophers.png?raw=true)
+  
+---
+
+### 答え\(日本語\)
+
+- リーダーを決める
+  - 5人の哲学者の「食事をする」、「考える」の2種類の処理をする
+  - 同時に食事ができる人数は2人で「食事をする哲学者」がいるだけで非対称的な構図になることは避けられない
+  - 哲学者の中でリーダーを決めることで、それを基準に5人の中で「食事をする」哲学者の優先順位を決める必要がある
+  - ![リーダを決めた図](https://github.com/e205723/uryukyu-lecture-OS/blob/main/4.x/4.3/dining_philosophers2.png?raw=true)
+- 食事をする哲学者を決める
+  - リーダーを「食事をする哲学者」にする
+  - 同時に食事をできる哲学者の最大の数は2なので、もう一人「食事をする哲学者」を決める
+  - 「食事をする哲学者」の真隣りは「食事をする哲学者」になれない
+  - リーダーから時計回りに一人飛ばした先の哲学者を「食事をする哲学者」にする
+  - ![食事をする哲学者を決めた図](https://github.com/e205723/uryukyu-lecture-OS/blob/main/4.x/4.3/dining_philosophers3.png?raw=true)
+- 食事をする哲学者を切り替える
+  - なるべく全員が平等に食事ができるように、食事をする哲学者を切り替える必要がある
+    - 哲学者が食事を終えたら時計回りに隣りの哲学者に食事をさせるようにする
+  - ![食事をする哲学者を切り替える図](https://github.com/e205723/uryukyu-lecture-OS/blob/main/4.x/4.3/dining_philosophers4.png?raw=true)
+- 食事をする哲学者を切り替える際のルールを定義する
+  - 前述した通り、「食事をする哲学者の真隣りは食事をする哲学者になれない」
+  - 哲学者を切り替える際に切り替える対象の哲学者の時計回りに隣りの哲学者が「食事をしている」場合切り替えることができない
+  - 切り替える対象の哲学者の時計回りに隣りの哲学者が「考えている」状態になっていれば、切り替えるようにルールを定義する
+  - ![切り替える対象の哲学者の隣りを監視する図](https://github.com/e205723/uryukyu-lecture-OS/blob/main/4.x/4.3/dining_philosophers5.png?raw=true)
+
+上記の方法で食事をする哲学者を決定し、切り替え続ければ平等に哲学者が食事を多くすることができる
 
 ---
 
