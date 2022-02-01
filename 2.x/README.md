@@ -119,7 +119,7 @@ Gitlab(今回はGithubを使う)のCI/CDを使う
       
       import "testing"
       
-      func TestFileWrite(t \*testing.T) {
+      func TestFileWrite(t *testing.T) {
           result := Hello("Yoshisaur")
           want := "Hi, Yoshisaur. Welcome!"
           if result != want {
@@ -226,8 +226,8 @@ mdfind を使って、同じことをやってみよ。
 ### find
 
 - スクリプトは必ず~/workplaceというディレクトリに書いているのでworkplaceの中のファイルを調べるという方針でいい
-- `$ find ~/workspace -name "\*.c" -or -name "\*.java" -or -name "\*.py" -or -name "\*.go" -exec wc -w {} \+`を実行してみたがgoファイルのワードカウントしか行わなかった
-- `$ wc -w $(find ~/workspace -name "\*.c" -or -name "\*.java" -or -name "\*.py" -or -name "\*.go") | sort`を実行した
+- `$ find ~/workspace -name "*.c" -or -name "*.java" -or -name "*.py" -or -name "*.go" -exec wc -w {} \+`を実行してみたがgoファイルのワードカウントしか行わなかった
+- `$ wc -w $(find ~/workspace -name "*.c" -or -name "*.java" -or -name "*.py" -or -name "*.go") | sort`を実行した
   - 第三者に見せられる範囲で得られた結果をまとめてみた
   - ```
       12 /Users/yoshisaur/workspace/lectures/operating-system/uryukyu-lecture-OS/2.x/2.1/main.go
@@ -266,7 +266,7 @@ mdfind を使って、同じことをやってみよ。
 - `$ man mdfind`でコマンドの使い方を見た
 - ついでにネット上でmdfindの使い方について調べた
   - [mdfindの使い方](https://ss64.com/osx/mdfind.html)
-- `$ mdfind -onlyin ~/workspace "kMDItemDisplayName == \*.c || kMDItemDisplayName == \*.java || kMDItemDisplayName == \*.py || kMDItemDisplayName == \*.go" | xargs wc -w | sort`
+- `$ mdfind -onlyin ~/workspace "kMDItemDisplayName == *.c || kMDItemDisplayName == *.java || kMDItemDisplayName == *.py || kMDItemDisplayName == *.go" | xargs wc -w | sort`
   - ```
       12 /Users/yoshisaur/workspace/lectures/operating-system/uryukyu-lecture-OS/2.x/2.1/main.go
       12 /Users/yoshisaur/workspace/lectures/operating-system/worklog/cp/golang/main.go
@@ -312,8 +312,8 @@ mdfind を使って、同じことをやってみよ。
     from pathlib import Path
     
     def find(path_to_execute_find):
-        all_files = list(map(str, Path(path_to_execute_find).rglob('\*.\*')))
-        regex_pattern = re.compile(r'.\*\.(c|java|py|go)$')
+        all_files = list(map(str, Path(path_to_execute_find).rglob('*.*')))
+        regex_pattern = re.compile(r'.*\.(c|java|py|go)$')
         filtered_files = list(filter(regex_pattern.match, all_files))
     
         for file in filtered_files:
@@ -415,11 +415,19 @@ ssh で remote login した directory あるいは、terminal の複数の画面
 ### .zshrcに設定を付け加える
 
 - まず、このページのyomitanはグローバルなsshサーバという感じ、今はchatan、脳内変換して問題を解こうと思う
-- あ、なんか.zshrc書かれているー
+- chatanにsshする
+- あ、chatanのホームディレクトリに.zshrcがすでに書かれている...
 - amaneでvm作るか
 - amaneにssh
   - ホスト名はamane.ie.u-ryukyu.ac.jp
   - chatanを踏み台にする
+  - ```
+    Host amane
+      HostName amane.ie.u-ryukyu.ac.jp
+      User e2057xx
+      Port xxxx
+      ProxyJump chatan
+    ```
 - `$ ie-virsh define hoge -t Ubuntu-20`
 - `$ ie-virsh domiflist hoge`
   - Macアドレスを確認する
@@ -493,9 +501,9 @@ Host vm
 
 ---
 
-### for文と\*\*を組み合わせた例題を作成して、実行せよ、file commandを使用する
+### for文と**を組み合わせた例題を作成して、実行せよ、file commandを使用する
 
-- \*\*ってなんだろう、file commandを指しているのかな
+- **ってなんだろう、file commandを指しているのかな
   - vm内に以下のような構成のディレクトリとファイルを生成した
     - ```
       .
@@ -653,10 +661,10 @@ Ceaph は多重度3なので二台目が壊れても大丈夫だが...
   - S(t)をNのサンプルを動作させている時に、時刻tまでに正常に動作しているサンプル数
   - F(t)を時刻tまでに故障してしまったサンプル数
 - 故障率はλとして定義する
-  - λ\(t\) = F\(t\)/\(S\(t\)\*t\)
+  - λ\(t\) = F\(t\)/\(S\(t\)*t\)
 - MTBF=1/λとして定義する
 - (1)の最初に求めたい値は予測される1年間の故障台数
-- 式の定義と問題文からMTBF = 10^6 = (8760\*(80-F(t)))/F(t)
+- 式の定義と問題文からMTBF = 10^6 = (8760*(80-F(t)))/F(t)
   - F(t) = 17520/25219 = 0.6947143027... = 0.69
   - 予測される1年間の故障台数は0.69台
 - (1)のもう1つ求めたい値は1日のうちにRIAD1の2台目のHDDが壊れてデータが失われる確率
@@ -666,7 +674,7 @@ Ceaph は多重度3なので二台目が壊れても大丈夫だが...
   - λは偶発故障期には一定らしいので、24時間以内に1個が壊れる確率をお求めたければλに24をかければいい
   - しかもRAID1の構成だからHDDが2つ壊れた時、壊れたHDDが保持していたデータが同一である確率を求める必要がある
     - 20/20^2
-  - 1日のうちにRIAD1の2台目のHDDが壊れてデータが失われる確率は40\*24\*λ\*39\*24\*λ\*20/20^2 = 0.000000044928 = 0.0000044928% 
+  - 1日のうちにRIAD1の2台目のHDDが壊れてデータが失われる確率は40*24*λ*39*24*λ*20/20^2 = 0.000000044928 = 0.0000044928% 
 
 ---
 
@@ -737,7 +745,7 @@ CephのErasure Codingはデータを断片に分割したあとに、エンコ�
 
 Cephにはfull ratio\(デフォルト95%\)とnear-full ratio\(デフォルト 85%\)という値が存在し、いずれかのOSDの使用率がfull ratioに達すると、受け付けを停止する。full-ratioの値を上げることができるが、容量が足りなくなってOSDが停止した場合、データを損失する可能性がある。OSDのfull ratioに達さないnear-full ratio以下の使用率に留めるのが懸命である。
 
-80TBのうち40TBをCephに使っている。多重度3かつCephに使われている1つのHDDが1TBであると考えると、(40/3)\*\(near-full ratio\) = \(40/3\)\*0.85 = 11.333...
+80TBのうち40TBをCephに使っている。多重度3かつCephに使われている1つのHDDが1TBであると考えると、(40/3)*\(near-full ratio\) = \(40/3\)*0.85 = 11.333...
 
 よって、使える容量は11.333...TBである
 

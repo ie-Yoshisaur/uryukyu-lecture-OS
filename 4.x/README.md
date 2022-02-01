@@ -568,10 +568,141 @@ basic toolとは、特に教科書の12章ではファイル/ディレクトリ�
 
 ---
 
+### スケジューリングを行う方法をまとめる
+
+**rate-monotonic**
+
+- 特徴
+  - 周期の短いタスクは優先度が高くなる
+  - 固定優先度割り当て
+  - preemptive
+
+以下のタスクのスケジューリングを考える
+
+| Task | Capacity\(タスク実行時間\) | Period\(周期\) |
+| --- | --- | --- |
+| T1 | 3 | 20 |
+| T2 | 2 | 5 |
+| T3 | 2 | 10 |
+
+Capacityはタスクの実行時間のことである
+
+Periodはタスクの周期のことである
+
+Periodが一番短い順にタスクの優先度が高くなる、一番短いT2に注目する
+
+T2のCapacityは2なのでタスクの実行に2の時間がかかる
+
+![T2のCapacity](https://github.com/e205723/uryukyu-lecture-OS/blob/main/4.x/4.5/rate-monotonic.png?raw=true)
+
+T2のPeriodは5なので5の倍数の時間にタスクが開始される
+
+![T2のPeriod](https://github.com/e205723/uryukyu-lecture-OS/blob/main/4.x/4.5/rate-monotonic2.png?raw=true)
+
+次に2番目にPeriodが短いT3に注目する
+
+T3が10の倍数の時間にタスクが開始されるはずだが、T2のほうが優先される、T2が終わった後にT3のタスクが実行される
+
+![T3](https://github.com/e205723/uryukyu-lecture-OS/blob/main/4.x/4.5/rate-monotonic3.png?raw=true)
+
+T1に注目する
+
+T1が20の倍数の時間にタスクが開始されるはずだが、T2,T3のほうが優先される、T2,T3が終わった後にT1のタスクが実行される
+
+![T1](https://github.com/e205723/uryukyu-lecture-OS/blob/main/4.x/4.5/rate-monotonic4.png?raw=true)
+
+T1の実行中にT2のPeriodの倍数の時間に到達したため、Periodが短いタスクであるT2が優先して実行され、長い方のT1が中断される、このようにタイマや割り込みなどで自動的にタスクが入れ替わるスケジューリングをPreemptiveという
+
+図の目盛りの最大値が20である理由はそれぞれのタスクのPeriod、20, 5, 10の最小公倍数であるから
+
+上記の例では、与えられた3つのタスクをスケジューリングすることに成功している
+
+---
+
+**スケジュール可能である条件**
+
+nをタスクの数、Tを{T1, T2, ..., Tn}のタスクの集合と考えて、CiをTiのCapacity、PiをTiのPeriodと定義して
+
+Σ\[i=1→n\]Ci/Pi
+
+という式を作る
+
+これがn(2^(1/n)-1)以下である、つまり
+
+Σ\[i=1→n\]Ci/Pi <= n\(2^\(1/n\)-1\)
+
+であるならば、タスクすべてを実行期限\(デッドライン\)内に完了することができる、つまりスケジュール可能である
+
+---
+
+**earliest deadline first**
+
+- 特徴
+  - 最も実行期限が近いタスクを優先して実行する
+  - 動的に優先度が割り当てられる
+  - non-preemptive
+
+---
+
+**スケジュール可能である条件**
+
+nをタスクの数、Tを{T1, T2, ..., Tn}のタスクの集合と考えて、CiをTiのCapacity、PiをTiのPeriodと定義して
+
+Σ\[i=1→n\]Ci/Pi <= 1ならばスケジュール可能である
+
+---
+
+**earliest laxity first**
+
+- 教科書にはearliest laxity firstが載っているページがこの問題ページにしか存在しない、調べてもLeast Laxity Firstしかでない
+
+Least Laxity Firstが教科書の指すearliest laxity firstであるとして問題を解く
+
+まず、laxity timeとはそのタスクを可能な限り速く実行するとしたときの実行期限までの余裕の時間である
+
+- 特徴
+  - laxity timeが最小なタスクを優先して選択して実行する
+  - 動的に優先度を割り当てられる
+  - preemptive
+
+---
+
+**スケジュール可能である条件**
+
+earliest deadline firstと同じで、nをタスクの数、Tを{T1, T2, ..., Tn}のタスクの集合と考えて、CiをTiのCapacity、PiをTiのPeriodと定義して
+
+Σ\[i=1→n\]Ci/Pi <= 1ならばスケジュール可能である
+
+---
+
 ### 答え\(日本語\)
 
+提示されたrate-monotonic, earliest deadline first, earliest laxity firstの3つのスケジューリング手法の特徴を分類する
+
+- 優先度の割り当て
+  - 静的
+    - rate-monotonic
+  - 動的
+    - earliest deadline first
+    - earliest laxity first
+- タスクの入れ替わり
+  - preemptive
+    - rate-monotonic
+    - earliest laxity first
+  - non-preemptive
+    - earliest deadline first
+
+問題文の「酵素の濃度は、反応速度に影響を与える」という記述の解釈によって、答え方が変わる
+
+酵素自体の濃度か、または、調合に使った1種類の酵素と全種類の酵素の割合のことを指しているのか
+
+もし、酵素自体の濃度が反応速度に影響を与えるのであれば、タスクの切り替わりに関してpreemptive、non-preemptiveどちらでも構わない、その中でも静的に優先度が割り当てられているrate-monotonicはタスクの管理がしやすいので、rate-monotonicが最適と思われる
+
+もし、調合に使った1種類の酵素と全種類の酵素の割合が影響を与えるのであれば、non-preemptiveなearliest deadline firstの一択となる
+
 ---
 
-### 答え\(英語\)
+### 4.5の感想
 
----
+- 結構難しかった
+- スケジューリング手法について勉強できて楽しかった
