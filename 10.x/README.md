@@ -70,6 +70,8 @@ markdownでMindMapが描ける[markmap](https://markmap.js.org/repl)を使って
 ↓作成したマインドマップ
 ![mindmap](https://raw.githubusercontent.com/e205723/uryukyu-lecture-OS/main/10.x/10.1/mindmap.svg)
 
+https://raw.githubusercontent.com/e205723/uryukyu-lecture-OS/main/10.x/10.1/mindmap.svg
+
 ---
 
 ### 文章にして書く
