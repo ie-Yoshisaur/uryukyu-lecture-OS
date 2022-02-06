@@ -343,12 +343,12 @@ drwxr-xr-x 8 e2057xx student 75 Nov  4 00:35 /home/student/e20/e2057xx
     - [ソースコード](https://github.com/torvalds/linux/blob/master/drivers/hid/usbhid/usbkbd.c)
     - [参考にしたサイト](https://stackoverflow.com/questions/39911846/source-code-of-keyboard-driver-of-linux)
   - マイク
-    - ALSA\(抽象的すぎてbad付けられました...\)
+    - ALSA\(抽象的すぎてbad付けられました...\) -> snd_input_scanfに変更
     - [ドキュメント](https://www.alsa-project.org/alsa-doc/alsa-lib/)
     - [ソースコード](https://github.com/alsa-project/alsa-lib)
     - [参考にしたサイト](https://unix.stackexchange.com/questions/529646/how-to-find-out-the-internal-microphones-driver-on-a-linux-pc)
   - カメラ
-    - V4L2\(抽象的すぎてbad付けられました...\)
+    - V4L2\(抽象的すぎてbad付けられました...\) -> v4l2_g_parm_capに変更
     - [ドキュメント](https://www.kernel.org/doc/html/v4.9/media/uapi/v4l/v4l2.html)
     - [ソースコード](https://github.com/torvalds/linux/tree/master/drivers/media/v4l2-core)
     - [V4L2について調べてたときに見たサイト](https://www.kernel.org/doc/html/v4.9/media/uapi/v4l/hist-v4l2.html#:~:text=In%20August%201998%20Bill%20Dirks,replacement%20for%20the%20V4L%20API.)
@@ -362,7 +362,7 @@ drwxr-xr-x 8 e2057xx student 75 Nov  4 00:35 /home/student/e20/e2057xx
 
 ### リスト3を図にする
 
-![apiの図](https://github.com/e205723/uryukyu-lecture-OS/raw/main/1.x/1.3/api.svg)
+![apiの図](https://raw.githubusercontent.com/e205723/uryukyu-lecture-OS/main/1.x/1.3/public_html/1-3/images/api2.svg)
 
 xmlファイルも作ろう
 
