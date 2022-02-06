@@ -362,7 +362,9 @@ drwxr-xr-x 8 e2057xx student 75 Nov  4 00:35 /home/student/e20/e2057xx
 
 ### リスト3を図にする
 
-![apiの図](https://raw.githubusercontent.com/e205723/uryukyu-lecture-OS/main/1.x/1.3/public_html/1-3/images/api2.svg)
+↓
+
+https://raw.githubusercontent.com/e205723/uryukyu-lecture-OS/main/1.x/1.3/public_html/1-3/images/api2.svg
 
 xmlファイルも作ろう
 
