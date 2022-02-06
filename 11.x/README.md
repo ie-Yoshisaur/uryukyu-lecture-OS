@@ -22,7 +22,6 @@ rust を入れてみる
 daru 上で slum を使う
 daru 上で podman を使う
 podman でなにか動かす
-podman の速度
 ```
 
 ---
@@ -38,7 +37,7 @@ podman の速度
     ```
   - すでに設定されているだろうけど一応、chatanの設定は[この記事](https://yoshisaur.hatenablog.jp/entry/2021/12/26/213448)に書かれている
 - `$ ssh daru`
-- `$ mkdir 11_1`
+- `$ mkdir 11_2`
 - `$ cd !$`
 - `$ singularity pull --docker-login ubuntu:20.04`
   - ubuntu:20.04のイメージを取得する
@@ -148,8 +147,8 @@ podman の速度
     ```
 - `$ sbatch mnist.sbatch`
   - slurmでJobを投げる
-  - squeueコマンドでジョブ情報を表示させたら何もジョブがない状態だった
-    - slurmのジョブ使い方をシス管メンバーに教えてもらいます
+  - 課題ページでは、ジョブ情報を確認する命令がなかったが一応、squeueコマンドでジョブ情報を表示させたら何もジョブがない状態だった
+    - GPUを使っても使わなくても同じ結果になりました
 
 ---
 
