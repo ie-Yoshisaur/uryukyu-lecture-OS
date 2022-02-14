@@ -2,7 +2,7 @@ import java.net.InetAddress;
 import java.net.DatagramPacket;
 import java.net.MulticastSocket;
 
-public class SendMulticast{
+public class Source {
     public static void main(String[] args) {
         try {
             int port = 8888;

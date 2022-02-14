@@ -3,7 +3,7 @@ import java.net.MulticastSocket;
 import java.net.DatagramPacket;
 import java.util.Arrays;
 
-public class ReceiveMulticast{
+public class Receiver {
     public static void main(String[] args) {
         try {
             int port = 8888;
