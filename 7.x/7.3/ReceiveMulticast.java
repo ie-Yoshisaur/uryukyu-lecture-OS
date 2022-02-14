@@ -8,7 +8,7 @@ public class ReceiveMulticast{
         try {
             int port = 8888;
             MulticastSocket socket = new MulticastSocket(port);
-            InetAddress multicastAddress = InetAddress.getByName("239.1.14.126");
+            InetAddress multicastAddress = InetAddress.getByName("234.1.14.126");
             socket.joinGroup(multicastAddress);
             byte[] data = new byte[1024];
             DatagramPacket packet = new DatagramPacket(data, data.length);
