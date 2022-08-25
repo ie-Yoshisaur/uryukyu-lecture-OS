@@ -1,0 +1,3 @@
+/Users/yoshisaur/workspace/lectures/operating-system/uryukyu-lecture-OS/2.x/2.6/ls-laR/build/CMakeFiles/ls-laR.dir
+/Users/yoshisaur/workspace/lectures/operating-system/uryukyu-lecture-OS/2.x/2.6/ls-laR/build/CMakeFiles/edit_cache.dir
+/Users/yoshisaur/workspace/lectures/operating-system/uryukyu-lecture-OS/2.x/2.6/ls-laR/build/CMakeFiles/rebuild_cache.dir
