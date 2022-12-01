@@ -1,0 +1,6 @@
+BootStrap: docker
+From: ubuntu:20.04
+%post
+    apt-get update
+    apt-get -y upgrade
+    apt-get -y install build-essential vim
