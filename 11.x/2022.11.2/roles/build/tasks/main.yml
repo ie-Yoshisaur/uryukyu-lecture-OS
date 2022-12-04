@@ -1,0 +1,38 @@
+- name: Delete hugo-template
+  file:
+    path: /home/{{ user_name }}/hugo-template
+    state: absent
+
+- name: Clone Hugo blog repository
+  git:
+    repo: "{{ gitlab_repository_url }}"
+    dest: /home/{{ user_name }}/hugo-template
+  become: yes
+  become_user: "{{ user_name }}"
+
+- name: Edit make-blog.pl
+  shell: sed -i 's/https:\/\/ie\.u\-ryukyu\.ac\.jp\/\${blogurl}\//http:\/\/localhost\//' /home/{{ user_name }}/hugo-template/make-blog.pl
+
+- name: Execute make-blog.pl
+  shell: perl make-blog.pl
+  args:
+    chdir: /home/{{ user_name }}/hugo-template
+
+- name: Delete site
+  file:
+    path: /var/www/hugo-template
+    state: absent
+
+- name: Build site
+  shell: hugo -s /home/{{ user_name }}/hugo-template -d /var/www/hugo-template
+ 
+- name: Change permissions on site files
+  file:
+    path: /var/www/hugo-template
+    owner: root
+    group: root
+    recurse: true
+    mode: u=rwX,g=rX,o=rX
+
+- name: Change context of site directory
+  shell: chcon system_u:object_r:httpd_sys_content_t:s0 /var/www/hugo-template -R

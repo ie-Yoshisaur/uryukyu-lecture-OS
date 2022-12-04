@@ -1,0 +1,8 @@
+[all]
+fedora
+
+[all:vars]
+ansible_ssh_user=ysano
+ansible_ssh_private_key_file=~/.ssh/id_rsa
+user_name=ysano
+gitlab_repository_url=https://gitlab.ie.u-ryukyu.ac.jp/ie-web/hugo-template/hugo-template.git

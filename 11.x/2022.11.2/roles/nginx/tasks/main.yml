@@ -1,0 +1,20 @@
+---
+- name: Install Nginx
+  dnf:
+    name: nginx
+    state: latest
+
+- name: Delete configuration file
+  file:
+    path: /etc/nginx/nginx.conf
+    state: absent
+
+- name: Add configuration file
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  notify:
+    - Restart Nginx
