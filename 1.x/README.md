@@ -4,7 +4,18 @@
 
 ---
 
-## 1.1 英語の教科書の使い方
+## 1.1 英語の教科書の使い方(ACCEPT)
+
+---
+
+### 課題の感想
+
+- 難易度 (最大: ☆☆☆☆☆)
+  - ☆
+- 作業量 (最大: ☆☆☆☆☆)
+  - ☆☆☆☆
+- オリジナリティ (最大: ☆☆☆☆☆)
+  - ☆☆☆☆☆
 
 ---
 
@@ -120,11 +131,11 @@ FEDORAついて
 - 知識の結びつき方
   - 日本語/英語のWikipediaの記事では、FEDORAのポリシーに関する背景(リポジトリを長期間存続させるためのセキュリティポリシー)を説明していないため、独立した知識(リポジトリとセキュリティ)同士を結びつけることが難しかった
   - 教科書ではリポジトリの説明が終わったあとに、「リポジトリの存続のために必要であるもの」という立ち位置で以下のようなセキュリティの説明がされていたので、知識が結びつきやすかった
-    - ```
+  - ```
       Supporting the attributes above requires a strong security regime for long duration survival of the repository. It is for this reason, FEDORA security model is highly regarded in the professional circles. Next, we explore FEDORA's security features.
       
       BHATT, PRAMOD CHANDRA P. AN INTRODUCTION TO OPERATING SYSTEMS. PHI LEARNING. 
-      ```
+    ```
 - Wikipediaと教科書の使い分け
   - Wikipediaは対象の歴史を知るには適しているが、独立している知識を体系的に結びついた知識へと昇華させるツールとしては適していない
   - 教科書は知識の体系化を意識して書かれているので、項目を順に読むだけでも勉強になる
@@ -148,7 +159,18 @@ kono先生の「面白い」や「新しい」と思うものを学部2年の拙
 
 ---
 
-## 1.2 
+## 1.2 (ACCEPT)
+
+---
+
+### 課題の感想
+
+- 難易度 (最大: ☆☆☆☆☆)
+  - ☆☆☆☆
+- 作業量 (最大: ☆☆☆☆☆)
+  - ☆☆☆☆
+- オリジナリティの必要度 (最大: ☆☆☆☆☆)
+  - ☆
 
 ---
 
@@ -159,6 +181,7 @@ kono先生の「面白い」や「新しい」と思うものを学部2年の拙
 ざっとまとめると、
 
 ```
+pushd / popd の使い方の例を載せる。
 学科のサーバにloginして、shellをzshに変更する。
 shellをzshに変更するときはakatukiを使う。
 ~/.ssh/configでsshの設定をする。
@@ -167,6 +190,38 @@ shellをzshに変更するときはakatukiを使う。
 でpassword を入力することなく、date とlsが実行できることを確認する。
 sshのhostnameがtabで補完される様子を示せ。
 ```
+
+---
+
+### pushd / popd の使い方の例
+
+- pushd
+  - 基本的にcdと同じ機能
+  - ディレクトリスタックと呼ばれる領域に移動前のディレクトリのパスを格納する
+- popd
+  - ディレクトリスタックからディレクトリのパスを取り出して、そのパスに移動する
+  - 取り出したパスはディレクトリスタックから削除する
+
+pushdとpopdは両方使用することで真価が発揮される
+
+- `$ pwd`
+  - /Users/yoshisaur/sandbox
+- `$ ls`
+  - dir1    dir2    dir3
+- `$ pushd dir1 && pushd ../dir2 && pushd ../dir3`
+- `$ pwd`
+  - /Users/yoshisaur/sandbox/dir3
+- `$ popd`
+- `$ pwd`
+  - /Users/yoshisaur/sandbox/dir2
+- `$ popd`
+- `$ pwd`
+  - /Users/yoshisaur/sandbox/dir1
+- `$ popd`
+- `$ pwd`
+  - /Users/yoshisaur/sandbox
+
+pushdでディレクトリスタックに格納したパスの履歴を辿る形で、popdが作業ディレクトリ移動をしていることがわかる
 
 ---
 
@@ -213,11 +268,14 @@ Host amane
 
 `$ ssh-keygen`
 
+パスは~/.ssh/id_rsaでいい、存在しているなら`ctrl-c`で中断で良い
+passphraseがきかれるが、空エンターでいい(確認用も同じ)
+
 で公開鍵と秘密鍵を生成する
 
 ~/.ssh/id_rsa.pubと~/.ssh/id_rsaができる
 
-`$ ssh-copyid amane`で公開鍵をamaneに登録する
+`$ ssh-copy-id amane`で公開鍵をamaneに登録する
 
 今まではamaneにsshするときにパスワードが必要だったが、公開鍵をamaneに登録した(「パスを通す」というらしい)ので、sshするときに公開鍵認証方式を使ってパスワードなしでログインすることができるようになった
 
@@ -263,6 +321,18 @@ drwxr-xr-x 8 e2057xx student 75 Nov  4 00:35 /home/student/e20/e2057xx
 /bin/zsh
 ```
 
+### sshのhostnameがtabで補完される様子を示せ
+
+`ssh `と打ったところでTabキーを押す
+
+`amane.ie.u-ryukyu.ac.jp`が候補に含まれて出てくるはず
+
+出ないときは以下を`~/.zshrc`に追記されたし
+```
+autoload -U compinit
+compinit
+```
+
 ---
 
 ### 1.2の感想
@@ -273,7 +343,18 @@ drwxr-xr-x 8 e2057xx student 75 Nov  4 00:35 /home/student/e20/e2057xx
 
 ---
 
-## 1.3 OSの管理する資源とAPI
+## 1.3 OSの管理する資源とAPI (ACCEPT)
+
+---
+
+### 課題の感想
+
+- 難易度 (最大: ☆☆☆☆☆)
+  - ☆☆☆☆
+- 作業量 (最大: ☆☆☆☆☆)
+  - ☆☆☆
+- オリジナリティの必要度 (最大: ☆☆☆☆☆)
+  - ☆☆☆
 
 ---
 
@@ -299,9 +380,7 @@ drwxr-xr-x 8 e2057xx student 75 Nov  4 00:35 /home/student/e20/e2057xx
   - 作成するリストをリスト1とする
 - リスト1の操作を実現するハードウェアの機能をリスト化する
   - 作成するリストをリスト2とする
-- リスト1とリスト2の要素間で行われる標準化を担うAPIをリスト化する
-  - 作成するリストをリスト3とする
-- リスト3を図にする
+- リスト1とリスト2の要素間で行われる標準化を担うAPIをリスト化して図にする
 
 ---
 
@@ -334,42 +413,9 @@ drwxr-xr-x 8 e2057xx student 75 Nov  4 00:35 /home/student/e20/e2057xx
 
 ---
 
-### リスト1とリスト2の要素間で行われる標準化を担うAPIをリスト化する
+### リスト1とリスト2の要素間で行われる標準化を担うAPIをリスト化して図にする
 
-- リスト3
-  - キーボード
-    - usb_kbd
-    - [ドキュメント](https://www.kernel.org/doc/html/v4.12/input/input.html#usbkbd)
-    - [ソースコード](https://github.com/torvalds/linux/blob/master/drivers/hid/usbhid/usbkbd.c)
-    - [参考にしたサイト](https://stackoverflow.com/questions/39911846/source-code-of-keyboard-driver-of-linux)
-  - マイク
-    - ALSA\(抽象的すぎてbad付けられました...\) -> snd_input_scanfに変更
-    - [ドキュメント](https://www.alsa-project.org/alsa-doc/alsa-lib/)
-    - [ソースコード](https://github.com/alsa-project/alsa-lib)
-    - [参考にしたサイト](https://unix.stackexchange.com/questions/529646/how-to-find-out-the-internal-microphones-driver-on-a-linux-pc)
-  - カメラ
-    - V4L2\(抽象的すぎてbad付けられました...\) -> v4l2_g_parm_capに変更
-    - [ドキュメント](https://www.kernel.org/doc/html/v4.9/media/uapi/v4l/v4l2.html)
-    - [ソースコード](https://github.com/torvalds/linux/tree/master/drivers/media/v4l2-core)
-    - [V4L2について調べてたときに見たサイト](https://www.kernel.org/doc/html/v4.9/media/uapi/v4l/hist-v4l2.html#:~:text=In%20August%201998%20Bill%20Dirks,replacement%20for%20the%20V4L%20API.)
-  - システムコールのためのAPI
-    - open()
-    - [ドキュメント](https://man7.org/linux/man-pages/man2/open.2.html)
-    - [ソースコード](https://github.com/torvalds/linux/blob/16f73eb02d7e1765ccab3d2018e0bd98eb93d973/fs/open.c)
-    - [参考にしたサイト](https://0xax.gitbooks.io/linux-insides/content/SysCall/linux-syscall-5.html)
-
----
-
-### リスト3を図にする
-
-↓
-
-https://raw.githubusercontent.com/e205723/uryukyu-lecture-OS/main/1.x/1.3/public_html/1-3/images/api2.svg
-
-xmlファイルも作ろう
-
-再利用したい場合は`$ curl https://raw.githubusercontent.com/e205723/uryukyu-lecture-OS/main/1.x/1.3/api.drawio.xml > api.drawio.xml
-`を実行してダウンロードして、drawioで開いてみてください
+[このページ](https://ie.u-ryukyu.ac.jp/~e205723/1-3/)にある
 
 ---
 
@@ -377,75 +423,14 @@ xmlファイルも作ろう
 
 - `$ mkdir public_html`でディレクトリを作成する
 - public_htmlの中にindex.htmlを作成して編集する
-  - 自分の場合
-    - ```
-      <!doctype html>
-      <html lang="ja">
-        <head>
-          <meta charset="UTF-8">
-          <title>e205723</title>
-        </head>
-        <body>
-          <a href="https://ie.u-ryukyu.ac.jp/~e205723/1-3">1.3</a>
-        </body>
-      </html>
-      ```
-- `$ mkdir public_html/1-3`でhtmlファイルやディレクトリを入れるためのディレクトリを作成する
-- `$ mkdir public_html/1-3/images`でsvgファイルを入れるためのディレクトリを作成する
-  - 作成したsvgファイルをpublic_html/1-3/imagesに入れる
-- `$ mkdir public_html/1-3/download`でxmlファイルを入れるためのディレクトリを作成する
-  - 作成したxmlファイルをpublic_html/1-3/downloadに入れる
-- public_html/1-3の中にindex.htmlを作成して編集する
-  - 自分の場合
-    - ```
-      <!doctype html>
-      <html lang="ja">
-        <head>
-          <meta charset="UTF-8">
-          <title>1.3</title>
-        </head>
-        <body>
-          <p>Zoomを使うときのAPIの図</p>
-          <img src="images/api.svg">
-          <ul>
-            <li>usb_kbd</li>
-            <ol>
-            <li><a href="https://www.kernel.org/doc/html/v4.12/input/input.html#usbkbd">ドキュメント</a></li>
-            <li><a href="https://github.com/torvalds/linux/blob/master/drivers/hid/usbhid/usbkbd.c">ソースコード</a></li>
-            <li><a href="https://stackoverflow.com/questions/39911846/source-code-of-keyboard-driver-of-linux">参考にしたサイト</a></li>
-            </ol>
-            <li>ALSA</li>
-            <ol>
-            <li><a href="https://www.alsa-project.org/alsa-doc/alsa-lib">ドキュメント</a></li>
-            <li><a href="https://github.com/alsa-project/alsa-lib">ソースコード</a></li>
-            <li><a href="https://unix.stackexchange.com/questions/529646/how-to-find-out-the-internal-microphones-driver-on-a-linux-pc">参考にしたサイト</a></li>
-            </ol>
-            <li>V4L2</li>
-            <ol>
-            <li><a href="https://www.kernel.org/doc/html/v4.9/media/uapi/v4l/v4l2.html">ドキュメント</a></li>
-            <li><a href="https://github.com/torvalds/linux/tree/master/drivers/media/v4l2-core">ソースコード</a></li>
-            <li><a href="https://www.kernel.org/doc/html/v4.9/media/uapi/v4l/hist-v4l2.html#:~:text=In%20August%201998%20Bill%20Dirks,replacement%20for%20the%20V4L%20API">V4L2について調べてたときに見たサイト</a></li>
-            </ol>
-            <li>open()</li>
-            <ol>
-            <li><a href="https://man7.org/linux/man-pages/man2/open.2.html">ドキュメント</a></li>
-            <li><a href="https://github.com/torvalds/linux/blob/16f73eb02d7e1765ccab3d2018e0bd98eb93d973/fs/open.c">ソースコード</a></li>
-            <li><a href="https://0xax.gitbooks.io/linux-insides/content/SysCall/linux-syscall-5.html">参考にしたサイト</a></li>
-            </ol>
-          </ul>
-          <p>ソース</p>
-          <a href="download/api.drawio.xml" download>ダウンロード</a>
-        </body>
-      </html>
-      ```
+  - 自分の場合は[こんな感じ](https://github.com/e205723/uryukyu-lecture-OS/blob/main/1.x/1.3/public_html/1-3/index.html)になった
 - chatanの自分のディレクトリにpublic_htmlを置く
   - chatanの各ユーザのホームディレクトリはWebサーバ用のchristinaのそれと同期されているはず
   - `$ rsync -avz ./public chatan:~/`
 - 注意
   - chatanにpublic_htmlを置いてもwebサイトが配信されないこともあるが、それはpublic_htmlやimagesやdownloadのパーミッションの設定が自分以外、読み取りまたは実行ができない状態である可能性が高い
-    - `$ chmod 755 public_html`みたいなコマンドを実行するといいと思う
-
-- [これが公開したページ](https://ie.u-ryukyu.ac.jp/~e205723/1-3/)
+    - `$ chmod 755 public_html`みたいなコマンドを実行するといい
+- そしたらページが見れるようになる
 
 ---
 
@@ -483,7 +468,173 @@ htmlを素で書くの結構新鮮な体験だった
 
 ---
 
-## 1.4 
+## 1.4 (2022年 年度)
+
+---
+
+### 課題の感想
+
+- 難易度 (最大: ☆☆☆☆☆)
+  - ☆
+- 作業量 (最大: ☆☆☆☆☆)
+  - ☆
+- オリジナリティの必要度 (最大: ☆☆☆☆☆)
+  - ☆☆
+
+---
+
+### 問題
+
+解く問題は[このページ](https://ie.u-ryukyu.ac.jp/~kono/lecture/os/ex/problem/254.html)にある
+
+```
+    https://gitlab.ie.u-ryukyu.ac.jp/ie-web/hugo-template/hugo-template
+
+を git clone して、README.md を見ながら自分の Web page を作成する。
+
+Theme は自分で変更しても良い。
+
+作成した
+
+    gitlab repstory のURL
+    Web pageのURL
+
+を提示せよ。
+```
+
+---
+
+### 準備 (GitLabが使えるようにする)
+
+- 背景
+  - 2021年度のOSはシステム障害的なものあり、Githubにコードをアップロードしていた。
+  - 2022年度はGitLabで課題を提出する
+- やること
+  - 参考画像
+    - [f:id:e205723:20221130221521p:plain]
+  - `$ ssh amane`(1.2でamaneのssh config書いた)
+  - `$ ssh-keygen -t rsa -b 4096 -f ~/.ssh/rsa_gitlab -C "e205723@ie.u-ryukyu.ac.jp"`を実行して、GitLabの認証に使う秘密鍵を生成する
+    - `e205723@ie.u-ryukyu.ac.jp`の部分は自分の学科メールアドレス
+    - `Enter passphrase (empty for no passphrase):`が出たら空エンター
+    - `Enter same passphrase again:`も空エンター
+  - 以下のコマンドを実行する
+    - ```
+       $ eval `ssh-agent`
+       ```
+  - `$ ssh-add ~/.ssh/rsa_gitlab`を実行して、ssh-agentに秘密鍵を登録する
+  - `$ cat ~/.ssh/rsa_gitlab.pub`を実行して、公開鍵の中身を出力し、それをコピーする
+  - [学科GitLab](https://gitlab.ie.u-ryukyu.ac.jp/)にログイン
+    - 認証はLDAPなので学籍番号と学科で使っているパスワードを使う
+  - GitLabのブラウザ画面の①をクリックして、②のEdit profileをクリック、③のSSH Keysを選択
+  - GitLabのブラウザ画面の④にクリップボードに貼ってあった公開鍵を貼る
+  - SSH Keyのタイトルが自動入力されるはずなのでGitLabのブラウザ画面の⑤をクリック
+  - `$ ssh -T git@gitlab.ie.u-ryukyu.ac.jp`を実行して以下のような出力が出てきたらクリア
+    - ```
+        Welcome to GitLab, @e205723!
+       ```
+  - `$ git config --global user.name "e205723"を実行する
+  - `$ git config --global user.email "e205723@ie.u-ryukyu.ac.jp"`を実行する
+
+---
+
+### hugoで自分の Web page を作成する
+
+- amaneで作業する
+  - `$ ls ~`を実行して、public_htmlが存在しなければ、`$ mkdir public_html`を実行する
+- `$ git clone https://gitlab.ie.u-ryukyu.ac.jp/ie-web/hugo-template/hugo-template`を実行
+- `$ cd hugo-template`
+- `.git/config`の`[remote "origin"]`の記述を削除する
+  - `$ vim .git/config`を実行して編集しても良い、そのあとのキーストローク(こいつを打てば望んだテキスト編集ができるよって意味)は「6gg3ddZZ」である。
+  - 変更前
+    - ```
+      [core]
+          repositoryformatversion = 0
+          filemode = true
+          bare = false
+          logallrefupdates = true
+          ignorecase = true
+          precomposeunicode = true
+      [remote "origin"]
+          url = https://gitlab.ie.u-ryukyu.ac.jp/ie-web/hugo-template/hugo-template
+          fetch = +refs/heads/*:refs/remotes/origin/*
+      [branch "main"]
+          remote = origin
+          merge = refs/heads/main
+
+      ```
+  - 変更後 (8~10行目削除後)
+    - ```
+      [core]
+          repositoryformatversion = 0
+          filemode = true
+          bare = false
+          logallrefupdates = true
+          ignorecase = true
+          precomposeunicode = true
+      [branch "main"]
+          remote = origin
+          merge = refs/heads/main
+       ```
+- [ie-web/student](https://gitlab.ie.u-ryukyu.ac.jp/ie-web/student)に飛び、自分の学年のサブグループの中に入る
+- `New project`をクリック(画像参照)→`Create blank project`→`Project name`の欄にeXXXXXX(Yoshisaurはe205723)を入力する→`Create project`ボタンをクリック→空のレポジトリのページに飛ぶので`Clone`をクリックして`Clone with HTTPS`のURLをコピーする
+  - [f:id:e205723:20221130230155p:plain]
+- `$ git remote add origin https://gitlab.ie.u-ryukyu.ac.jp/ie-web/student/eYY/eXXXXXX.git`(Yoshisaurは`$ git remote add origin https://gitlab.ie.u-ryukyu.ac.jp/ie-web/student/e20/e205723.git`を実行する
+- `$ git push -uf origin main`を実行する
+  - `eXXXXXX`(`e205723)を入力し、学科のパスワードを入力する
+- `$ perl make-blog.pl`を実行する
+- `$ mkdir -p content/2022/11/30`を実行する
+  - `2022/11/30`の部分は課題やった日でいいと思う
+- `$ touch content/2022/11/30/1.md`でブログの記事を作成する
+- `$ vim content/2022/11/30/1.md`でファイル編集する←オリジナリティが必要
+  - **↓のバックスラッシュは消して!**
+  - ```
+     \---
+     title: 初めてのhugo
+     author: e205723
+     date: 2022-11-30T13:48:59.169Z
+     \---
+     
+     hugo楽しー
+     ```
+  - [これ](https://gitlab.ie.u-ryukyu.ac.jp/ie-web/student/e20/e205723-test/-/blob/main/content/2022/11/30/1.md?plain=1)でも見れるはず
+- `$ perl publish.pl  | sh -v`を実行する
+- [こんなサイト](https://ie.u-ryukyu.ac.jp/~e205723/hugo/)が生成される
+- `$ git add content/2022/11/30/1.md`を実行
+- `$ git commit -m "chore: add 20221130's content"`を実行
+- `$ git push`を実行
+- レポジトリのURLとして`https://gitlab.ie.u-ryukyu.ac.jp/ie-web/student/e20/e205723`を提示する
+  - 諸事情でe205723-testとなっているけど、レポジトリは[こんな感じ](https://gitlab.ie.u-ryukyu.ac.jp/ie-web/student/e20/e205723-test/-/tree/main/)になる
+- サイトのURLとして`https://ie.u-ryukyu.ac.jp/~e205723/hugo/`を提示するといい感じかも
+
+---
+
+### CMSとの比較
+
+- hugoとの比較対象としてWordPressを選んだ
+ - 主な違い
+   - WordPressは主に動的サイトを作るCMSであり、ユーザー、時間帯によって異なる内容のページを表示させることができる
+  - hugoは静的サイトを作るCMSであり、動的サイトを作ることができないが、動的なサイトより静的サイトのほうがセキュリティリスクがかなり少なくなるので運用コストが減る
+
+---
+
+### 1.4の感想
+
+去年度の1.4の問題は11.1の問題に変身したっぽい。とりあえずブログはいいぞ!
+
+---
+
+## 1.4 (ACCEPT) (2021年度)
+
+---
+
+### 課題の感想
+
+- 難易度 (最大: ☆☆☆☆☆)
+  - ☆☆☆☆☆
+- 作業量 (最大: ☆☆☆☆☆)
+  - ☆☆☆☆☆
+- オリジナリティの必要度 (最大: ☆☆☆☆☆)
+  - ☆
 
 ---
 
@@ -503,13 +654,16 @@ Ansible で、Wordpressの設定を行い、動作を確認する
 ---
 
 ### VirtualBoxのインストール
+
 - [VirtualBoxのダウンロードページ](https://www.virtualbox.org/wiki/Downloads)から「OS X hosts」を選択してインストーラをダウンロードしてVirturalBoxをインストールする
+
 ### Fedora 35のダウンロード
+
 - この[ページ](https://getfedora.org/en/server/download/)からFedora 35をダウンロードする
 - GUIでポチポチ操作するのも億劫なので`$ wget https://download.fedoraproject.org/pub/fedora/linux/releases/35/Server/x86_64/iso/Fedora-Server-dvd-x86_64-35-1.2.iso`を実行した
   - wgetコマンドについての[自分のブログの記事](https://yoshisaur.net/study_linux_unix/wget/)があるので、ぜひ見てください
 - ターミナルのログ
-  - ```
+- ```
     --2021-12-26 03:36:08--  https://download.fedoraproject.org/pub/fedora/linux/releases/35/Server/x86_64/iso/Fedora-Server-dvd-x86_64-35-1.2.iso
     Resolving download.fedoraproject.org (download.fedoraproject.org)... 2406:da1a:fcb:2f01:f381:af1a:f922:c519, 2406:da18:39f:a01:35a2:d9e9:8164:a209, 2406:da18:39f:a01:8c16:c226:1274:7098, ...
     Connecting to download.fedoraproject.org (download.fedoraproject.org)|2406:da1a:fcb:2f01:f381:af1a:f922:c519|:443... connected.
@@ -526,8 +680,11 @@ Ansible で、Wordpressの設定を行い、動作を確認する
     
     2021-12-26 03:44:47 (4.11 MB/s) - ‘Fedora-Server-dvd-x86_64-35-1.2.iso’ saved [2232418304/2232418304]
     ```
+
 ### Fedora OSをVirtualboxにインストールする
+
 - [このページ](https://itsfoss.com/install-fedora-in-virtualbox/)を参考にした
+- 上にある「New」をクリック(青いボタン)
 - 作成するVMの設定
   - Name
     - Fedora
@@ -559,7 +716,7 @@ Ansible で、Wordpressの設定を行い、動作を確認する
     - Enable root account
       - パスワードを設定
       - Allow root SSH login with passwordにもテェックを入れた
-  - CREATE USER
+  - CREATE USER(お好み)
     - ユーザを作る
     - Make this user administratorにテェックを入れる
 - Begin InstallationをクリックしてFedoraのインストールを開始する
@@ -571,7 +728,9 @@ Ansible で、Wordpressの設定を行い、動作を確認する
 - 再起動する
   - →マークのStartをクリック
     - ▼をクリックしてHeadless Startを選択して起動するのもアリ
+
 ### ssh
+
 - 歯車マークのSetting -> Network -> Advanced -> Port Forwardingに行く
 - ポートを割り当てる
   - Guest port 22
@@ -581,7 +740,7 @@ Ansible で、Wordpressの設定を行い、動作を確認する
   - VMのGlobal IPからsshすればいいという発想になるが、hostマシンのグローバルIPと同じものなので外からsshしようとしてもダメ
   - なので、Port Forwardingの指定したポートへの通信が届いたら、それを別のポートに転送する機能を使う必要がある
 - `$ ssh localhost -p 4022 -l root ls -al`を実行して、パスワードを入力する
-  - ```
+- ```
     total 24
     dr-xr-x---.  2 root root 114 Dec 26 17:48 .
     dr-xr-xr-x. 17 root root 224 Dec 26 17:44 ..
@@ -592,42 +751,54 @@ Ansible で、Wordpressの設定を行い、動作を確認する
     -rw-r--r--.  1 root root 100 Jul 23 20:53 .cshrc
     -rw-r--r--.  1 root root 129 Jul 23 20:53 .tcshrc
     ```
+
 ### Fedora側にpassword入力抜きでsshできるようにする
+
 - `$ ssh-keygen`を実行する事になっているが、前回のレポートで実行しているのでパス
 - 公開鍵をfedera側に置く
-  - [学科のサーバの設定](https://ie.u-ryukyu.ac.jp/~kono/lecture/os/ex/problem/232.html)を参照して、ssh-copyidと同じことをする
+  - [学科のサーバの設定](https://ie.u-ryukyu.ac.jp/~kono/lecture/os/ex/problem/232.html)を参照して、ssh-copy-idと同じことをする
   - `$ ssh localhost -p 4022 -l root "mkdir ~/.ssh; chmod 700 ~/.ssh "`
   - `$ cat ~/.ssh/id_rsa.pub | ssh localhost -p 4022 -l root "cat >> ~/.ssh/authorized_keys"`
 - `$ ssh localhost -p 4022 -l root ls -al`を実行する
   - パスワードを入力することなくVMにsshできた
+
 ### Ansibleのinstall
+
 - `$ brew install ansible`を実行する
+
 ### Fedora 側に python をinstallする
+
 - `$ sudo dnf install python`
+
 ### Ansibleのping
+
 - `$ echo vm ansible_user=root ansible_port=4022 ansible_host=localhost > hosts`を実行する
 - `$ ansible vm -i hosts -m ping`を実行する
 - 以下のようなメッセージが表示される
-  - ```
-    vm | SUCCESS => {
-        "ansible_facts": {
-            "discovered_interpreter_python": "/usr/bin/python3"
-        },
-        "changed": false,
-        "ping": "pong"
-    }
-    ```
+- ```
+  vm | SUCCESS => {
+      "ansible_facts": {
+              "discovered_interpreter_python": "/usr/bin/python3"
+          
+      },
+          "changed": false,
+          "ping": "pong"
+      
+  }
+  ```
+
 ### Ansibleのplaybook
+
 - `$ hg clone http://www.cr.ie.u-ryukyu.ac.jp/hg/Members/anatofuz/wordpress_ansible/`を実行する
 - ~/.ssh/configを編集する
   - 以下を追加する
-    - ```
+  - ```
       Host test-fedora
         HostName localhost
         Port 4022
         User root
         IdentityFile ~/.ssh/id_rsa
-      ```
+    ```
 - `$ cd wordpress_ansible`を実行する
 - hostsを編集する
   - user_nameをrootに変える
@@ -638,6 +809,8 @@ Ansible で、Wordpressの設定を行い、動作を確認する
   - Host Port
     - 8080
 - ブラウザでhttp://localhost:8080にアクセスする
+  - VirtualBox側でポートフォワーディングがうまく行かない場合はローカルPCで`$ ssh -L 8080:localhost:80 test-fedora`を実行してポートフォワーディングしてみるといいかも
+    - test-fedoraにsshできること+test-fedora内で`http://localhost`にアクセスができること条件
   - 入力項目を埋めてwordpressのインストールを完了させる
   - `$ curl http://localhost:8080/`を実行する
     - 出てくる文字列が長いので割愛します
@@ -647,3 +820,4 @@ Ansible で、Wordpressの設定を行い、動作を確認する
 ### 1.4の感想
 
 VM面白い。アナグラさんのmercurialレポジトリに感謝。NATモードで作成されるVMはhostマシンとは独立したプライベートネットワークを持つのも、この課題のはまりどころであり面白味でもあるような感じ。
+

@@ -210,7 +210,7 @@ int main(int argc, char *argv[]) {
        if (parent2child_pipe_status < 0 || child2parent_pipe_status < 0) {
 
            // close all proccesses' exisiting pipes
-	       for (close_i = 0; close_i < p_i; ++close_i) {
+           for (close_i = 0; close_i < p_i; ++close_i) {
 
                close(parent2child_pipes[close_i][READ]);
                close(parent2child_pipes[close_i][WRITE]);
@@ -218,17 +218,17 @@ int main(int argc, char *argv[]) {
                close(child2parent_pipes[close_i][WRITE]);
 
            
-	       }
+           }
 
            // if a child2parent pipe fails to open
-	       if (child2parent_pipe_status < 0) {
+           if (child2parent_pipe_status < 0) {
 
                // close the most recently opened parent2child_pipe
                close(parent2child_pipes[p_i][READ]);
                close(parent2child_pipes[p_i][WRITE]);
 
-	   
-	       }
+       
+           }
 
            return 1;
 
@@ -244,10 +244,10 @@ int main(int argc, char *argv[]) {
         process_ids[p_i] = fork();
 
         // if a child process fails to be generated
-	if (process_ids[p_i] < 0) {
+    if (process_ids[p_i] < 0) {
 
             // close all processes' pipes
-		for (close_i = 0; close_i < CHILD_PROCESS_NUM; ++close_i) {
+        for (close_i = 0; close_i < CHILD_PROCESS_NUM; ++close_i) {
 
                 close(parent2child_pipes[close_i][READ]);
                 close(parent2child_pipes[close_i][WRITE]);
@@ -255,13 +255,13 @@ int main(int argc, char *argv[]) {
                 close(child2parent_pipes[close_i][WRITE]);
 
             
-		}
+        }
 
             return 1;
 
         // if the current process is a child process
-    	
-	} else if (process_ids[p_i] == 0) {
+        
+    } else if (process_ids[p_i] == 0) {
 
             close(parent2child_pipes[p_i][WRITE]);
             close(child2parent_pipes[p_i][READ]);
@@ -271,19 +271,19 @@ int main(int argc, char *argv[]) {
 
             evaluated_price = basic_price;
 
-	    if (p_i == CHANCIX) {
+        if (p_i == CHANCIX) {
                // do what Chancix does
                evaluated_price = calculate_chancix_value(basic_price);
             
-	    } else if (p_i == GAMBLIX) {
+        } else if (p_i == GAMBLIX) {
                // do what Gamlix does
                evaluated_price = calculate_gamblix_value(basic_price);
             
-	    } else if (p_i == MOODIX) {
+        } else if (p_i == MOODIX) {
                // do what Moodix does
                evaluated_price = calculate_moodix_value(basic_price);
             
-	    }
+        }
 
             sprintf(pipe_input, "%d", evaluated_price);
 
@@ -295,8 +295,8 @@ int main(int argc, char *argv[]) {
             exit(0);
 
         // if the current process is the parent process
-	
-	} else if (process_ids[p_i] > 0) {
+    
+    } else if (process_ids[p_i] > 0) {
 
             close(parent2child_pipes[p_i][READ]);
             close(child2parent_pipes[p_i][WRITE]);
@@ -310,8 +310,8 @@ int main(int argc, char *argv[]) {
             close(parent2child_pipes[p_i][WRITE]);
             close(child2parent_pipes[p_i][READ]);
 
-	
-	}
+    
+    }
 
     
     }

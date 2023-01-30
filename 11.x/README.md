@@ -4,7 +4,22 @@
 
 ---
 
-## 11.1 VMの課題
+## 11.1 VMの課題 (2022年度)
+
+---
+
+### 課題の感想
+
+- 難易度 (最大: ☆☆☆☆☆)
+  - ☆☆☆☆
+- 作業量 (最大: ☆☆☆☆☆)
+  - ☆☆☆
+- オリジナリティの必要性 (最大: ☆☆☆☆☆)
+  - ☆☆
+
+---
+
+### 問題
 
 [このページ](https://ie.u-ryukyu.ac.jp/~kono/lecture/os/ex/problem/244.htmll)の問題を解く
 
@@ -89,6 +104,7 @@ VNCたは virsh console で IPv6を確認して、amane 上とかから password
 
 - 現段階でVNCを使い続けて作業をするとコピーペーストができないので、sshでログインできるようにする
 - akatsukiでVMにipを付与してもらう
+  - 11.2の「Fedora を akatsuki に登録する」で出てくる作業なので忘れずに!
   - amaneで`$ ie-virsh domiflist os-11-1`を実行してMACアドレスを取得しよう
    - [akatsuki](https://akatsuki.ie.u-ryukyu.ac.jp)に行き、[IPアドレス申請方法](https://ie.u-ryukyu.ac.jp/syskan/service/ip-address/)を参考にVMにipを付与してもらう
 - ローカルPCのssh configを書く
@@ -101,6 +117,7 @@ VNCたは virsh console で IPv6を確認して、amane 上とかから password
          ProxyJump amane
      ```
 - `$ ssh-copy-id fedora` \(local pc\)
+  - 11.2の「fedora に password 抜きで ssh できるようにする」で出てくる作業なので忘れずに!
   - 公開鍵認証方式でVMにsshログインできるようにする
 - `$ ssh fedora "date; ls -ld" \(local pc\)
   - これが無事に実行できたらLevel 1は大丈夫だと感じる
@@ -148,11 +165,88 @@ VNCたは virsh console で IPv6を確認して、amane 上とかから password
           "ping": "pong"
       }
      ```
+- 11.2の「Ansibleのping」で出てくる作業なので忘れずに!
 
+---
+
+## 11.2 ansibleの課題 (2022年度)
+
+---
+
+### 課題の感想
+
+- 難易度 (最大: ☆☆☆☆☆)
+  - ☆☆☆☆
+- 作業量 (最大: ☆☆☆☆☆)
+  - ☆☆☆☆☆
+- オリジナリティの必要性 (最大: ☆☆☆☆☆)
+  - ☆☆
+
+---
+
+### 問題
+
+[このページ](https://ie.u-ryukyu.ac.jp/~kono/lecture/os/ex/problem/252.html)の問題を解く
+
+```
+fedora に password 抜きで ssh できるようにする
+Fedora を akatsuki に登録する
+Ansibleのping
+Ansibleのplaybook
+```
+
+---
+
+### fedora に password 抜きで ssh できるようにする
+
+11.1で既に行った、「忘れずに!」で文字検索をこの記事にかけると出るかも
+
+---
+
+### Fedora を akatsuki に登録する
+
+11.1で既に行った、「忘れずに!」で文字検索をこの記事にかけると出るかも
+
+---
+
+### Ansibleのping
+
+11.1で既に行った、「忘れずに!」で文字検索をこの記事にかけると出るかも
+
+---
+
+### Ansibleのplaybook
+
+- ansible を使って nginx を設定すると書いてあるが、すぐそばにあるリンクはwordpressサーバーを立てるAnsibleのplaybookなので、自作する必要がある
+- なので作った
+  - [ansible-playbook-hugo-nginx](https://github.com/e205723/ansible-playbook-hugo-nginx)
+  - レポジトリのREADME.mdを読めば使い方がわかる
+- README.mdの通りに作業をしたあとに、`$ curl http://localhost:8080`などを実行してアクセスできることを確認する
+  - 作業ログとCurlコマンドの結果をメールに出すといいと思う
+
+---
+
+### 11.2(2022年度)の感想
+
+- ansibleは便利だ、覚えておくと役に立つときが来そう
+- ansible難しかった...
 
 ---
 
 ## 11.3 Containerの課題
+
+---
+
+- 難易度 (最大: ☆☆☆☆☆)
+  - ☆☆☆
+- 作業量 (最大: ☆☆☆☆☆)
+  - ☆☆☆
+- オリジナリティの必要性 (最大: ☆☆☆☆☆)
+  - ☆☆☆
+
+---
+
+### 問題
 
 [このページ](https://ie.u-ryukyu.ac.jp/~kono/lecture/os/ex/problem/215.html)の問題を解く
 

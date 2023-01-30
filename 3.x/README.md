@@ -661,13 +661,12 @@ fとgの最適化なし/ありのAssemblerを見比べたら
 
 ### 3.1の感想
 
-- 没頭して楽しかったけど時間溶かしたwww
+- 没頭して楽しかったけど時間溶かした
 - ideのパッケージでデバッガ機能みたいなのを使っている人は一回はこういう作業をしたほうがいいのではないか?
 - lldbとgdbどちらもログを取らなければいけないのが、時間を食う要因かな
   - [lldb.llvm.org](https://lldb.llvm.org/use/map.html)便利すぎる
 - C言語で書いている処理はかなり高レベルのことをやっていて、システムコールレベル並の低レベルの処理を意識して書いてこなかったから、面白い勉強になった
 - コンパイラ言語で生成した実行ファイルのデバッグする作業は初めてだった、面白い
-- 面白いけど、期末らへんにやる課題じゃないかなwww
 - 3.1終わらせたら2.6が比較的簡単にできそう
 
 ---
@@ -676,7 +675,74 @@ fとgの最適化なし/ありのAssemblerを見比べたら
 
 [このページ](https://ie.u-ryukyu.ac.jp/~kono/lecture/os/ex/problem/238.html)の問題を解く
 
-結構むずい、2021の後期が終わった後に解こうかな
+まだ倒せていない、ただ作業メモ貼っとく
+```
+$ ssh amane
+$ ie-virsh templates
+  VMのイメージテンプレートを確認、Fedora36-Debugがあることを確認
+$ ie-virsh define -g -t Fedora36-Debug os-3-2
+  差分 image を作成する
+$ ls -lh /ie-ryukyu/kvm/images/rental/e205723*
+  差分の大きさを確認する
+  -rw-r--r-- 1 root         root 193K Dec 17 12:16 /ie-ryukyu/kvm/images/rental/e205723-os-3-2.qcow2
+  元のイメージと193Kの差分がある
+
+UEFI (grub) メニューの上から二つめのkernelを選んで起動する
+  「Fedora Linux (5.10.0+) 36 (Server Edition Prerelease)」を選ぶ
+  UEFIメニューが開いてから5秒以内にメニューを操作しないと、自動で一番上のkernelが選ばれて起動される
+
+ctrl+]でconsoleを抜ける
+
+$ ie-virsh dumpxml os-3-2
+  <qemu:commandline>
+    <qemu:arg value='-S'/>
+    <qemu:arg value='-gdb'/>
+    <qemu:arg value='tcp::33181'/>
+  </qemu:commandline>
+33181を覚える
+
+$ singularity shell --bind /home/open/Fedora/Fedora35/kernel:/usr/src/kernels/fedora /ie-ryukyu/singularity/fedora-debug/fedora-debug.sif
+
+singularityに入った
+$ cd /usr/src/kernels/fedora
+$ gdb vmlinux
+
+gdbに入った
+target remote :33181
+
+Remote debugging using :33181
+0xffffffff81a740ee in native_safe_halt () at ./arch/x86/include/asm/irqflags.h:60
+60              asm volatile("sti; hlt": : :"memory");
+
+---
+
+システムコール
+
+x86_64に関して以下のことを調べる
+
+selectの番号はいくつか?
+
+/usr/src/kernels/fedora/arch/x86/entry/syscalls/syscall_64.tblにシステムコールテーブルが記述されている。
+cat /usr/src/kernels/fedora/arch/x86/entry/syscalls/syscall_64.tbl | grep select
+
+23      common  select                  sys_select
+270     common  pselect6                sys_pselect6
+
+x86_64のselectのシステムコール番号は23である。
+
+---
+
+ファイルディスクリプタ
+
+fs/read_write.c を読む
+  SYSCALL_DEFINE3(read, unsigned int, fd, char __user *, buf, size_t, count)
+struct の名称とソースファイル名を示せ
+
+(singularity内、 /usr/src/kernels/fedoraで)
+$ find ./include/ -type f -exec grep -l SYSCALL_DEFINE3 {} \;
+  ./include/linux/syscalls.h
+  ...
+```
 
 ---
 
@@ -872,11 +938,9 @@ vmへssh
 
 ## 3.4
 
-リンクを開いても何もない...?
+[このページ](https://ie.u-ryukyu.ac.jp/~kono/lecture/os/ex/problem/237.html)の問題を解く
 
-解くための情報量が少ないので、kono先生に聞きながら解いてみようと思う。
-
-また今度!
+2021年度はリンクが壊れていて解いてなかったけど、いつか解こうかな
 
 ---
 
@@ -1091,3 +1155,4 @@ dockerを使ってmysql(databaseサーバ)のコンテナを立てる
   - Webサーバの高速化の話でepollがC10K問題に絡んでくるとか知れた
 
 ---
+
