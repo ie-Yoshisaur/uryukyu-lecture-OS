@@ -1,3 +1,6 @@
-cmake_minimum_required(VERSION 3.24.1)
-project(ls-la C)
-add_executable(ls-la ls-la.c)
+cmake_minimum_required(VERSION 3.10)
+project(ls_la)
+
+set(CMAKE_C_STANDARD 99)
+add_executable(ls_la main.c)
+

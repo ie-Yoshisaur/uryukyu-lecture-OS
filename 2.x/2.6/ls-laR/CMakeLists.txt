@@ -1,3 +1,8 @@
-cmake_minimum_required(VERSION 3.24.1)
-project(ls-laR C)
-add_executable(ls-laR ls-laR.c)
+cmake_minimum_required(VERSION 3.10)
+
+project(ls_laR C)
+
+set(CMAKE_C_STANDARD 99)
+
+add_executable(ls_laR main.c)
+
