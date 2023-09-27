@@ -1,0 +1,9 @@
+services:
+  c_env:
+    build: ./debug_env/
+    container_name: debug_env
+    security_opt:
+      - seccomp:unconfined
+    volumes:
+      - "./debug_env:/workplace"
+    tty: true
