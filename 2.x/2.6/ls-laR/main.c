@@ -9,20 +9,30 @@
 #include <time.h>
 #include <unistd.h>
 
-void print_directory_contents(const char *dirpath, int print_dirname_total) {
-  struct dirent *dp;
-  DIR *dirp = opendir(dirpath);
+void print_directory_contents(const char *dirpath, DIR ***stack,
+                              int *stack_depth, int *stack_size) {
+  if (*stack_depth >= *stack_size) {
+    *stack_size *= 2;
+    *stack = realloc(*stack, sizeof(DIR *) * (*stack_size));
+    if (*stack == NULL) {
+      perror("realloc failed");
+      exit(EXIT_FAILURE);
+    }
+  }
 
+  DIR *dirp = opendir(dirpath);
   if (dirp == NULL) {
     perror("opendir failed");
     return;
   }
 
-  if (print_dirname_total) {
-    printf("%s:\n", dirpath);
-    printf("total 0\n");
-  }
+  (*stack)[*stack_depth] = dirp;
+  (*stack_depth)++;
 
+  printf("%s:\n", dirpath);
+  printf("total 0\n");
+
+  struct dirent *dp;
   while ((dp = readdir(dirp)) != NULL) {
     if (strcmp(dp->d_name, ".") == 0 || strcmp(dp->d_name, "..") == 0) {
       continue;
@@ -65,22 +75,30 @@ void print_directory_contents(const char *dirpath, int print_dirname_total) {
     printf(" %s\n", dp->d_name);
 
     if (S_ISDIR(statbuf.st_mode)) {
-      print_directory_contents(fullpath, 1);
+      print_directory_contents(fullpath, stack, stack_depth, stack_size);
     }
   }
 
-  closedir(dirp);
+  closedir((*stack)[--(*stack_depth)]);
 }
 
 int main(int argc, char *argv[]) {
-  int print_dirname_total = 1;
+  int stack_size = 10;
+  int stack_depth = 0;
+  DIR **stack = malloc(sizeof(DIR *) * stack_size);
+  if (stack == NULL) {
+    perror("malloc failed");
+    return EXIT_FAILURE;
+  }
 
   if (argc == 1) {
-    print_directory_contents(".", print_dirname_total);
+    print_directory_contents(".", &stack, &stack_depth, &stack_size);
   } else {
     for (int i = 1; i < argc; i++) {
-      print_directory_contents(argv[i], print_dirname_total);
+      print_directory_contents(argv[i], &stack, &stack_depth, &stack_size);
     }
   }
+
+  free(stack);
   return 0;
 }
