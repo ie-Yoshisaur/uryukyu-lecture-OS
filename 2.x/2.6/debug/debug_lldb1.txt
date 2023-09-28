@@ -1,0 +1,35 @@
+root@c868a57082ce:/workplace/ls-laR# lldb ./ls_laR
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'lldb.embedded_interpreter'
+(lldb) target create "./ls_laR"
+Current executable set to '/workplace/ls-laR/ls_laR' (x86_64).
+(lldb) breakpoint set --name readdir
+Breakpoint 1: no locations (pending).
+WARNING:  Unable to resolve breakpoint to any actual locations.
+(lldb) run 1
+1 location added to breakpoint 1
+Process 815 launched: '/workplace/ls-laR/ls_laR' (x86_64)
+1 location added to breakpoint 1
+1 location added to breakpoint 1
+1:
+total 0
+Process 815 stopped
+* thread #1, name = 'ls_laR', stop reason = breakpoint 1.3
+    frame #0: 0x00007ffff7e756f0 libc.so.6`__GI___readdir64(dirp=0x0000555555559300) at readdir64.c:32:1
+(lldb) step
+Process 815 stopped
+* thread #1, name = 'ls_laR', stop reason = step in
+    frame #0: 0x00007ffff7e756f6 libc.so.6`__GI___readdir64(dirp=0x0000555555559300) at readdir64.c:37:3
+(lldb) continue
+Process 815 resuming
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 2
+1/2:
+total 0
+Process 815 stopped
+* thread #1, name = 'ls_laR', stop reason = breakpoint 1.3
+    frame #0: 0x00007ffff7e756f0 libc.so.6`__GI___readdir64(dirp=0x0000555555563b10) at readdir64.c:32:1
+(lldb) breakpoint delete
+About to delete all breakpoints, do you want to do that?: [Y/n] y
+All breakpoints removed. (1 breakpoint)
+(lldb)

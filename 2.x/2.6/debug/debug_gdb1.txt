@@ -1,0 +1,24 @@
+(gdb) break readdir
+Breakpoint 1 at 0x1220
+(gdb) run 1
+Starting program: /workplace/ls-laR/ls_laR 1
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+1:
+total 0
+
+Breakpoint 1, __GI___readdir64 (dirp=0x555555559300) at ../sysdeps/unix/sysv/linux/readdir64.c:32
+32      ../sysdeps/unix/sysv/linux/readdir64.c: No such file or directory.
+(gdb) step
+34      in ../sysdeps/unix/sysv/linux/readdir64.c
+(gdb) continue
+Continuing.
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 2
+1/2:
+total 0
+
+Breakpoint 1, __GI___readdir64 (dirp=0x555555563b10) at ../sysdeps/unix/sysv/linux/readdir64.c:32
+32      in ../sysdeps/unix/sysv/linux/readdir64.c
+(gdb) d
+Delete all breakpoints? (y or n) y
+(gdb)

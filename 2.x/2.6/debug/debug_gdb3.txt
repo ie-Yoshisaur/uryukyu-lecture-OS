@@ -1,0 +1,48 @@
+(gdb) print *(*stack)[0]
+$4 = {fd = 3, lock = 0, allocation = 32768, size = 72, offset = 24, filepos = 1, errcode = 0, data = 0x555555559330 "w\271W\002"}
+(gdb) print *(*stack)[1]
+$5 = {fd = 4, lock = 0, allocation = 32768, size = 72, offset = 24, filepos = 1, errcode = 0, data = 0x555555563b40 "x\271W\002"}
+(gdb) print *(*stack)[2]
+$6 = {fd = 5, lock = 0, allocation = 32768, size = 72, offset = 24, filepos = 1, errcode = 0, data = 0x55555556bb80 "y\271W\002"}
+
+(gdb) disassemble print_directory_contents
+Dump of assembler code for function print_directory_contents:
+   0x0000555555555369 <+0>:     endbr64
+   0x000055555555536d <+4>:     push   %rbp
+   0x000055555555536e <+5>:     mov    %rsp,%rbp
+   0x0000555555555371 <+8>:     sub    $0x910,%rsp
+   0x0000555555555378 <+15>:    mov    %rdi,-0x8f8(%rbp)
+   0x000055555555537f <+22>:    mov    %rsi,-0x900(%rbp)
+   0x0000555555555386 <+29>:    mov    %rdx,-0x908(%rbp)
+   0x000055555555538d <+36>:    mov    %rcx,-0x910(%rbp)
+=> 0x0000555555555394 <+43>:    mov    %fs:0x28,%rax
+   0x000055555555539d <+52>:    mov    %rax,-0x8(%rbp)
+   0x00005555555553a1 <+56>:    xor    %eax,%eax
+   0x00005555555553a3 <+58>:    mov    -0x908(%rbp),%rax
+   0x00005555555553aa <+65>:    mov    (%rax),%edx
+   0x00005555555553ac <+67>:    mov    -0x910(%rbp),%rax
+   0x00005555555553b3 <+74>:    mov    (%rax),%eax
+   0x00005555555553b5 <+76>:    cmp    %eax,%edx
+   0x00005555555553b7 <+78>:    jl     0x555555555428 <print_directory_contents+191>
+   0x00005555555553b9 <+80>:    mov    -0x910(%rbp),%rax
+   0x00005555555553c0 <+87>:    mov    (%rax),%eax
+   0x00005555555553c2 <+89>:    lea    (%rax,%rax,1),%edx
+   0x00005555555553c5 <+92>:    mov    -0x910(%rbp),%rax
+   0x00005555555553cc <+99>:    mov    %edx,(%rax)
+   0x00005555555553ce <+101>:   mov    -0x910(%rbp),%rax
+   0x00005555555553d5 <+108>:   mov    (%rax),%eax
+   0x00005555555553d7 <+110>:   cltq
+   0x00005555555553d9 <+112>:   lea    0x0(,%rax,8),%rdx
+   0x00005555555553e1 <+120>:   mov    -0x900(%rbp),%rax
+   0x00005555555553e8 <+127>:   mov    (%rax),%rax
+   0x00005555555553eb <+130>:   mov    %rdx,%rsi
+   0x00005555555553ee <+133>:   mov    %rax,%rdi
+   0x00005555555553f1 <+136>:   call   0x555555555240 <realloc@plt>
+   0x00005555555553f6 <+141>:   mov    -0x900(%rbp),%rdx
+   0x00005555555553fd <+148>:   mov    %rax,(%rdx)
+   0x0000555555555400 <+151>:   mov    -0x900(%rbp),%rax
+   0x0000555555555407 <+158>:   mov    (%rax),%rax
+   0x000055555555540a <+161>:   test   %rax,%rax
+   0x000055555555540d <+164>:   jne    0x555555555428 <print_directory_contents+191>
+   0x000055555555540f <+166>:   lea    0xbee(%rip),%rax        # 0x555555556004
+   0x0000555555555416 <+173>:   mov    %rax,%rdi

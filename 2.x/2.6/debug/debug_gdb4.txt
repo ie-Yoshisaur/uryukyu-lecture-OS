@@ -1,0 +1,127 @@
+(gdb) break 24
+Breakpoint 1 at 0x143e: file main.c, line 24.
+(gdb) run 1
+Starting program: /workplace/ls-laR/ls_laR 1
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, print_directory_contents (dirpath=0x7fffffffe92c "1", stack=0x7fffffffe600, stack_depth=0x7fffffffe5f8, stack_size=0x7fffffffe5f4) at main.c:24
+24        if (dirp == NULL) {
+(gdb) print *dirp
+$1 = {fd = 3, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0, data = 0x555555559330 ""}
+(gdb) continue
+Continuing.
+1:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 2
+
+Breakpoint 1, print_directory_contents (dirpath=0x7fffffffddc0 "1/2", stack=0x7fffffffe600, stack_depth=0x7fffffffe5f8, stack_size=0x7fffffffe5f4) at main.c:24
+24        if (dirp == NULL) {
+(gdb) print *dirp
+$2 = {fd = 4, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0,
+  data = 0x555555563b40 "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww"...}
+(gdb) continue
+Continuing.
+1/2:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 3
+
+Breakpoint 1, print_directory_contents (dirpath=0x7fffffffd4a0 "1/2/3", stack=0x7fffffffe600, stack_depth=0x7fffffffe5f8, stack_size=0x7fffffffe5f4) at main.c:24
+24        if (dirp == NULL) {
+(gdb) print *dirp
+$3 = {fd = 5, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0,
+  data = 0x55555556bb80 "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww"...}
+(gdb) continue
+Continuing.
+1/2/3:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 4
+
+Breakpoint 1, print_directory_contents (dirpath=0x7fffffffcb80 "1/2/3/4", stack=0x7fffffffe600, stack_depth=0x7fffffffe5f8, stack_size=0x7fffffffe5f4) at main.c:24
+24        if (dirp == NULL) {
+(gdb) print *dirp
+$4 = {fd = 6, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0,
+  data = 0x555555573bc0 "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww"...}
+(gdb) continue
+Continuing.
+1/2/3/4:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 5
+
+Breakpoint 1, print_directory_contents (dirpath=0x7fffffffc260 "1/2/3/4/5", stack=0x7fffffffe600, stack_depth=0x7fffffffe5f8, stack_size=0x7fffffffe5f4) at main.c:24
+24        if (dirp == NULL) {
+(gdb) print *dirp
+$5 = {fd = 7, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0,
+  data = 0x55555557bc00 "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww"...}
+(gdb) continue
+Continuing.
+1/2/3/4/5:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 6
+
+Breakpoint 1, print_directory_contents (dirpath=0x7fffffffb940 "1/2/3/4/5/6", stack=0x7fffffffe600, stack_depth=0x7fffffffe5f8, stack_size=0x7fffffffe5f4) at main.c:24
+24        if (dirp == NULL) {
+(gdb) print *dirp
+$6 = {fd = 8, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0,
+  data = 0x555555583c40 "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww"...}
+(gdb) continue
+Continuing.
+1/2/3/4/5/6:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 7
+
+Breakpoint 1, print_directory_contents (dirpath=0x7fffffffb020 "1/2/3/4/5/6/7", stack=0x7fffffffe600, stack_depth=0x7fffffffe5f8, stack_size=0x7fffffffe5f4) at main.c:24
+24        if (dirp == NULL) {
+(gdb) print *dirp
+$7 = {fd = 9, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0,
+  data = 0x55555558bc80 "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww"...}
+(gdb) continue
+Continuing.
+1/2/3/4/5/6/7:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 8
+
+Breakpoint 1, print_directory_contents (dirpath=0x7fffffffa700 "1/2/3/4/5/6/7/8", stack=0x7fffffffe600, stack_depth=0x7fffffffe5f8, stack_size=0x7fffffffe5f4) at main.c:24
+24        if (dirp == NULL) {
+(gdb) print *dirp
+$8 = {fd = 10, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0,
+  data = 0x555555593cc0 "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww"...}
+(gdb) continue
+Continuing.
+1/2/3/4/5/6/7/8:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 9
+
+Breakpoint 1, print_directory_contents (dirpath=0x7fffffff9de0 "1/2/3/4/5/6/7/8/9", stack=0x7fffffffe600, stack_depth=0x7fffffffe5f8, stack_size=0x7fffffffe5f4) at main.c:24
+24        if (dirp == NULL) {
+(gdb) print *dirp
+$9 = {fd = 11, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0,
+  data = 0x55555559bd00 "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww"...}
+(gdb) continue
+Continuing.
+1/2/3/4/5/6/7/8/9:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 A
+
+Breakpoint 1, print_directory_contents (dirpath=0x7fffffff94c0 "1/2/3/4/5/6/7/8/9/A", stack=0x7fffffffe600, stack_depth=0x7fffffffe5f8, stack_size=0x7fffffffe5f4) at main.c:24
+24        if (dirp == NULL) {
+(gdb) print *dirp
+$10 = {fd = 12, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0,
+  data = 0x5555555a3d40 "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww"...}
+(gdb) continue
+Continuing.
+1/2/3/4/5/6/7/8/9/A:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 B
+
+Breakpoint 1, print_directory_contents (dirpath=0x7fffffff8ba0 "1/2/3/4/5/6/7/8/9/A/B", stack=0x7fffffffe600, stack_depth=0x7fffffffe5f8, stack_size=0x7fffffffe5f4) at main.c:24
+24        if (dirp == NULL) {
+(gdb) print *dirp
+$11 = {fd = 13, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0,
+  data = 0x5555555abd80 "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww"...}
+(gdb) continue
+Continuing.
+1/2/3/4/5/6/7/8/9/A/B:
+total 0
+-rw-r--r--   1 root     root             0 Sep 27 17:00 hoge.txt
+[Inferior 1 (process 703) exited normally]

@@ -1,0 +1,32 @@
+(lldb) target create "./ls_laR"
+Current executable set to '/workplace/ls-laR/ls_laR' (x86_64).
+(lldb) breakpoint set --name print_directory_contents --condition '*stack_depth == 3'
+Breakpoint 1: where = ls_laR`print_directory_contents + 58 at main.c:14:7, address = 0x00000000000013a3
+(lldb) run 1
+Process 883 launched: '/workplace/ls-laR/ls_laR' (x86_64)
+1:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 2
+1/2:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 3
+1/2/3:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 4
+Process 883 stopped
+* thread #1, name = 'ls_laR', stop reason = breakpoint 1.1
+    frame #0: 0x00005555555553a3 ls_laR`print_directory_contents(dirpath="1/2/3/4", stack=0x00007fffffffe620, stack_depth=0x00007fffffffe618, stack_size=0x00007fffffffe614) at main.c:14:7
+   11
+   12   void print_directory_contents(const char *dirpath, DIR ***stack,
+   13                                 int *stack_depth, int *stack_size) {
+-> 14     if (*stack_depth >= *stack_size) {
+   15       *stack_size *= 2;
+   16       *stack = realloc(*stack, sizeof(DIR *) * (*stack_size));
+   17       if (*stack == NULL) {
+(lldb) frame variable stack
+(DIR ***) stack = 0x00007fffffffe620
+(lldb) expression (*stack)[2]
+(DIR *) $0 = 0x000055555556bb50
+(lldb) expression *(*stack)[0]
+(DIR) $1 = (fd = 3, lock = 0, allocation = 32768, size = 72, offset = 24, filepos = 1, errcode = 0, data = "w\xb9W\U00000002")
+(lldb)

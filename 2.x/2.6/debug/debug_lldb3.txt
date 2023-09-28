@@ -1,0 +1,328 @@
+(lldb) expression *(*stack)[0]
+(DIR) $2 = (fd = 3, lock = 0, allocation = 32768, size = 72, offset = 24, filepos = 1, errcode = 0, data = "w\xb9W\U00000002")
+(lldb) expression *(*stack)[1]
+(DIR) $3 = (fd = 4, lock = 0, allocation = 32768, size = 72, offset = 24, filepos = 1, errcode = 0, data = "x\xb9W\U00000002")
+(lldb) expression *(*stack)[2]
+(DIR) $4 = (fd = 5, lock = 0, allocation = 32768, size = 72, offset = 24, filepos = 1, errcode = 0, data = "y\xb9W\U00000002")
+(lldb) disassemble --name print_directory_contents
+ls_laR`print_directory_contents:
+    0x555555555369 <+0>:    endbr64
+    0x55555555536d <+4>:    pushq  %rbp
+    0x55555555536e <+5>:    movq   %rsp, %rbp
+    0x555555555371 <+8>:    subq   $0x910, %rsp              ; imm = 0x910
+    0x555555555378 <+15>:   movq   %rdi, -0x8f8(%rbp)
+    0x55555555537f <+22>:   movq   %rsi, -0x900(%rbp)
+    0x555555555386 <+29>:   movq   %rdx, -0x908(%rbp)
+    0x55555555538d <+36>:   movq   %rcx, -0x910(%rbp)
+    0x555555555394 <+43>:   movq   %fs:0x28, %rax
+    0x55555555539d <+52>:   movq   %rax, -0x8(%rbp)
+    0x5555555553a1 <+56>:   xorl   %eax, %eax
+->  0x5555555553a3 <+58>:   movq   -0x908(%rbp), %rax
+    0x5555555553aa <+65>:   movl   (%rax), %edx
+    0x5555555553ac <+67>:   movq   -0x910(%rbp), %rax
+    0x5555555553b3 <+74>:   movl   (%rax), %eax
+    0x5555555553b5 <+76>:   cmpl   %eax, %edx
+    0x5555555553b7 <+78>:   jl     0x555555555428            ; <+191> at main.c:23:15
+    0x5555555553b9 <+80>:   movq   -0x910(%rbp), %rax
+    0x5555555553c0 <+87>:   movl   (%rax), %eax
+    0x5555555553c2 <+89>:   leal   (%rax,%rax), %edx
+    0x5555555553c5 <+92>:   movq   -0x910(%rbp), %rax
+    0x5555555553cc <+99>:   movl   %edx, (%rax)
+    0x5555555553ce <+101>:  movq   -0x910(%rbp), %rax
+    0x5555555553d5 <+108>:  movl   (%rax), %eax
+    0x5555555553d7 <+110>:  cltq
+    0x5555555553d9 <+112>:  leaq   (,%rax,8), %rdx
+    0x5555555553e1 <+120>:  movq   -0x900(%rbp), %rax
+    0x5555555553e8 <+127>:  movq   (%rax), %rax
+    0x5555555553eb <+130>:  movq   %rdx, %rsi
+    0x5555555553ee <+133>:  movq   %rax, %rdi
+    0x5555555553f1 <+136>:  callq  0x555555555240            ; ___lldb_unnamed_symbol74 + 224
+    0x5555555553f6 <+141>:  movq   -0x900(%rbp), %rdx
+    0x5555555553fd <+148>:  movq   %rax, (%rdx)
+    0x555555555400 <+151>:  movq   -0x900(%rbp), %rax
+    0x555555555407 <+158>:  movq   (%rax), %rax
+    0x55555555540a <+161>:  testq  %rax, %rax
+    0x55555555540d <+164>:  jne    0x555555555428            ; <+191> at main.c:23:15
+    0x55555555540f <+166>:  leaq   0xbee(%rip), %rax
+    0x555555555416 <+173>:  movq   %rax, %rdi
+    0x555555555419 <+176>:  callq  0x555555555260            ; ___lldb_unnamed_symbol74 + 256
+    0x55555555541e <+181>:  movl   $0x1, %edi
+    0x555555555423 <+186>:  callq  0x555555555270            ; ___lldb_unnamed_symbol74 + 272
+    0x555555555428 <+191>:  movq   -0x8f8(%rbp), %rax
+    0x55555555542f <+198>:  movq   %rax, %rdi
+    0x555555555432 <+201>:  callq  0x555555555190            ; ___lldb_unnamed_symbol74 + 48
+    0x555555555437 <+206>:  movq   %rax, -0x8e8(%rbp)
+    0x55555555543e <+213>:  cmpq   $0x0, -0x8e8(%rbp)
+    0x555555555446 <+221>:  jne    0x55555555545c            ; <+243> at main.c:29:4
+    0x555555555448 <+223>:  leaq   0xbc4(%rip), %rax
+    0x55555555544f <+230>:  movq   %rax, %rdi
+    0x555555555452 <+233>:  callq  0x555555555260            ; ___lldb_unnamed_symbol74 + 256
+    0x555555555457 <+238>:  jmp    0x55555555590e            ; <+1445> at main.c:83:1
+    0x55555555545c <+243>:  movq   -0x900(%rbp), %rax
+    0x555555555463 <+250>:  movq   (%rax), %rdx
+    0x555555555466 <+253>:  movq   -0x908(%rbp), %rax
+    0x55555555546d <+260>:  movl   (%rax), %eax
+    0x55555555546f <+262>:  cltq
+    0x555555555471 <+264>:  shlq   $0x3, %rax
+    0x555555555475 <+268>:  addq   %rax, %rdx
+    0x555555555478 <+271>:  movq   -0x8e8(%rbp), %rax
+    0x55555555547f <+278>:  movq   %rax, (%rdx)
+    0x555555555482 <+281>:  movq   -0x908(%rbp), %rax
+    0x555555555489 <+288>:  movl   (%rax), %eax
+    0x55555555548b <+290>:  leal   0x1(%rax), %edx
+    0x55555555548e <+293>:  movq   -0x908(%rbp), %rax
+    0x555555555495 <+300>:  movl   %edx, (%rax)
+    0x555555555497 <+302>:  movq   -0x8f8(%rbp), %rax
+    0x55555555549e <+309>:  movq   %rax, %rsi
+    0x5555555554a1 <+312>:  leaq   0xb7a(%rip), %rax
+    0x5555555554a8 <+319>:  movq   %rax, %rdi
+    0x5555555554ab <+322>:  movl   $0x0, %eax
+    0x5555555554b0 <+327>:  callq  0x5555555551c0            ; ___lldb_unnamed_symbol74 + 96
+    0x5555555554b5 <+332>:  leaq   0xb6b(%rip), %rax
+    0x5555555554bc <+339>:  movq   %rax, %rdi
+    0x5555555554bf <+342>:  callq  0x555555555180            ; ___lldb_unnamed_symbol74 + 32
+    0x5555555554c4 <+347>:  jmp    0x5555555558ae            ; <+1349> at main.c:36:16
+    0x5555555554c9 <+352>:  movq   -0x8e0(%rbp), %rax
+    0x5555555554d0 <+359>:  addq   $0x13, %rax
+    0x5555555554d4 <+363>:  leaq   0xb54(%rip), %rdx
+    0x5555555554db <+370>:  movq   %rdx, %rsi
+    0x5555555554de <+373>:  movq   %rax, %rdi
+    0x5555555554e1 <+376>:  callq  0x555555555210            ; ___lldb_unnamed_symbol74 + 176
+    0x5555555554e6 <+381>:  testl  %eax, %eax
+    0x5555555554e8 <+383>:  je     0x5555555558ad            ; <+1348> at main.c:38:7
+    0x5555555554ee <+389>:  movq   -0x8e0(%rbp), %rax
+    0x5555555554f5 <+396>:  addq   $0x13, %rax
+    0x5555555554f9 <+400>:  leaq   0xb31(%rip), %rdx
+    0x555555555500 <+407>:  movq   %rdx, %rsi
+    0x555555555503 <+410>:  movq   %rax, %rdi
+    0x555555555506 <+413>:  callq  0x555555555210            ; ___lldb_unnamed_symbol74 + 176
+    0x55555555550b <+418>:  testl  %eax, %eax
+    0x55555555550d <+420>:  je     0x5555555558ad            ; <+1348> at main.c:38:7
+    0x555555555513 <+426>:  movq   -0x8e0(%rbp), %rax
+    0x55555555551a <+433>:  leaq   0x13(%rax), %rcx
+    0x55555555551e <+437>:  movq   -0x8f8(%rbp), %rdx
+    0x555555555525 <+444>:  leaq   -0x810(%rbp), %rax
+    0x55555555552c <+451>:  movq   %rcx, %r8
+    0x55555555552f <+454>:  movq   %rdx, %rcx
+    0x555555555532 <+457>:  leaq   0xafb(%rip), %rdx
+    0x555555555539 <+464>:  movl   $0x800, %esi              ; imm = 0x800
+    0x55555555553e <+469>:  movq   %rax, %rdi
+    0x555555555541 <+472>:  movl   $0x0, %eax
+    0x555555555546 <+477>:  callq  0x5555555551e0            ; ___lldb_unnamed_symbol74 + 128
+    0x55555555554b <+482>:  leaq   -0x8c0(%rbp), %rdx
+    0x555555555552 <+489>:  leaq   -0x810(%rbp), %rax
+    0x555555555559 <+496>:  movq   %rdx, %rsi
+    0x55555555555c <+499>:  movq   %rax, %rdi
+    0x55555555555f <+502>:  callq  0x555555555200            ; ___lldb_unnamed_symbol74 + 160
+    0x555555555564 <+507>:  cmpl   $-0x1, %eax
+    0x555555555567 <+510>:  jne    0x55555555557d            ; <+532> at main.c:49:13
+    0x555555555569 <+512>:  leaq   0xaca(%rip), %rax
+    0x555555555570 <+519>:  movq   %rax, %rdi
+    0x555555555573 <+522>:  callq  0x555555555260            ; ___lldb_unnamed_symbol74 + 256
+    0x555555555578 <+527>:  jmp    0x5555555558ae            ; <+1349> at main.c:36:16
+    0x55555555557d <+532>:  movl   -0x8a8(%rbp), %eax
+    0x555555555583 <+538>:  andl   $0xf000, %eax             ; imm = 0xF000
+    0x555555555588 <+543>:  cmpl   $0x4000, %eax             ; imm = 0x4000
+    0x55555555558d <+548>:  jne    0x555555555598            ; <+559> at main.c:49:5
+    0x55555555558f <+550>:  leaq   0xab1(%rip), %rax
+    0x555555555596 <+557>:  jmp    0x55555555559f            ; <+566> at main.c:49:5
+    0x555555555598 <+559>:  leaq   0xaaa(%rip), %rax
+    0x55555555559f <+566>:  movq   %rax, %rdi
+    0x5555555555a2 <+569>:  movl   $0x0, %eax
+    0x5555555555a7 <+574>:  callq  0x5555555551c0            ; ___lldb_unnamed_symbol74 + 96
+    0x5555555555ac <+579>:  movl   -0x8a8(%rbp), %eax
+    0x5555555555b2 <+585>:  andl   $0x100, %eax              ; imm = 0x100
+    0x5555555555b7 <+590>:  testl  %eax, %eax
+    0x5555555555b9 <+592>:  je     0x5555555555c4            ; <+603> at main.c:50:5
+    0x5555555555bb <+594>:  leaq   0xa89(%rip), %rax
+    0x5555555555c2 <+601>:  jmp    0x5555555555cb            ; <+610> at main.c:50:5
+    0x5555555555c4 <+603>:  leaq   0xa7e(%rip), %rax
+    0x5555555555cb <+610>:  movq   %rax, %rdi
+    0x5555555555ce <+613>:  movl   $0x0, %eax
+    0x5555555555d3 <+618>:  callq  0x5555555551c0            ; ___lldb_unnamed_symbol74 + 96
+    0x5555555555d8 <+623>:  movl   -0x8a8(%rbp), %eax
+    0x5555555555de <+629>:  andl   $0x80, %eax
+    0x5555555555e3 <+634>:  testl  %eax, %eax
+    0x5555555555e5 <+636>:  je     0x5555555555f0            ; <+647> at main.c:51:5
+    0x5555555555e7 <+638>:  leaq   0xa5f(%rip), %rax
+    0x5555555555ee <+645>:  jmp    0x5555555555f7            ; <+654> at main.c:51:5
+    0x5555555555f0 <+647>:  leaq   0xa52(%rip), %rax
+    0x5555555555f7 <+654>:  movq   %rax, %rdi
+    0x5555555555fa <+657>:  movl   $0x0, %eax
+    0x5555555555ff <+662>:  callq  0x5555555551c0            ; ___lldb_unnamed_symbol74 + 96
+    0x555555555604 <+667>:  movl   -0x8a8(%rbp), %eax
+    0x55555555560a <+673>:  andl   $0x40, %eax
+    0x55555555560d <+676>:  testl  %eax, %eax
+    0x55555555560f <+678>:  je     0x55555555561a            ; <+689> at main.c:52:5
+    0x555555555611 <+680>:  leaq   0xa37(%rip), %rax
+    0x555555555618 <+687>:  jmp    0x555555555621            ; <+696> at main.c:52:5
+    0x55555555561a <+689>:  leaq   0xa28(%rip), %rax
+    0x555555555621 <+696>:  movq   %rax, %rdi
+    0x555555555624 <+699>:  movl   $0x0, %eax
+    0x555555555629 <+704>:  callq  0x5555555551c0            ; ___lldb_unnamed_symbol74 + 96
+    0x55555555562e <+709>:  movl   -0x8a8(%rbp), %eax
+    0x555555555634 <+715>:  andl   $0x20, %eax
+    0x555555555637 <+718>:  testl  %eax, %eax
+    0x555555555639 <+720>:  je     0x555555555644            ; <+731> at main.c:53:5
+    0x55555555563b <+722>:  leaq   0xa09(%rip), %rax
+    0x555555555642 <+729>:  jmp    0x55555555564b            ; <+738> at main.c:53:5
+    0x555555555644 <+731>:  leaq   0x9fe(%rip), %rax
+    0x55555555564b <+738>:  movq   %rax, %rdi
+    0x55555555564e <+741>:  movl   $0x0, %eax
+    0x555555555653 <+746>:  callq  0x5555555551c0            ; ___lldb_unnamed_symbol74 + 96
+    0x555555555658 <+751>:  movl   -0x8a8(%rbp), %eax
+    0x55555555565e <+757>:  andl   $0x10, %eax
+    0x555555555661 <+760>:  testl  %eax, %eax
+    0x555555555663 <+762>:  je     0x55555555566e            ; <+773> at main.c:54:5
+    0x555555555665 <+764>:  leaq   0x9e1(%rip), %rax
+    0x55555555566c <+771>:  jmp    0x555555555675            ; <+780> at main.c:54:5
+    0x55555555566e <+773>:  leaq   0x9d4(%rip), %rax
+    0x555555555675 <+780>:  movq   %rax, %rdi
+    0x555555555678 <+783>:  movl   $0x0, %eax
+    0x55555555567d <+788>:  callq  0x5555555551c0            ; ___lldb_unnamed_symbol74 + 96
+    0x555555555682 <+793>:  movl   -0x8a8(%rbp), %eax
+    0x555555555688 <+799>:  andl   $0x8, %eax
+    0x55555555568b <+802>:  testl  %eax, %eax
+    0x55555555568d <+804>:  je     0x555555555698            ; <+815> at main.c:55:5
+    0x55555555568f <+806>:  leaq   0x9b9(%rip), %rax
+    0x555555555696 <+813>:  jmp    0x55555555569f            ; <+822> at main.c:55:5
+    0x555555555698 <+815>:  leaq   0x9aa(%rip), %rax
+    0x55555555569f <+822>:  movq   %rax, %rdi
+    0x5555555556a2 <+825>:  movl   $0x0, %eax
+    0x5555555556a7 <+830>:  callq  0x5555555551c0            ; ___lldb_unnamed_symbol74 + 96
+    0x5555555556ac <+835>:  movl   -0x8a8(%rbp), %eax
+    0x5555555556b2 <+841>:  andl   $0x4, %eax
+    0x5555555556b5 <+844>:  testl  %eax, %eax
+    0x5555555556b7 <+846>:  je     0x5555555556c2            ; <+857> at main.c:56:5
+    0x5555555556b9 <+848>:  leaq   0x98b(%rip), %rax
+    0x5555555556c0 <+855>:  jmp    0x5555555556c9            ; <+864> at main.c:56:5
+    0x5555555556c2 <+857>:  leaq   0x980(%rip), %rax
+    0x5555555556c9 <+864>:  movq   %rax, %rdi
+    0x5555555556cc <+867>:  movl   $0x0, %eax
+    0x5555555556d1 <+872>:  callq  0x5555555551c0            ; ___lldb_unnamed_symbol74 + 96
+    0x5555555556d6 <+877>:  movl   -0x8a8(%rbp), %eax
+    0x5555555556dc <+883>:  andl   $0x2, %eax
+    0x5555555556df <+886>:  testl  %eax, %eax
+    0x5555555556e1 <+888>:  je     0x5555555556ec            ; <+899> at main.c:57:5
+    0x5555555556e3 <+890>:  leaq   0x963(%rip), %rax
+    0x5555555556ea <+897>:  jmp    0x5555555556f3            ; <+906> at main.c:57:5
+    0x5555555556ec <+899>:  leaq   0x956(%rip), %rax
+    0x5555555556f3 <+906>:  movq   %rax, %rdi
+    0x5555555556f6 <+909>:  movl   $0x0, %eax
+    0x5555555556fb <+914>:  callq  0x5555555551c0            ; ___lldb_unnamed_symbol74 + 96
+    0x555555555700 <+919>:  movl   -0x8a8(%rbp), %eax
+    0x555555555706 <+925>:  andl   $0x1, %eax
+    0x555555555709 <+928>:  testl  %eax, %eax
+    0x55555555570b <+930>:  je     0x555555555716            ; <+941> at main.c:58:5
+    0x55555555570d <+932>:  leaq   0x93b(%rip), %rax
+    0x555555555714 <+939>:  jmp    0x55555555571d            ; <+948> at main.c:58:5
+    0x555555555716 <+941>:  leaq   0x92c(%rip), %rax
+    0x55555555571d <+948>:  movq   %rax, %rdi
+    0x555555555720 <+951>:  movl   $0x0, %eax
+    0x555555555725 <+956>:  callq  0x5555555551c0            ; ___lldb_unnamed_symbol74 + 96
+    0x55555555572a <+961>:  movq   -0x8b0(%rbp), %rax
+    0x555555555731 <+968>:  movq   %rax, %rsi
+    0x555555555734 <+971>:  leaq   0x916(%rip), %rax
+    0x55555555573b <+978>:  movq   %rax, %rdi
+    0x55555555573e <+981>:  movl   $0x0, %eax
+    0x555555555743 <+986>:  callq  0x5555555551c0            ; ___lldb_unnamed_symbol74 + 96
+    0x555555555748 <+991>:  movl   -0x8a4(%rbp), %eax
+    0x55555555574e <+997>:  movl   %eax, %edi
+    0x555555555750 <+999>:  callq  0x5555555551a0            ; ___lldb_unnamed_symbol74 + 64
+    0x555555555755 <+1004>: movq   %rax, -0x8d8(%rbp)
+    0x55555555575c <+1011>: movl   -0x8a0(%rbp), %eax
+    0x555555555762 <+1017>: movl   %eax, %edi
+    0x555555555764 <+1019>: callq  0x5555555551d0            ; ___lldb_unnamed_symbol74 + 112
+    0x555555555769 <+1024>: movq   %rax, -0x8d0(%rbp)
+    0x555555555770 <+1031>: cmpq   $0x0, -0x8d8(%rbp)
+    0x555555555778 <+1039>: je     0x555555555786            ; <+1053> at main.c:64:5
+    0x55555555577a <+1041>: movq   -0x8d8(%rbp), %rax
+    0x555555555781 <+1048>: movq   (%rax), %rax
+    0x555555555784 <+1051>: jmp    0x55555555578d            ; <+1060> at main.c:64:5
+    0x555555555786 <+1053>: leaq   0x8ca(%rip), %rax
+    0x55555555578d <+1060>: movq   %rax, %rsi
+    0x555555555790 <+1063>: leaq   0x8c8(%rip), %rax
+    0x555555555797 <+1070>: movq   %rax, %rdi
+    0x55555555579a <+1073>: movl   $0x0, %eax
+    0x55555555579f <+1078>: callq  0x5555555551c0            ; ___lldb_unnamed_symbol74 + 96
+    0x5555555557a4 <+1083>: cmpq   $0x0, -0x8d0(%rbp)
+    0x5555555557ac <+1091>: je     0x5555555557ba            ; <+1105> at main.c:65:5
+    0x5555555557ae <+1093>: movq   -0x8d0(%rbp), %rax
+    0x5555555557b5 <+1100>: movq   (%rax), %rax
+    0x5555555557b8 <+1103>: jmp    0x5555555557c1            ; <+1112> at main.c:65:5
+    0x5555555557ba <+1105>: leaq   0x896(%rip), %rax
+    0x5555555557c1 <+1112>: movq   %rax, %rsi
+    0x5555555557c4 <+1115>: leaq   0x894(%rip), %rax
+    0x5555555557cb <+1122>: movq   %rax, %rdi
+    0x5555555557ce <+1125>: movl   $0x0, %eax
+    0x5555555557d3 <+1130>: callq  0x5555555551c0            ; ___lldb_unnamed_symbol74 + 96
+    0x5555555557d8 <+1135>: movq   -0x890(%rbp), %rax
+    0x5555555557df <+1142>: movq   %rax, %rsi
+    0x5555555557e2 <+1145>: leaq   0x87c(%rip), %rax
+    0x5555555557e9 <+1152>: movq   %rax, %rdi
+    0x5555555557ec <+1155>: movl   $0x0, %eax
+    0x5555555557f1 <+1160>: callq  0x5555555551c0            ; ___lldb_unnamed_symbol74 + 96
+    0x5555555557f6 <+1165>: leaq   -0x8c0(%rbp), %rax
+    0x5555555557fd <+1172>: addq   $0x58, %rax
+    0x555555555801 <+1176>: movq   %rax, %rdi
+    0x555555555804 <+1179>: callq  0x555555555170            ; ___lldb_unnamed_symbol74 + 16
+    0x555555555809 <+1184>: movq   %rax, -0x8c8(%rbp)
+    0x555555555810 <+1191>: movq   -0x8c8(%rbp), %rdx
+    0x555555555817 <+1198>: leaq   -0x830(%rbp), %rax
+    0x55555555581e <+1205>: movq   %rdx, %rcx
+    0x555555555821 <+1208>: leaq   0x844(%rip), %rdx
+    0x555555555828 <+1215>: movl   $0x14, %esi
+    0x55555555582d <+1220>: movq   %rax, %rdi
+    0x555555555830 <+1223>: callq  0x555555555250            ; ___lldb_unnamed_symbol74 + 240
+    0x555555555835 <+1228>: leaq   -0x830(%rbp), %rax
+    0x55555555583c <+1235>: movq   %rax, %rsi
+    0x55555555583f <+1238>: leaq   0x832(%rip), %rax
+    0x555555555846 <+1245>: movq   %rax, %rdi
+    0x555555555849 <+1248>: movl   $0x0, %eax
+    0x55555555584e <+1253>: callq  0x5555555551c0            ; ___lldb_unnamed_symbol74 + 96
+    0x555555555853 <+1258>: movq   -0x8e0(%rbp), %rax
+    0x55555555585a <+1265>: addq   $0x13, %rax
+    0x55555555585e <+1269>: movq   %rax, %rsi
+    0x555555555861 <+1272>: leaq   0x814(%rip), %rax
+    0x555555555868 <+1279>: movq   %rax, %rdi
+    0x55555555586b <+1282>: movl   $0x0, %eax
+    0x555555555870 <+1287>: callq  0x5555555551c0            ; ___lldb_unnamed_symbol74 + 96
+    0x555555555875 <+1292>: movl   -0x8a8(%rbp), %eax
+    0x55555555587b <+1298>: andl   $0xf000, %eax             ; imm = 0xF000
+    0x555555555880 <+1303>: cmpl   $0x4000, %eax             ; imm = 0x4000
+    0x555555555885 <+1308>: jne    0x5555555558ae            ; <+1349> at main.c:36:16
+    0x555555555887 <+1310>: movq   -0x910(%rbp), %rcx
+    0x55555555588e <+1317>: movq   -0x908(%rbp), %rdx
+    0x555555555895 <+1324>: movq   -0x900(%rbp), %rsi
+    0x55555555589c <+1331>: leaq   -0x810(%rbp), %rax
+    0x5555555558a3 <+1338>: movq   %rax, %rdi
+    0x5555555558a6 <+1341>: callq  0x555555555369            ; <+0> at main.c:13:66
+    0x5555555558ab <+1346>: jmp    0x5555555558ae            ; <+1349> at main.c:36:16
+    0x5555555558ad <+1348>: nop
+    0x5555555558ae <+1349>: movq   -0x8e8(%rbp), %rax
+    0x5555555558b5 <+1356>: movq   %rax, %rdi
+    0x5555555558b8 <+1359>: callq  0x555555555220            ; ___lldb_unnamed_symbol74 + 192
+    0x5555555558bd <+1364>: movq   %rax, -0x8e0(%rbp)
+    0x5555555558c4 <+1371>: cmpq   $0x0, -0x8e0(%rbp)
+    0x5555555558cc <+1379>: jne    0x5555555554c9            ; <+352> at main.c:37:18
+    0x5555555558d2 <+1385>: movq   -0x900(%rbp), %rax
+    0x5555555558d9 <+1392>: movq   (%rax), %rcx
+    0x5555555558dc <+1395>: movq   -0x908(%rbp), %rax
+    0x5555555558e3 <+1402>: movl   (%rax), %eax
+    0x5555555558e5 <+1404>: leal   -0x1(%rax), %edx
+    0x5555555558e8 <+1407>: movq   -0x908(%rbp), %rax
+    0x5555555558ef <+1414>: movl   %edx, (%rax)
+    0x5555555558f1 <+1416>: movq   -0x908(%rbp), %rax
+    0x5555555558f8 <+1423>: movl   (%rax), %eax
+    0x5555555558fa <+1425>: cltq
+    0x5555555558fc <+1427>: shlq   $0x3, %rax
+    0x555555555900 <+1431>: addq   %rcx, %rax
+    0x555555555903 <+1434>: movq   (%rax), %rax
+    0x555555555906 <+1437>: movq   %rax, %rdi
+    0x555555555909 <+1440>: callq  0x5555555551f0            ; ___lldb_unnamed_symbol74 + 144
+    0x55555555590e <+1445>: movq   -0x8(%rbp), %rax
+    0x555555555912 <+1449>: subq   %fs:0x28, %rax
+    0x55555555591b <+1458>: je     0x555555555922            ; <+1465> at main.c:83:1
+    0x55555555591d <+1460>: callq  0x5555555551b0            ; ___lldb_unnamed_symbol74 + 80
+    0x555555555922 <+1465>: leave
+    0x555555555923 <+1466>: retq

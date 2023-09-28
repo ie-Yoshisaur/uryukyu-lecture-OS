@@ -1,0 +1,223 @@
+(lldb) breakpoint set --file main.c --line 24
+Breakpoint 1: where = ls_laR`print_directory_contents + 213 at main.c:24:6, address = 0x000000000000143e
+(lldb) run 1
+Process 985 launched: '/workplace/ls-laR/ls_laR' (x86_64)
+Process 985 stopped
+* thread #1, name = 'ls_laR', stop reason = breakpoint 1.1
+    frame #0: 0x000055555555543e ls_laR`print_directory_contents(dirpath="1", stack=0x00007fffffffe620, stack_depth=0x00007fffffffe618, stack_size=0x00007fffffffe614) at main.c:24:6
+   21     }
+   22
+   23     DIR *dirp = opendir(dirpath);
+-> 24     if (dirp == NULL) {
+   25       perror("opendir failed");
+   26       return;
+   27     }
+(lldb) frame variable dirp
+(DIR *) dirp = 0x0000555555559300
+(lldb) frame variable *dirp
+error: dereference failed: (DIR *) dirp
+(lldb) expression *dirp
+(DIR) $0 = (fd = 3, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0, data = "")
+(lldb) ^D
+root@c868a57082ce:/workplace/ls-laR#
+root@c868a57082ce:/workplace/ls-laR# lldb ./ls_laR
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'lldb.embedded_interpreter'
+(lldb) target create "./ls_laR"
+Current executable set to '/workplace/ls-laR/ls_laR' (x86_64).
+(lldb)
+Current executable set to '/workplace/ls-laR/ls_laR' (x86_64).
+(lldb)
+(lldb) breakpoint set --file main.c --line 24
+Breakpoint 1: where = ls_laR`print_directory_contents + 213 at main.c:24:6, address = 0x000000000000143e
+(lldb) run 1
+Process 1019 launched: '/workplace/ls-laR/ls_laR' (x86_64)
+Process 1019 stopped
+* thread #1, name = 'ls_laR', stop reason = breakpoint 1.1
+    frame #0: 0x000055555555543e ls_laR`print_directory_contents(dirpath="1", stack=0x00007fffffffe620, stack_depth=0x00007fffffffe618, stack_size=0x00007fffffffe614) at main.c:24:6
+   21     }
+   22
+   23     DIR *dirp = opendir(dirpath);
+-> 24     if (dirp == NULL) {
+   25       perror("opendir failed");
+   26       return;
+   27     }
+(lldb) expression *dirp
+(DIR) $0 = (fd = 3, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0, data = "")
+(lldb) continue
+Process 1019 resuming
+1:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 2
+Process 1019 stopped
+* thread #1, name = 'ls_laR', stop reason = breakpoint 1.1
+    frame #0: 0x000055555555543e ls_laR`print_directory_contents(dirpath="1/2", stack=0x00007fffffffe620, stack_depth=0x00007fffffffe618, stack_size=0x00007fffffffe614) at main.c:24:6
+   21     }
+   22
+   23     DIR *dirp = opendir(dirpath);
+-> 24     if (dirp == NULL) {
+   25       perror("opendir failed");
+   26       return;
+   27     }
+(lldb) expression *dirp
+(DIR) $1 = (fd = 4, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0, data = "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww-data:x:33:\nbackup:x:34:\noperator:x:37:\nlist:x:38:\nirc:x:39:\nsrc:x:40:\ngnats:x:41:\nshadow:x:42:\nutmp:x:43:\nvideo:x:44:\nsasl:x:45:\nplugdev:x:46:\nstaff:x:50:\ngames:x:60:\nusers:x:100:\nnogroup:x:65534:\n")
+(lldb) continue
+Process 1019 resuming
+1/2:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 3
+Process 1019 stopped
+* thread #1, name = 'ls_laR', stop reason = breakpoint 1.1
+    frame #0: 0x000055555555543e ls_laR`print_directory_contents(dirpath="1/2/3", stack=0x00007fffffffe620, stack_depth=0x00007fffffffe618, stack_size=0x00007fffffffe614) at main.c:24:6
+   21     }
+   22
+   23     DIR *dirp = opendir(dirpath);
+-> 24     if (dirp == NULL) {
+   25       perror("opendir failed");
+   26       return;
+   27     }
+(lldb) expression *dirp
+(DIR) $2 = (fd = 5, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0, data = "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww-data:x:33:\nbackup:x:34:\noperator:x:37:\nlist:x:38:\nirc:x:39:\nsrc:x:40:\ngnats:x:41:\nshadow:x:42:\nutmp:x:43:\nvideo:x:44:\nsasl:x:45:\nplugdev:x:46:\nstaff:x:50:\ngames:x:60:\nusers:x:100:\nnogroup:x:65534:\n/spool/uucp:/usr/sbin/nologin\nproxy:x:13:13:proxy:/bin:/usr/sbin/nologin\nwww-data:x:33:33:www-data:/var/www:/usr/sbin/nologin\nbackup:x:34:34:backup:/var/backups:/usr/sbin/nologin\nlist:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin\nirc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin\ngnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin\nnobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin\n_apt:x:100:65534::/nonexistent:/usr/sbin/nologin\n")
+(lldb) continue
+Process 1019 resuming
+1/2/3:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 4
+Process 1019 stopped
+* thread #1, name = 'ls_laR', stop reason = breakpoint 1.1
+    frame #0: 0x000055555555543e ls_laR`print_directory_contents(dirpath="1/2/3/4", stack=0x00007fffffffe620, stack_depth=0x00007fffffffe618, stack_size=0x00007fffffffe614) at main.c:24:6
+   21     }
+   22
+   23     DIR *dirp = opendir(dirpath);
+-> 24     if (dirp == NULL) {
+   25       perror("opendir failed");
+   26       return;
+   27     }
+(lldb) expression *dirp
+(DIR) $3 = (fd = 6, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0, data = "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww-data:x:33:\nbackup:x:34:\noperator:x:37:\nlist:x:38:\nirc:x:39:\nsrc:x:40:\ngnats:x:41:\nshadow:x:42:\nutmp:x:43:\nvideo:x:44:\nsasl:x:45:\nplugdev:x:46:\nstaff:x:50:\ngames:x:60:\nusers:x:100:\nnogroup:x:65534:\n/spool/uucp:/usr/sbin/nologin\nproxy:x:13:13:proxy:/bin:/usr/sbin/nologin\nwww-data:x:33:33:www-data:/var/www:/usr/sbin/nologin\nbackup:x:34:34:backup:/var/backups:/usr/sbin/nologin\nlist:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin\nirc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin\ngnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin\nnobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin\n_apt:x:100:65534::/nonexistent:/usr/sbin/nologin\n")
+(lldb) continue
+Process 1019 resuming
+1/2/3/4:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 5
+Process 1019 stopped
+* thread #1, name = 'ls_laR', stop reason = breakpoint 1.1
+    frame #0: 0x000055555555543e ls_laR`print_directory_contents(dirpath="1/2/3/4/5", stack=0x00007fffffffe620, stack_depth=0x00007fffffffe618, stack_size=0x00007fffffffe614) at main.c:24:6
+   21     }
+   22
+   23     DIR *dirp = opendir(dirpath);
+-> 24     if (dirp == NULL) {
+   25       perror("opendir failed");
+   26       return;
+   27     }
+(lldb) expression *dirp
+(DIR) $4 = (fd = 7, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0, data = "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww-data:x:33:\nbackup:x:34:\noperator:x:37:\nlist:x:38:\nirc:x:39:\nsrc:x:40:\ngnats:x:41:\nshadow:x:42:\nutmp:x:43:\nvideo:x:44:\nsasl:x:45:\nplugdev:x:46:\nstaff:x:50:\ngames:x:60:\nusers:x:100:\nnogroup:x:65534:\n/spool/uucp:/usr/sbin/nologin\nproxy:x:13:13:proxy:/bin:/usr/sbin/nologin\nwww-data:x:33:33:www-data:/var/www:/usr/sbin/nologin\nbackup:x:34:34:backup:/var/backups:/usr/sbin/nologin\nlist:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin\nirc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin\ngnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin\nnobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin\n_apt:x:100:65534::/nonexistent:/usr/sbin/nologin\n")
+(lldb) continue
+Process 1019 resuming
+1/2/3/4/5:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 6
+Process 1019 stopped
+* thread #1, name = 'ls_laR', stop reason = breakpoint 1.1
+    frame #0: 0x000055555555543e ls_laR`print_directory_contents(dirpath="1/2/3/4/5/6", stack=0x00007fffffffe620, stack_depth=0x00007fffffffe618, stack_size=0x00007fffffffe614) at main.c:24:6
+   21     }
+   22
+   23     DIR *dirp = opendir(dirpath);
+-> 24     if (dirp == NULL) {
+   25       perror("opendir failed");
+   26       return;
+   27     }
+(lldb) expression *dirp
+(DIR) $5 = (fd = 8, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0, data = "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww-data:x:33:\nbackup:x:34:\noperator:x:37:\nlist:x:38:\nirc:x:39:\nsrc:x:40:\ngnats:x:41:\nshadow:x:42:\nutmp:x:43:\nvideo:x:44:\nsasl:x:45:\nplugdev:x:46:\nstaff:x:50:\ngames:x:60:\nusers:x:100:\nnogroup:x:65534:\n/spool/uucp:/usr/sbin/nologin\nproxy:x:13:13:proxy:/bin:/usr/sbin/nologin\nwww-data:x:33:33:www-data:/var/www:/usr/sbin/nologin\nbackup:x:34:34:backup:/var/backups:/usr/sbin/nologin\nlist:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin\nirc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin\ngnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin\nnobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin\n_apt:x:100:65534::/nonexistent:/usr/sbin/nologin\n")
+(lldb) continue
+Process 1019 resuming
+1/2/3/4/5/6:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 7
+Process 1019 stopped
+* thread #1, name = 'ls_laR', stop reason = breakpoint 1.1
+    frame #0: 0x000055555555543e ls_laR`print_directory_contents(dirpath="1/2/3/4/5/6/7", stack=0x00007fffffffe620, stack_depth=0x00007fffffffe618, stack_size=0x00007fffffffe614) at main.c:24:6
+   21     }
+   22
+   23     DIR *dirp = opendir(dirpath);
+-> 24     if (dirp == NULL) {
+   25       perror("opendir failed");
+   26       return;
+   27     }
+(lldb) expression *dirp
+(DIR) $6 = (fd = 9, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0, data = "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww-data:x:33:\nbackup:x:34:\noperator:x:37:\nlist:x:38:\nirc:x:39:\nsrc:x:40:\ngnats:x:41:\nshadow:x:42:\nutmp:x:43:\nvideo:x:44:\nsasl:x:45:\nplugdev:x:46:\nstaff:x:50:\ngames:x:60:\nusers:x:100:\nnogroup:x:65534:\n/spool/uucp:/usr/sbin/nologin\nproxy:x:13:13:proxy:/bin:/usr/sbin/nologin\nwww-data:x:33:33:www-data:/var/www:/usr/sbin/nologin\nbackup:x:34:34:backup:/var/backups:/usr/sbin/nologin\nlist:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin\nirc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin\ngnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin\nnobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin\n_apt:x:100:65534::/nonexistent:/usr/sbin/nologin\n")
+(lldb) continue
+Process 1019 resuming
+1/2/3/4/5/6/7:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 8
+Process 1019 stopped
+* thread #1, name = 'ls_laR', stop reason = breakpoint 1.1
+    frame #0: 0x000055555555543e ls_laR`print_directory_contents(dirpath="1/2/3/4/5/6/7/8", stack=0x00007fffffffe620, stack_depth=0x00007fffffffe618, stack_size=0x00007fffffffe614) at main.c:24:6
+   21     }
+   22
+   23     DIR *dirp = opendir(dirpath);
+-> 24     if (dirp == NULL) {
+   25       perror("opendir failed");
+   26       return;
+   27     }
+(lldb) expression *dirp
+(DIR) $7 = (fd = 10, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0, data = "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww-data:x:33:\nbackup:x:34:\noperator:x:37:\nlist:x:38:\nirc:x:39:\nsrc:x:40:\ngnats:x:41:\nshadow:x:42:\nutmp:x:43:\nvideo:x:44:\nsasl:x:45:\nplugdev:x:46:\nstaff:x:50:\ngames:x:60:\nusers:x:100:\nnogroup:x:65534:\n/spool/uucp:/usr/sbin/nologin\nproxy:x:13:13:proxy:/bin:/usr/sbin/nologin\nwww-data:x:33:33:www-data:/var/www:/usr/sbin/nologin\nbackup:x:34:34:backup:/var/backups:/usr/sbin/nologin\nlist:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin\nirc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin\ngnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin\nnobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin\n_apt:x:100:65534::/nonexistent:/usr/sbin/nologin\n")
+(lldb) continue
+Process 1019 resuming
+1/2/3/4/5/6/7/8:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 9
+Process 1019 stopped
+* thread #1, name = 'ls_laR', stop reason = breakpoint 1.1
+    frame #0: 0x000055555555543e ls_laR`print_directory_contents(dirpath="1/2/3/4/5/6/7/8/9", stack=0x00007fffffffe620, stack_depth=0x00007fffffffe618, stack_size=0x00007fffffffe614) at main.c:24:6
+   21     }
+   22
+   23     DIR *dirp = opendir(dirpath);
+-> 24     if (dirp == NULL) {
+   25       perror("opendir failed");
+   26       return;
+   27     }
+(lldb) expression *dirp
+(DIR) $8 = (fd = 11, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0, data = "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww-data:x:33:\nbackup:x:34:\noperator:x:37:\nlist:x:38:\nirc:x:39:\nsrc:x:40:\ngnats:x:41:\nshadow:x:42:\nutmp:x:43:\nvideo:x:44:\nsasl:x:45:\nplugdev:x:46:\nstaff:x:50:\ngames:x:60:\nusers:x:100:\nnogroup:x:65534:\n/spool/uucp:/usr/sbin/nologin\nproxy:x:13:13:proxy:/bin:/usr/sbin/nologin\nwww-data:x:33:33:www-data:/var/www:/usr/sbin/nologin\nbackup:x:34:34:backup:/var/backups:/usr/sbin/nologin\nlist:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin\nirc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin\ngnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin\nnobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin\n_apt:x:100:65534::/nonexistent:/usr/sbin/nologin\n")
+(lldb) continue
+Process 1019 resuming
+1/2/3/4/5/6/7/8/9:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 A
+Process 1019 stopped
+* thread #1, name = 'ls_laR', stop reason = breakpoint 1.1
+    frame #0: 0x000055555555543e ls_laR`print_directory_contents(dirpath="1/2/3/4/5/6/7/8/9/A", stack=0x00007fffffffe620, stack_depth=0x00007fffffffe618, stack_size=0x00007fffffffe614) at main.c:24:6
+   21     }
+   22
+   23     DIR *dirp = opendir(dirpath);
+-> 24     if (dirp == NULL) {
+   25       perror("opendir failed");
+   26       return;
+   27     }
+(lldb) expression *dirp
+(DIR) $9 = (fd = 12, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0, data = "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww-data:x:33:\nbackup:x:34:\noperator:x:37:\nlist:x:38:\nirc:x:39:\nsrc:x:40:\ngnats:x:41:\nshadow:x:42:\nutmp:x:43:\nvideo:x:44:\nsasl:x:45:\nplugdev:x:46:\nstaff:x:50:\ngames:x:60:\nusers:x:100:\nnogroup:x:65534:\n/spool/uucp:/usr/sbin/nologin\nproxy:x:13:13:proxy:/bin:/usr/sbin/nologin\nwww-data:x:33:33:www-data:/var/www:/usr/sbin/nologin\nbackup:x:34:34:backup:/var/backups:/usr/sbin/nologin\nlist:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin\nirc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin\ngnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin\nnobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin\n_apt:x:100:65534::/nonexistent:/usr/sbin/nologin\n")
+(lldb) continue
+Process 1019 resuming
+1/2/3/4/5/6/7/8/9/A:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 B
+Process 1019 stopped
+* thread #1, name = 'ls_laR', stop reason = breakpoint 1.1
+    frame #0: 0x000055555555543e ls_laR`print_directory_contents(dirpath="1/2/3/4/5/6/7/8/9/A/B", stack=0x00007fffffffe620, stack_depth=0x00007fffffffe618, stack_size=0x00007fffffffe614) at main.c:24:6
+   21     }
+   22
+   23     DIR *dirp = opendir(dirpath);
+-> 24     if (dirp == NULL) {
+   25       perror("opendir failed");
+   26       return;
+   27     }
+(lldb) expression *dirp
+(DIR) $10 = (fd = 13, lock = 0, allocation = 32768, size = 0, offset = 0, filepos = 0, errcode = 0, data = "\ntty:x:5:\ndisk:x:6:\nlp:x:7:\nmail:x:8:\nnews:x:9:\nuucp:x:10:\nman:x:12:\nproxy:x:13:\nkmem:x:15:\ndialout:x:20:\nfax:x:21:\nvoice:x:22:\ncdrom:x:24:\nfloppy:x:25:\ntape:x:26:\nsudo:x:27:\naudio:x:29:\ndip:x:30:\nwww-data:x:33:\nbackup:x:34:\noperator:x:37:\nlist:x:38:\nirc:x:39:\nsrc:x:40:\ngnats:x:41:\nshadow:x:42:\nutmp:x:43:\nvideo:x:44:\nsasl:x:45:\nplugdev:x:46:\nstaff:x:50:\ngames:x:60:\nusers:x:100:\nnogroup:x:65534:\n/spool/uucp:/usr/sbin/nologin\nproxy:x:13:13:proxy:/bin:/usr/sbin/nologin\nwww-data:x:33:33:www-data:/var/www:/usr/sbin/nologin\nbackup:x:34:34:backup:/var/backups:/usr/sbin/nologin\nlist:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin\nirc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin\ngnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin\nnobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin\n_apt:x:100:65534::/nonexistent:/usr/sbin/nologin\n")
+(lldb) continue
+Process 1019 resuming
+1/2/3/4/5/6/7/8/9/A/B:
+total 0
+-rw-r--r--   1 root     root             0 Sep 27 17:00 hoge.txt
+Process 1019 exited with status = 0 (0x00000000)

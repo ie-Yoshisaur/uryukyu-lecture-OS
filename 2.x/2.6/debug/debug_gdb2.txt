@@ -1,0 +1,25 @@
+(gdb) break print_directory_contents if *stack_depth == 3
+Breakpoint 1 at 0x1394: file main.c, line 13.
+(gdb) run 1
+Starting program: /workplace/ls-laR/ls_laR 1
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+1:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 2
+1/2:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 3
+1/2/3:
+total 0
+drwxr-xr-x   3 root     root            96 Sep 27 17:00 4
+
+Breakpoint 1, print_directory_contents (dirpath=0x7fffffffcb80 "1/2/3/4", stack=0x7fffffffe600, stack_depth=0x7fffffffe5f8, stack_size=0x7fffffffe5f4) at main.c:13
+13                                    int *stack_depth, int *stack_size) {
+(gdb) print stack
+$1 = (DIR ***) 0x7fffffffe600
+(gdb) print (*stack)[2]
+$2 = (DIR *) 0x55555556bb50
+(gdb) print *(*stack)[0]
+$3 = {fd = 3, lock = 0, allocation = 32768, size = 72, offset = 24, filepos = 1, errcode = 0, data = 0x555555559330 "w\271W\002"}
+(gdb)
