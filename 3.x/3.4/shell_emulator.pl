@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
+use POSIX qw(dup2);
 
 $| = 1;
 
@@ -10,9 +11,11 @@ sub process_command {
         my @pipe_cmds = split /\|/, $command;
         my ($rh, $wh);
         pipe($rh, $wh);
+
         if (fork() == 0) {
             close $rh;
-            open(STDOUT, ">&", $wh);
+            dup2(fileno($wh), 1);
+            close $wh;
             my @cmd = split ' ', $pipe_cmds[0];
             exec @cmd;
             exit;
@@ -21,7 +24,8 @@ sub process_command {
         wait;
 
         if (fork() == 0) {
-            open(STDIN, "<&", $rh);
+            dup2(fileno($rh), 0);
+            close $rh;
             my @cmd = split ' ', $pipe_cmds[1];
             exec @cmd;
             exit;
