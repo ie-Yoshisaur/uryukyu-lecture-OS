@@ -1,0 +1,30 @@
+- 1.x
+  - all(4/4) done
+- 2.x
+  - 8/9 done
+  - 2.3 left
+- 3.x
+  - all(5/5) done
+- 4.x
+  - all(5/5) done
+- 5.x
+  - 1/2 done
+  - 5.2 left
+- 6.x
+  - 2/3 done
+  - 6.3 left
+- 7.x
+  - 3/6 done
+  - 7.4, 7.5, 7.6 left
+- 8.x
+  - 1/4 done
+  - 8.1, 8.3, 8.4 left
+- 9.x
+  - all(3/3) done
+- 10.x
+  - all(2/2) done
+- 11.x
+  - 3/4 done
+  - 11.4 left
+- total
+  - 37/47
